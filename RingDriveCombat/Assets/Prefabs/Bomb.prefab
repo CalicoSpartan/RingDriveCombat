@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 135613537902956762}
   - component: {fileID: 54538360907443872}
   - component: {fileID: 114745922443721508}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,6 +113,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BlastRadius: 20
+  lavaMat: {fileID: 2100000, guid: cdd2a733f976d724d8f7d97682204dd9, type: 2}
+  lavaLayer:
+    serializedVersion: 2
+    m_Bits: 4096
 --- !u!135 &135613537902956762
 SphereCollider:
   m_ObjectHideFlags: 1

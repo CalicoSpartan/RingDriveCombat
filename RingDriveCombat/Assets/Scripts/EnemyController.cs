@@ -6,14 +6,20 @@ public class EnemyController : MonoBehaviour {
 
     public float startingHealth = 100f;
     private float currentHealth = 1f;
-    public float throwForce = 100f;
+    public float maxThrowForce = 100f;
+    public float minThrowForce = 3f;
     public float horizontalAngleThreshold = 45f;
     public float verticalAngleThreshold = 30f;
-    public float horizontalTurnSpeed = 5f;
-    public float verticalTurnSpeed = 5f;
+    public float maxHorizontalTurnSpeed = 7f;
+    public float minHorizontalTurnSpeed = 4f;
+    public float maxVerticalTurnSpeed = 7f;
+    public float minVerticalTurnSpeed = 4f;
+    public float horizontalTurnSpeed = 0f;
+    public float verticalTurnSpeed = 0f;
     public GameObject bombPrefab;
     public Transform lookCam;
     public Transform muzzlePoint;
+    float verticalValue = 0f;
     bool bActive = false;
     bool dead = false;
     int turnRight = 1;
@@ -23,7 +29,9 @@ public class EnemyController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         currentHealth = startingHealth;
-        StartCoroutine(horizontalTurnCoroutine(lookCam.localEulerAngles.y, horizontalAngleThreshold, horizontalTurnSpeed));
+        horizontalTurnSpeed = Random.Range(minHorizontalTurnSpeed, maxHorizontalTurnSpeed);
+        verticalTurnSpeed = Random.Range(minVerticalTurnSpeed, maxVerticalTurnSpeed);
+        //StartCoroutine(horizontalTurnCoroutine(lookCam.localEulerAngles.y, horizontalAngleThreshold, horizontalTurnSpeed));
         StartCoroutine(verticalTurnCoroutine(lookCam.localEulerAngles.x, verticalAngleThreshold, verticalTurnSpeed));
     }
 	
@@ -82,9 +90,9 @@ public class EnemyController : MonoBehaviour {
         while (i < 1.0f)
         {
             i += Time.deltaTime * rate;
-            float val = Mathf.Lerp(initialVerticalValue, finalVerticalValue, i);
+            verticalValue = Mathf.Lerp(initialVerticalValue, finalVerticalValue, i);
             //Debug.Log(val);
-            lookCam.localEulerAngles = new Vector3(val,lookCam.localEulerAngles.y, lookCam.localEulerAngles.z);
+            lookCam.localEulerAngles = new Vector3(verticalValue,lookCam.localEulerAngles.y, lookCam.localEulerAngles.z);
 
             yield return null;
         }
@@ -96,8 +104,11 @@ public class EnemyController : MonoBehaviour {
 
     void LaunchBomb()
     {
-        GameObject bomb = Instantiate(bombPrefab, transform.position + transform.forward * 12f, Quaternion.identity);
+        GameObject bomb = Instantiate(bombPrefab, lookCam.position + lookCam.forward * 12f, Quaternion.identity);
         Rigidbody bombRB = bomb.GetComponent<Rigidbody>();
-        bombRB.AddForce(transform.forward * throwForce, ForceMode.Impulse);
+        float power = 0f;
+        power = Mathf.Abs(((verticalValue + verticalAngleThreshold) / (verticalAngleThreshold + verticalAngleThreshold)));
+        float finalPower = Mathf.Lerp(minThrowForce, maxThrowForce, power);
+        bombRB.AddForce(lookCam.forward * finalPower, ForceMode.Impulse);
     }
 }

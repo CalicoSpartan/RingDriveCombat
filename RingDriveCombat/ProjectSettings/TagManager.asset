@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Weapon
+  - EnemyBomb
   layers:
   - Default
   - TransparentFX
@@ -16,10 +17,10 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
-  - 
-  - 
-  - 
+  - EnemyBomb
+  - Car
+  - Ground
+  - Lava
   - 
   - 
   - 

@@ -33,6 +33,7 @@ public class ArcadeCarController : MonoBehaviour {
     public float FL_DamperForce = 0f;
     public float FL_DamperConstant = 900f;
     public float FL_CompressionRatio = 0f;
+    public bool touchingGroundFLW = false;
     private RaycastHit FL_Hit;
 
     [Header("FrontRightWheel")]
@@ -45,6 +46,7 @@ public class ArcadeCarController : MonoBehaviour {
     public float FR_DamperForce = 0f;
     public float FR_DamperConstant = 900f;
     public float FR_CompressionRatio = 0f;
+    public bool touchingGroundFRW = false;
     private RaycastHit FR_Hit;
 
     [Header("RearLeftWheel")]
@@ -57,6 +59,7 @@ public class ArcadeCarController : MonoBehaviour {
     public float RL_DamperForce = 0f;
     public float RL_DamperConstant = 900f;
     public float RL_CompressionRatio = 0f;
+    public bool touchingGroundRLW = false;
     private RaycastHit RL_Hit;
 
     [Header("RearRightWheel")]
@@ -69,8 +72,9 @@ public class ArcadeCarController : MonoBehaviour {
     public float RR_DamperForce = 0f;
     public float RR_DamperConstant = 900f;
     public float RR_CompressionRatio = 0f;
+    public bool touchingGroundRRW = false;
     private RaycastHit RR_Hit;
-
+    bool bAlive = true;
 
 
     // Use this for initialization
@@ -87,70 +91,112 @@ public class ArcadeCarController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        GetInput();
-        UpdateSuspension();
-        Accelerate();
-        Steer();
-        AddFriction();
-        if (Input.GetButton("Jump"))
+        if (bAlive)
         {
-            rb.AddForce(randomForceStrength * rb.transform.up, ForceMode.Impulse);
+            GetInput();
+            UpdateSuspension();
+            Accelerate();
+            Steer();
+            AddFriction();
+            if (Input.GetButton("Jump"))
+            {
+                rb.AddForce(randomForceStrength * rb.transform.up, ForceMode.Impulse);
+            }
         }
 	}
 
     private void AddFriction()
     {
-        float dot = -1.0f * Vector3.Dot(rb.transform.right, rb.velocity.normalized);
-        //Vector3 dir = Vector3.Cross(rb.transform.right, rb.velocity.normalized);
-        //rb.AddTorque(rb.transform.right * dot * FrictionStrength,ForceMode.Force);
-        //rb.AddTorque(-rb.angularVelocity);// * Mathf.Abs(dot));
-        if (m_HorizontalInput == 0)
+        if (touchingGroundRLW && touchingGroundRRW)
         {
-            //Debug.DrawRay(rb.position, -rb.transform.right * 20f);
-            rb.AddTorque(-rb.angularVelocity.normalized * turnFriction, ForceMode.Force);
-        }
-        if (m_VerticalInput == 0f)
-        {
-            rb.AddForce(-rb.velocity * RollingBrakeStrength * rb.mass);
+            float dot = -1.0f * Vector3.Dot(rb.transform.right, rb.velocity.normalized);
+            //Vector3 dir = Vector3.Cross(rb.transform.right, rb.velocity.normalized);
+            //rb.AddTorque(rb.transform.right * dot * FrictionStrength,ForceMode.Force);
+            //rb.AddTorque(-rb.angularVelocity);// * Mathf.Abs(dot));
+            /*
+            if (m_HorizontalInput == 0)
+            {
+                //Debug.DrawRay(rb.position, -rb.transform.right * 20f);
+                rb.AddTorque(-rb.angularVelocity.normalized * turnFriction, ForceMode.Force);
+            }
+            if (m_VerticalInput == 0f)
+            {
+                rb.AddForce(-rb.velocity * RollingBrakeStrength * rb.mass);
+            }
+            */
         }
     }
 
     private void Steer()
     {
-        //Debug.Log(rb.angularVelocity);
-        rb.AddTorque(new Vector3(0f, SteerForce * m_HorizontalInput, 0f), ForceMode.Force);
+        if (touchingGroundRLW && touchingGroundRRW)
+        {
+            //Debug.Log(rb.angularVelocity);
+            rb.AddTorque(new Vector3(0f, SteerForce * m_HorizontalInput, 0f), ForceMode.Force);
+        }
     }
 
     private void Accelerate()
     {
-        if (m_VerticalInput > 0f)
+        if (touchingGroundRLW && touchingGroundRRW)
         {
-            if (FL_Hit.normal != null)
+            if (m_VerticalInput > 0f)
             {
-                Vector3 surfaceDirection = Vector3.ProjectOnPlane(rb.transform.forward, FL_Hit.normal);
-                rb.AddForceAtPosition(surfaceDirection * AccelForce * m_VerticalInput, centerOfMassTransform.position, ForceMode.Impulse);
+                if (RL_Hit.normal != null)
+                {
+                    Vector3 surfaceDirection = Vector3.ProjectOnPlane(rb.transform.forward, FL_Hit.normal);
+                    rb.AddForceAtPosition(surfaceDirection * AccelForce * m_VerticalInput, centerOfMassTransform.position, ForceMode.Impulse);
+                }
+            }
+            else if (m_VerticalInput < 0f)
+            {
+                if (RL_Hit.normal != null)
+                {
+                    Vector3 surfaceDirection = Vector3.ProjectOnPlane(rb.transform.forward, FL_Hit.normal);
+                    Vector3 forcePosition = rb.worldCenterOfMass + rb.transform.forward * 20f;
+                    rb.AddForceAtPosition(surfaceDirection * DecelForce * m_VerticalInput, centerOfMassTransform.position, ForceMode.Impulse);
+                }
             }
         }
-        else
-        {
-            if (FL_Hit.normal != null)
-            {
-                Vector3 surfaceDirection = Vector3.ProjectOnPlane(rb.transform.forward, FL_Hit.normal);
-                Vector3 forcePosition = rb.worldCenterOfMass + rb.transform.forward * 20f;
-                rb.AddForceAtPosition(surfaceDirection * DecelForce * m_VerticalInput, centerOfMassTransform.position, ForceMode.Impulse);
-            }
-        }
-        
+    }
+
+    private void Explode()
+    {
+        bAlive = false;
+        rb.AddExplosionForce(200000f, rb.position, 100f);
     }
 
     private void UpdateSuspension()
     {
-
         // Front Left Wheel
-        
-        if (Physics.Raycast(FL_Wheel.position, -rb.transform.up * (FL_RestLength + WheelRadius), out FL_Hit))
+        Debug.DrawRay(RR_Wheel.position, -rb.transform.up * (WheelRadius + RR_RestLength), Color.blue);
+        Debug.DrawRay(RL_Wheel.position, -rb.transform.up * (WheelRadius + RL_RestLength), Color.blue);
+        Debug.DrawRay(FL_Wheel.position, -rb.transform.up * (WheelRadius + FL_RestLength), Color.blue);
+        Debug.DrawRay(FR_Wheel.position, -rb.transform.up * (WheelRadius + FR_RestLength), Color.blue);
+        if (Physics.Raycast(FL_Wheel.position, -rb.transform.up, out FL_Hit, (FL_RestLength + WheelRadius), 1 << LayerMask.NameToLayer("Lava")))
         {
-            
+            Explode();
+          
+        }
+        if (Physics.Raycast(FR_Wheel.position, -rb.transform.up, out FR_Hit, (FR_RestLength + WheelRadius), 1 << LayerMask.NameToLayer("Lava")))
+        {
+            Explode();
+      
+        }
+        if (Physics.Raycast(RR_Wheel.position, -rb.transform.up, out RR_Hit, (RR_RestLength + WheelRadius), 1 << LayerMask.NameToLayer("Lava")))
+        {
+            Explode();
+  
+        }
+        if (Physics.Raycast(RL_Wheel.position, -rb.transform.up, out RL_Hit, (RL_RestLength + WheelRadius), 1 << LayerMask.NameToLayer("Lava")))
+        {
+            Explode();
+  
+        }
+        if (Physics.Raycast(FL_Wheel.position, -rb.transform.up, out FL_Hit, (FL_RestLength + WheelRadius), 1 << LayerMask.NameToLayer("Ground")))
+        {
+
+            touchingGroundFLW = true;
             FL_PreviousLength = FL_CurrentLength;
             FL_CurrentLength = FL_RestLength - (FL_Hit.distance - WheelRadius);
             FL_SpringVelocity = (FL_CurrentLength - FL_PreviousLength) / Time.fixedDeltaTime;
@@ -167,11 +213,15 @@ public class ArcadeCarController : MonoBehaviour {
             */
                 
         }
+        else
+        {
+            touchingGroundFLW = false;
+        }
         
         // Front Right Wheel
-        if (Physics.Raycast(FR_Wheel.position, -rb.transform.up * (FR_RestLength + WheelRadius), out FR_Hit))
+        if (Physics.Raycast(FR_Wheel.position, -rb.transform.up, out FR_Hit, (FR_RestLength + WheelRadius), 1 << LayerMask.NameToLayer("Ground")))
         {
-            
+            touchingGroundFRW = true;
             FR_PreviousLength = FR_CurrentLength;
             FR_CurrentLength = FR_RestLength - (FR_Hit.distance - WheelRadius);
             FR_SpringVelocity = (FR_CurrentLength - FR_PreviousLength) / Time.fixedDeltaTime;
@@ -188,11 +238,15 @@ public class ArcadeCarController : MonoBehaviour {
             */
 
         }
+        else
+        {
+            touchingGroundFRW = false;
+        }
 
         // Rear Left Wheel
-        if (Physics.Raycast(RL_Wheel.position, -rb.transform.up * (RL_RestLength + WheelRadius), out RL_Hit))
+        if (Physics.Raycast(RL_Wheel.position, -rb.transform.up, out RL_Hit, (RL_RestLength + WheelRadius), 1 << LayerMask.NameToLayer("Ground")))
         {
-            
+            touchingGroundRLW = true;
             RL_PreviousLength = RL_CurrentLength;
             RL_CurrentLength = RL_RestLength - (RL_Hit.distance - WheelRadius);
             RL_SpringVelocity = (RL_CurrentLength - RL_PreviousLength) / Time.fixedDeltaTime;
@@ -209,11 +263,15 @@ public class ArcadeCarController : MonoBehaviour {
             */
 
         }
+        else
+        {
+            touchingGroundRLW = false;
+        }
 
         // Rear Right Wheel
-        if (Physics.Raycast(RR_Wheel.position, -rb.transform.up * (RR_RestLength + WheelRadius), out RR_Hit))
+        if (Physics.Raycast(RR_Wheel.position, -rb.transform.up,  out RR_Hit, (RR_RestLength + WheelRadius), 1 << LayerMask.NameToLayer("Ground")))
         {
-            
+            touchingGroundRRW = true;
             RR_PreviousLength = RR_CurrentLength;
             RR_CurrentLength = RR_RestLength - (RR_Hit.distance - WheelRadius);
             RR_SpringVelocity = (RR_CurrentLength - RR_PreviousLength) / Time.fixedDeltaTime;
@@ -229,6 +287,12 @@ public class ArcadeCarController : MonoBehaviour {
             rb.AddForceAtPosition(force, RR_Wheel.position, ForceMode.Force);
             */
 
+        }
+        else
+        {
+            
+            //Debug.Log("NOT TOUCHING");
+            touchingGroundRRW = false;
         }
 
 

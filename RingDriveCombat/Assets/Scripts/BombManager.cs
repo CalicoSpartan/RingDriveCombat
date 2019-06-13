@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BombManager : MonoBehaviour {
     public float BlastRadius = 20f;
+    public Material lavaMat;
+    public LayerMask lavaLayer;
 	// Use this for initialization
 	void Start () {
 		
@@ -27,7 +29,9 @@ public class BombManager : MonoBehaviour {
                     Collider col = colliders[i];
                     if (col.gameObject.tag == "Ground")
                     {
-                        Destroy(col.gameObject);
+                        col.gameObject.GetComponent<MeshRenderer>().material = lavaMat;
+                        col.gameObject.layer = 12;// lavaLayer.value;
+                        //Destroy(col.gameObject);
                         break;
                     }
                 }

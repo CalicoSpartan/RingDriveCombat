@@ -1,13 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.10
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2017
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RingDriveCombat", "RingDriveCombat.csproj", "{4E377A2E-BA30-EF92-F599-F8E4D04F23E6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RingDriveCombat.Plugins", "RingDriveCombat.Plugins.csproj", "{DFB3B740-6934-FB41-6CE2-D8D72E7E2311}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RingDriveCombat", "RingDriveCombat.csproj", "{4E377A2E-BA30-EF92-F599-F8E4D04F23E6}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RingDriveCombat.Editor.Plugins", "RingDriveCombat.Editor.Plugins.csproj", "{50E28DB5-048C-7DF8-06D8-FC8CA424C10B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RingDriveCombat.Editor", "RingDriveCombat.Editor.csproj", "{BCB0A7C4-E78C-33F4-F92C-926CCD8DDFBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RingDriveCombat.Editor", "RingDriveCombat.Editor.csproj", "{BCB0A7C4-E78C-33F4-F92C-926CCD8DDFBA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RingDriveCombat.Editor", "RingDriveCombat.Editor.csproj", "{BCB0A7C4-E78C-33F4-F92C-926CCD8DDFBA}"
 EndProject
@@ -25,6 +29,10 @@ Global
 		{DFB3B740-6934-FB41-6CE2-D8D72E7E2311}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFB3B740-6934-FB41-6CE2-D8D72E7E2311}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFB3B740-6934-FB41-6CE2-D8D72E7E2311}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E377A2E-BA30-EF92-F599-F8E4D04F23E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E377A2E-BA30-EF92-F599-F8E4D04F23E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E377A2E-BA30-EF92-F599-F8E4D04F23E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E377A2E-BA30-EF92-F599-F8E4D04F23E6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{50E28DB5-048C-7DF8-06D8-FC8CA424C10B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{50E28DB5-048C-7DF8-06D8-FC8CA424C10B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50E28DB5-048C-7DF8-06D8-FC8CA424C10B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,11 +41,16 @@ Global
 		{BCB0A7C4-E78C-33F4-F92C-926CCD8DDFBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCB0A7C4-E78C-33F4-F92C-926CCD8DDFBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCB0A7C4-E78C-33F4-F92C-926CCD8DDFBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCB0A7C4-E78C-33F4-F92C-926CCD8DDFBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCB0A7C4-E78C-33F4-F92C-926CCD8DDFBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCB0A7C4-E78C-33F4-F92C-926CCD8DDFBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCB0A7C4-E78C-33F4-F92C-926CCD8DDFBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCB0A7C4-E78C-33F4-F92C-926CCD8DDFBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCB0A7C4-E78C-33F4-F92C-926CCD8DDFBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCB0A7C4-E78C-33F4-F92C-926CCD8DDFBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCB0A7C4-E78C-33F4-F92C-926CCD8DDFBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {B866BA50-F126-41F2-8D1F-24D92C4F39DF}
 	EndGlobalSection
 EndGlobal
