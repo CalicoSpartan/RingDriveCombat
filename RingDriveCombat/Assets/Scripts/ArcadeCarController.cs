@@ -74,7 +74,8 @@ public class ArcadeCarController : MonoBehaviour {
     public float RR_CompressionRatio = 0f;
     public bool touchingGroundRRW = false;
     private RaycastHit RR_Hit;
-    bool bAlive = true;
+    public bool bAlive = true;
+    public bool bDriving = true;
 
 
     // Use this for initialization
@@ -93,15 +94,17 @@ public class ArcadeCarController : MonoBehaviour {
 	void FixedUpdate () {
         if (bAlive)
         {
-            GetInput();
-            UpdateSuspension();
-            Accelerate();
-            Steer();
-            AddFriction();
-            if (Input.GetButton("Jump"))
+            if (bDriving)
             {
-                rb.AddForce(randomForceStrength * rb.transform.up, ForceMode.Impulse);
+                GetInput();
+                
+                Accelerate();
+                Steer();
+                
+
             }
+            AddFriction();
+            UpdateSuspension();
         }
 	}
 

@@ -314,7 +314,9 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\ArcadeCarController.cs" />
     <Compile Include="Assets\Scripts\BombManager.cs" />
+    <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\EnemyController.cs" />
+    <Compile Include="Assets\Scripts\GunManager.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\RingManager.cs" />
   </ItemGroup>

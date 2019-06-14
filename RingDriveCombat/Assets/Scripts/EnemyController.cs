@@ -39,7 +39,7 @@ public class EnemyController : MonoBehaviour {
 	void Update () {
 		if (Input.GetButtonUp("Fire1"))
         {
-            LaunchBomb();
+           // LaunchBomb();
         }
         //Debug.Log(lookCam.localRotation);
         
