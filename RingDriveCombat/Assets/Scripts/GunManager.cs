@@ -10,13 +10,16 @@ public class GunManager : MonoBehaviour {
     public int shotsPerBurst = 3;
     public float burstDelay = 1.2f;
     public float shotDelay = .1f;
+    public float damagePerBullet = 34f;
     public bool bReloading = false;
     public bool bFiring = false;
     public Transform muzzlePoint;
     public PlayerController player;
     public CameraController cam;
     public ParticleSystem muzzleFlash;
+    public GameObject bulletPrefab;
     int ammoInMag;
+    bool bCanShoot = true;
 	// Use this for initialization
 	void Start () {
         ammoInMag = magazineSize;
@@ -30,11 +33,20 @@ public class GunManager : MonoBehaviour {
 
     public void Shoot()
     {
-
-        StartCoroutine(Shooty());
+        if (bFiring == false && bCanShoot == true)
+        {
+            StartCoroutine(Shooty());
+        }
+        
 
 
         
+    }
+
+    IEnumerator FireDelay()
+    {
+        yield return new WaitForSeconds(burstDelay);
+        bCanShoot = true;
     }
 
     IEnumerator Shooty()
@@ -45,6 +57,8 @@ public class GunManager : MonoBehaviour {
             Debug.Log("RELOADING STILL");
             yield break;
         }
+        bFiring = true;
+        bCanShoot = false;
         int shotsToFire = shotsPerBurst;
         if (ammoInMag < magazineSize)
         {
@@ -59,20 +73,30 @@ public class GunManager : MonoBehaviour {
             {
                 shotDestination = hit.point;
                 hitObjects.Add(hit.collider.gameObject);
-                Debug.DrawLine(muzzlePoint.position, shotDestination, Color.cyan,.5f);
+                
             }
             else
             {
 
                 shotDestination = cam.transform.position + cam.transform.forward * 2000f;
                 hitObjects.Add(null);
-                Debug.DrawLine(muzzlePoint.position, shotDestination, Color.cyan, .5f);
+                
 
             }
+            SpawnBullet(muzzlePoint.position, shotDestination, .2f);
             yield return new WaitForSeconds(shotDelay);
         }
-
+        bFiring = false;
+        StartCoroutine(FireDelay());
         player.GunFeedback(hitObjects);
+    }
+
+    void SpawnBullet(Vector3 start, Vector3 end, float time)
+    {
+        GameObject bulletObject = Instantiate(bulletPrefab, start, Quaternion.identity);
+        BulletSimulator bulletComp = bulletObject.GetComponent<BulletSimulator>();
+        bulletComp.SetValues(start, end, time);
+        
     }
 
     IEnumerator Reload()

@@ -4,9 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ground
-  - Weapon
-  - EnemyBomb
+  - Shootable
+  - Undefined
+  - EnemyTrigger
   layers:
   - Default
   - TransparentFX
@@ -16,10 +16,10 @@ TagManager:
   - UI
   - 
   - 
-  - PostProcessing
-  - EnemyBomb
-  - Car
+  - Lighting
   - Ground
+  - Postprocessing
+  - 
   - Lava
   - 
   - 
@@ -41,6 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Fire
+    uniqueID: 3804908061
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

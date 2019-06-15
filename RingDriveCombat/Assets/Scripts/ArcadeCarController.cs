@@ -19,6 +19,7 @@ public class ArcadeCarController : MonoBehaviour {
     public float FrictionStrength = 50f;
     public float RollingBrakeStrength = 50f;
     public float turnFriction = 100f;
+    public GameObject explosionEffect;
 
     private float m_HorizontalInput = 0f;
     private float m_VerticalInput = 0f;
@@ -135,7 +136,7 @@ public class ArcadeCarController : MonoBehaviour {
         if (touchingGroundRLW && touchingGroundRRW)
         {
             //Debug.Log(rb.angularVelocity);
-            rb.AddTorque(new Vector3(0f, SteerForce * m_HorizontalInput, 0f), ForceMode.Force);
+            rb.AddForce(new Vector3(0f,0f, -SteerForce * m_HorizontalInput), ForceMode.Force);
         }
     }
 
@@ -163,10 +164,12 @@ public class ArcadeCarController : MonoBehaviour {
         }
     }
 
-    private void Explode()
+    public void Explode()
     {
         bAlive = false;
-        rb.AddExplosionForce(200000f, rb.position, 100f);
+        //Instantiate(explosionEffect, rb.position, rb.rotation);
+        Destroy(gameObject);
+        //rb.AddExplosionForce(200000f, rb.position, 100f);
     }
 
     private void UpdateSuspension()

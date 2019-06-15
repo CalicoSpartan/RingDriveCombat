@@ -39,7 +39,8 @@ public class BombManager : MonoBehaviour {
         }
         else
         {
-            
+            ArcadeCarController car = _col.gameObject.GetComponentInParent<ArcadeCarController>();
+            car.Explode();
         }
         Destroy(this.gameObject);
         

@@ -17,15 +17,22 @@ public class CameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		if (bDriving)
+        if (bDriving)
         {
-            transform.position = Vector3.Lerp(transform.position, carTransform.position, Time.deltaTime * carLerpSpeed);
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(carTransform.rotation.eulerAngles.x,carTransform.rotation.eulerAngles.y,0f), Time.deltaTime * carSlerpSpeed);
+            if (carTransform)
+            {
+                transform.position = Vector3.Lerp(transform.position, carTransform.position, Time.deltaTime * carLerpSpeed);
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(carTransform.rotation.eulerAngles.x, carTransform.rotation.eulerAngles.y, 0f), Time.deltaTime * carSlerpSpeed);
+            }
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, tpcTransform.position, Time.deltaTime * thirdPersonLerpSpeed);
-            transform.rotation = Quaternion.Slerp(transform.rotation, tpcTransform.rotation, Time.deltaTime * thirdPersonSlerpSpeed);
+            if (tpcTransform)
+            {
+                transform.position = Vector3.Lerp(transform.position, tpcTransform.position, Time.deltaTime * thirdPersonLerpSpeed);
+                transform.rotation = Quaternion.Slerp(transform.rotation, tpcTransform.rotation, Time.deltaTime * thirdPersonSlerpSpeed);
+
+            }
         }
 	}
 }

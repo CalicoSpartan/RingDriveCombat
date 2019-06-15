@@ -95,7 +95,17 @@ public class PlayerController : MonoBehaviour {
     public void GunFeedback(List<GameObject> objects)
     {
         hitGameObjects = objects;
-        Debug.Log("Received feedback");
+        for (int i = 0; i < hitGameObjects.Count;i++)
+        {
+            if (hitGameObjects[i] != null)
+            {
+                EnemyController enemy = hitGameObjects[i].GetComponent<EnemyController>();
+                if (enemy)
+                {
+                    enemy.TakeDamage(gun.damagePerBullet);
+                }
+            }
+        }
         hitGameObjects.Clear();
     }
 
