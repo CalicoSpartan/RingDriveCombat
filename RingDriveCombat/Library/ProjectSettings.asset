@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 15
-  productGUID: 00000000000000000000000000000000
+  productGUID: 5ad907a2c405bea4d985646d790a1569
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -728,7 +728,7 @@ PlayerSettings:
   facebookSdkVersion: 7.9.1
   apiCompatibilityLevel: 2
   cloudProjectId: fd028442-818d-477a-81a5-c56b8496ea01
-  projectName: EffectsExamples
+  projectName: RingDriveCombat
   organizationId: calicospartan
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0

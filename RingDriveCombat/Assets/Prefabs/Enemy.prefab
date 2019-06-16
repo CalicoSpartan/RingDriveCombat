@@ -226,7 +226,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 170916a89c7202b47ac4933a930a9492, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1942bb448f64b3b41b13551fdf053cac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 100
+  startingHealth: 300
   maxThrowForce: 90
   minThrowForce: 1
   horizontalAngleThreshold: 45
@@ -319,7 +319,7 @@ MonoBehaviour:
   bombPrefab: {fileID: 1927274382210132, guid: 69a0566cf9d42ed409b5cb33b04c4d87, type: 2}
   lookCam: {fileID: 4557853878647094}
   muzzlePoint: {fileID: 4659294984760452}
-  shotFrequency: 200
+  shotFrequency: 0.01
   shootDelay: 0.8
 --- !u!136 &136858506648557670
 CapsuleCollider:

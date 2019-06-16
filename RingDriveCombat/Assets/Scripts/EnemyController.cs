@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour {
 
-    public float startingHealth = 100f;
-    private float currentHealth = 1f;
-    public float maxThrowForce = 100f;
-    public float minThrowForce = 3f;
+    public float startingHealth;
+    private float currentHealth;
+    public float maxThrowForce;
+    public float minThrowForce;
     public float horizontalAngleThreshold = 45f;
     public float verticalAngleThreshold = 30f;
     public float maxHorizontalTurnTime = 7f;
@@ -27,11 +27,17 @@ public class EnemyController : MonoBehaviour {
     public float shootDelay = 0.8f;
     int turnRight = 1;
     int lookUp = 1;
+    Material myMat;
+    Color initColor = new Color(1f,1f,1f,1f);
+    Color finalColor = new Color(0.75f, 0f, 0f, 1f);
+    Color disabledColor = new Color(.8f, 1f, .8f, 1f);
     
 
 	// Use this for initialization
 	void Start () {
         currentHealth = startingHealth;
+        myMat = GetComponent<Renderer>().material;
+        myMat.color = disabledColor;
         horizontalTurnTime = Random.Range(minHorizontalTurnTime, maxHorizontalTurnTime);
         verticalTurnTime = Random.Range(minVerticalTurnTime, maxVerticalTurnTime);
         StartCoroutine(horizontalTurnCoroutine(lookCam.localEulerAngles.y, horizontalAngleThreshold, horizontalTurnTime));
@@ -67,6 +73,7 @@ public class EnemyController : MonoBehaviour {
         if (other.gameObject.tag == "EnemyTrigger")
         {
             bActive = true;
+            myMat.color = Color.Lerp(initColor, finalColor, 1f - currentHealth / startingHealth);
         }
     }
 
@@ -75,6 +82,7 @@ public class EnemyController : MonoBehaviour {
         if (other.gameObject.tag == "EnemyTrigger")
         {
             bActive = false;
+            myMat.color = disabledColor;
         }
     }
 
@@ -138,12 +146,15 @@ public class EnemyController : MonoBehaviour {
 
     public void TakeDamage(float Damage)
     {
-        currentHealth -= Damage;
-        Debug.Log("Took Damage, health: " + currentHealth);
-        
-        if (currentHealth <= 0f)
+        if (bActive)
         {
-            Destroy(gameObject);
+            currentHealth -= Damage;
+            Debug.Log("Took Damage, health: " + currentHealth);
+            myMat.color = Color.Lerp(initColor, finalColor, 1f - currentHealth / startingHealth);
+            if (currentHealth <= 0f)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
