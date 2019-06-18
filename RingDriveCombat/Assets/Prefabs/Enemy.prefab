@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 136858506648557670}
   - component: {fileID: 114501861509561370}
   - component: {fileID: 54345921432382660}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 4557853878647094}
   - component: {fileID: 20775002791133962}
   - component: {fileID: 81073405215820218}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4659294984760452}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: MuzzlePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 33072875029096274}
   - component: {fileID: 23015693131252180}
   - component: {fileID: 65293840823692248}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,13 +129,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1074047454260444}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 186.19998, y: 143.70001, z: -64.8}
-  m_LocalScale: {x: 9.735463, y: 9.735463, z: 9.735463}
+  m_LocalPosition: {x: -0, y: 0, z: -4.4065666}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4557853878647094}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!20 &20775002791133962
 Camera:
   m_ObjectHideFlags: 1
@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1942bb448f64b3b41b13551fdf053cac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 300
+  startingHealth: 100
   maxThrowForce: 90
   minThrowForce: 1
   horizontalAngleThreshold: 45
@@ -314,13 +314,17 @@ MonoBehaviour:
   minHorizontalTurnTime: 1
   maxVerticalTurnTime: 4
   minVerticalTurnTime: 1
+  minMovementTime: 3
+  maxMovementTime: 6
   horizontalTurnTime: 0
   verticalTurnTime: 0
+  movementTime: 0
+  movementDistance: 0.4
   bombPrefab: {fileID: 1927274382210132, guid: 69a0566cf9d42ed409b5cb33b04c4d87, type: 2}
   lookCam: {fileID: 4557853878647094}
   muzzlePoint: {fileID: 4659294984760452}
-  shotFrequency: 0.01
-  shootDelay: 0.8
+  shotFrequency: 10
+  shootDelay: 1.4
 --- !u!136 &136858506648557670
 CapsuleCollider:
   m_ObjectHideFlags: 1

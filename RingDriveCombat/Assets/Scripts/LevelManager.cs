@@ -2,41 +2,92 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+using TMPro;
 
 
 public class LevelManager : MonoBehaviour {
 
     // Use this for initialization
     public GameObject enemy;
-    int currentWave = 1;
+    public GameObject bridge2;
+    public Transform ring;
+    public TextMeshProUGUI killCountUI;
+    public TextMeshProUGUI waveCountUI;
+
+    public int currentWave = 1;
     int enemiesThisWave = 0;
     int currentIndex = 0;
     bool spawningWave = true;
+    bool bCheckIfWaveFinished = false;
 
     public List<Bridge> bridges;
-    public List<int> enemiesInWave = new List<int>(10);
-    public List<int> maxVertTurnSpeed = new List<int>(10);
-    public List<int> maxHorzTurnSpeed = new List<int>(10);
+    public List<EnemyController> enemies;
+    public List<float> maxVertTurnTime = new List<float>(10);
+    public List<float> minVertTurnTime = new List<float>(10);
+    public List<float> maxHorzTurnTime = new List<float>(10);
+    public List<float> minHorzTurnTime = new List<float>(10);
     public List<float> shotFrequency = new List<float>(10);
     public List<float> shotDelay = new List<float>(10);
     public List<float> startingHealth = new List<float>(10);
-
+    public int enemiesKilled = 0;
     
 
     void Start () {
        
         bridges = Object.FindObjectsOfType<Bridge>().ToList<Bridge>();
-        Debug.Log(bridges.Count);
+        
     }
 	
 	// Update is called once per frame
 	void Update () {
 		if (spawningWave)
         {
-            if (bridges[currentIndex].occupied == false && Vector3.Magnitude(transform.position - bridges[currentIndex].transform.position) < 30f)
+            bool spawningFinished = true;
+            for (int i = bridges.Count - 1; i >= 0;i--)
             {
-                EnemyController en1 =  Instantiate(enemy, bridges[currentIndex].spawnPoint1.position, bridges[currentIndex].transform.rotation).GetComponent<EnemyController>();
+                if (bridges[i].occupied == false && Vector3.Magnitude(transform.position - bridges[i].transform.position) < 60f)
+                {
+
+
+
+               
+                    //Debug.Log("Spawning Enemies");
+                    EnemyController en1 = Instantiate(enemy, bridges[i].spawnPoint1.position, bridges[i].transform.rotation).GetComponent<EnemyController>();
+                    en1.transform.SetParent(bridges[i].spawnPoint1, true);
+                    en1 = SetEnemyStats(en1);
+                    enemies.Add(en1);
+                    //en1.transform.rotation = Quaternion.Euler(0f, bridges[i].transform.rotation.eulerAngles.y, bridges[i].transform.rotation.eulerAngles.z);
+                    EnemyController en2 = Instantiate(enemy, bridges[i].spawnPoint2.position, bridges[i].transform.rotation).GetComponent<EnemyController>();
+                    en2.transform.SetParent(bridges[i].spawnPoint2, true);
+                    en2 = SetEnemyStats(en2);
+                    enemies.Add(en2);
+                    EnemyController en3 = Instantiate(enemy, bridges[i].spawnPoint3.position, bridges[i].transform.rotation).GetComponent<EnemyController>();
+                    en3.transform.SetParent(bridges[i].spawnPoint3, true);
+                    en3 = SetEnemyStats(en3);
+                    enemies.Add(en3);
+
+                    
+
+                    bridges[i].occupied = true;
+                    
+                }
+                if (bridges[i].occupied == false)
+                {
+                    spawningFinished = false;
+                }
+            }
+            if (spawningFinished)
+            {
+                Debug.Log("Finished Spawning");
+                spawningWave = false;
+                bCheckIfWaveFinished = true;
+
+            }
+            /*
+            if (bridges[currentIndex].occupied == false && Vector3.Magnitude(transform.position - bridges[currentIndex].transform.position) < 60f)
+            {
+                Debug.Log("Spawning Enemies");
+                EnemyController en1 =  Instantiate(enemy, bridges[currentIndex].spawnPoint1.position, Quaternion.Euler(90f,bridges[currentIndex].transform.rotation.eulerAngles.y, bridges[currentIndex].transform.rotation.eulerAngles.z)).GetComponent<EnemyController>();
                 en1.transform.SetParent(bridges[currentIndex].transform, true);
                 EnemyController en2 = Instantiate(enemy, bridges[currentIndex].spawnPoint2.position, bridges[currentIndex].transform.rotation).GetComponent<EnemyController>();
                 en2.transform.SetParent(bridges[currentIndex].transform, true);
@@ -46,10 +97,13 @@ public class LevelManager : MonoBehaviour {
                 bridges[currentIndex].occupied = true;
                 currentIndex += 1;
             }
+            */
+            /*
             if (currentIndex == bridges.Count - 1)
             {
                 spawningWave = false;
             }
+            /*
             /*
             for (int i = 0; i < objects.Length;i++)
             {
@@ -64,10 +118,46 @@ public class LevelManager : MonoBehaviour {
             }
             */
         }
+        if (bCheckIfWaveFinished)
+        {
+            bool done = true;
+            for (int i = 0; i < enemies.Count;i++)
+            {
+                if (enemies[i])
+                {
+                    done = false;
+                }
+            }
+            if (done)
+            {
+                Debug.Log("Wave Complete");
+                bCheckIfWaveFinished = false;
+                for (int i = bridges.Count - 1; i >= 0; i--)
+                {
+                    bridges[i].occupied = false;
+                }
+                spawningWave = true;
+                currentWave += 1;
+                Debug.Log("starting wave: " + currentWave);
+
+            }
+        }
 	}
 
-    public void SpawnWave()
+    public void UpdateGUI()
     {
+        killCountUI.text = "Kills: " + enemiesKilled.ToString();
+        waveCountUI.text = "Wave: " + currentWave.ToString();
+    }
 
+    public EnemyController SetEnemyStats(EnemyController enemy)
+    {
+        enemy.transform.localScale = new Vector3(1f, 1f, 1f);
+        enemy.verticalTurnTime = Random.Range(minVertTurnTime[currentWave - 1], maxVertTurnTime[currentWave - 1]);
+        enemy.horizontalTurnTime = Random.Range(minHorzTurnTime[currentWave - 1], maxHorzTurnTime[currentWave - 1]);
+        enemy.shotFrequency = shotFrequency[currentWave - 1];
+        enemy.shootDelay = shotDelay[currentWave - 1];
+        enemy.startingHealth = startingHealth[currentWave - 1];
+        return enemy;
     }
 }

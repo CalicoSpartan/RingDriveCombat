@@ -14,8 +14,12 @@ public class EnemyController : MonoBehaviour {
     public float minHorizontalTurnTime = 4f;
     public float maxVerticalTurnTime = 7f;
     public float minVerticalTurnTime = 4f;
+    public float minMovementTime = 3f;
+    public float maxMovementTime = 6f;
     public float horizontalTurnTime = 0f;
     public float verticalTurnTime = 0f;
+    public float movementTime = 0f;
+    public float movementDistance = 5f;
     public GameObject bombPrefab;
     public Transform lookCam;
     public Transform muzzlePoint;
@@ -26,6 +30,8 @@ public class EnemyController : MonoBehaviour {
     bool bCanShoot = true;
     public float shootDelay = 0.8f;
     int turnRight = 1;
+    int moveRight = 1;
+
     int lookUp = 1;
     Material myMat;
     Color initColor = new Color(1f,1f,1f,1f);
@@ -37,11 +43,31 @@ public class EnemyController : MonoBehaviour {
 	void Start () {
         currentHealth = startingHealth;
         myMat = GetComponent<Renderer>().material;
+        float temp1 = Random.Range(-1f, 1f);
+        if (temp1 >= 0f)
+        {
+            turnRight = 1;
+        }
+        else
+        {
+            turnRight = -1;
+        }
+        float temp2 = Random.Range(-1f, 1f);
+        if (temp2 >= 0f)
+        {
+            moveRight = 1;
+        }
+        else
+        {
+            moveRight = -1;
+        }
         myMat.color = disabledColor;
         horizontalTurnTime = Random.Range(minHorizontalTurnTime, maxHorizontalTurnTime);
         verticalTurnTime = Random.Range(minVerticalTurnTime, maxVerticalTurnTime);
+        movementTime = Random.Range(minMovementTime, maxMovementTime);
         StartCoroutine(horizontalTurnCoroutine(lookCam.localEulerAngles.y, horizontalAngleThreshold, horizontalTurnTime));
         StartCoroutine(verticalTurnCoroutine(lookCam.localEulerAngles.x, verticalAngleThreshold, verticalTurnTime));
+        StartCoroutine(horizontalMoveCoroutine(0f, movementDistance * moveRight, movementTime));
     }
 	
 	// Update is called once per frame
@@ -85,6 +111,27 @@ public class EnemyController : MonoBehaviour {
             myMat.color = disabledColor;
         }
     }
+
+    IEnumerator horizontalMoveCoroutine(float initialHorizontalValue, float finalHorizontalValue, float time)
+    {
+
+        float i = 0.0f;
+        float rate = 1.0f / time;
+        while (i < 1.0f)
+        {
+            i += Time.deltaTime * rate;
+            float val = Mathf.Lerp(initialHorizontalValue, finalHorizontalValue, i);
+            transform.position += new Vector3(0f, 0f, val);
+
+            yield return null;
+        }
+        moveRight *= -1;
+        StartCoroutine(horizontalMoveCoroutine(0f, moveRight * movementDistance * 2f, movementTime));
+
+    }
+
+
+
 
     IEnumerator horizontalTurnCoroutine(float initialHorizontalValue,float finalHorizontalValue,float time)
     {
@@ -149,11 +196,14 @@ public class EnemyController : MonoBehaviour {
         if (bActive)
         {
             currentHealth -= Damage;
-            Debug.Log("Took Damage, health: " + currentHealth);
+            //Debug.Log("Took Damage, health: " + currentHealth);
             myMat.color = Color.Lerp(initColor, finalColor, 1f - currentHealth / startingHealth);
             if (currentHealth <= 0f)
             {
+                FindObjectOfType<LevelManager>().enemiesKilled += 1;
+                FindObjectOfType<LevelManager>().UpdateGUI();
                 Destroy(gameObject);
+                bActive = false;
             }
         }
     }

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour {
-    public Transform tpcTransform;
     public Transform carTransform;
-    public bool bDriving = true;
-    public float thirdPersonLerpSpeed = 10f;
-    public float thirdPersonSlerpSpeed = 10f;
+    public Transform lowTransform;
+    public Transform highTransform;
+    public float lowLookThreshold = .4f;
+    public float highLookThreshold = -.4f;
     public float carLerpSpeed = 10f;
     public float carSlerpSpeed = 10f;
+    Vector3 basePosition = new Vector3(-7.167722f, 1.340051f, 0f);
 	// Use this for initialization
 	void Start () {
 		
@@ -17,22 +18,23 @@ public class CameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        if (bDriving)
+        
+        if (carTransform)
         {
-            if (carTransform)
+            if (transform.rotation.x > 0)
             {
-                transform.position = Vector3.Lerp(transform.position, carTransform.position, Time.deltaTime * carLerpSpeed);
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(carTransform.rotation.eulerAngles.x, carTransform.rotation.eulerAngles.y, 0f), Time.deltaTime * carSlerpSpeed);
+                float percent = transform.rotation.x / lowLookThreshold;
+                carTransform.localPosition = Vector3.Lerp(basePosition, highTransform.localPosition, percent);
             }
-        }
-        else
-        {
-            if (tpcTransform)
+            else
             {
-                transform.position = Vector3.Lerp(transform.position, tpcTransform.position, Time.deltaTime * thirdPersonLerpSpeed);
-                transform.rotation = Quaternion.Slerp(transform.rotation, tpcTransform.rotation, Time.deltaTime * thirdPersonSlerpSpeed);
+                float percent = transform.rotation.x / highLookThreshold;
+                carTransform.localPosition = Vector3.Lerp(basePosition, lowTransform.localPosition, percent);
+            }
+            transform.position = Vector3.Lerp(transform.position, carTransform.position, Time.deltaTime * carLerpSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(carTransform.rotation.eulerAngles.x, carTransform.rotation.eulerAngles.y, 0f), Time.deltaTime * carSlerpSpeed);
+        }
 
-            }
-        }
+
 	}
 }

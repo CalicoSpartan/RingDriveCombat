@@ -9,10 +9,12 @@ public class PlayerController : MonoBehaviour {
     public CameraController cam;
     public Transform tpcTransform;
     public Transform gunTransform;
-    public Transform carCameraTransform;
     public GunManager gun;
+    public RingManager ring;
     public float horizontalLookSpeed = 1f;
     public float verticalLookSpeed = 1f;
+    public float verticalLookDownThreshold = 84f;
+    public float verticalLookUpThreshold = 270f;
     public float cameraTransitionTime = 1f;
     float m_horizontalInput = 0f;
     float m_verticalInput = 0f;
@@ -25,39 +27,23 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetButtonUp("Jump"))
-        {
-            if (car.bDriving)
-            {
-                car.bDriving = false;
-                bDriving = false;
-                cam.bDriving = false;
-                //StartCoroutine(LerpCamera(tpcTransform.position));
-            }
-            else
-            {
-                bDriving = true;
-                car.bDriving = true;
-                cam.bDriving = true;
-                //StartCoroutine(LerpCamera(carCameraTransform.position));
-            }
+
+
+
+        GetInput();
+        Move();
             
-            
-            
-        }
-		if (bDriving == false)
-        {
-            GetInput();
-            Move();
-            
-        }
+        
 	}
 
     public void Move()
     {
-        transform.Rotate(0f, m_horizontalInput, 0f, Space.Self);
-        gunTransform.Rotate(0f, 0f, m_verticalInput, Space.Self);
+       
         tpcTransform.Rotate(-m_verticalInput, 0f, 0f, Space.Self);
+        gunTransform.Rotate(0f, 0f, m_verticalInput, Space.Self);
+        transform.Rotate(0f, m_horizontalInput, 0f, Space.Self);
+        
+        
 
     }
     /*
@@ -80,6 +66,17 @@ public class PlayerController : MonoBehaviour {
         }
     }
     */
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+        {
+            car.Explode();
+        }
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            car.Explode();
+        }
+    }
 
     void GetInput()
     {
@@ -89,6 +86,14 @@ public class PlayerController : MonoBehaviour {
         {
             gun.Shoot();
 
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            ring.goFast = true;
+        }
+        if (Input.GetKeyUp(KeyCode.G))
+        {
+            ring.goFast = false;
         }
     }
 
@@ -104,9 +109,19 @@ public class PlayerController : MonoBehaviour {
                 {
                     enemy.TakeDamage(gun.damagePerBullet);
                 }
+                else
+                {
+                    BombManager bomb = hitGameObjects[i].GetComponent<BombManager>();
+                    if (bomb)
+                    {
+                        Destroy(bomb.gameObject);
+                    }
+                }
             }
         }
         hitGameObjects.Clear();
     }
 
 }
+
+
