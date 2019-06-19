@@ -10,6 +10,7 @@ public class ArcadeCarController : MonoBehaviour {
     public Transform RL_Wheel;
     public Transform RR_Wheel;
     public Rigidbody rb;
+    public PlayerController player;
     public Transform centerOfMassTransform;
     public float WheelRadius = 3f;
     public float randomForceStrength = 1f;
@@ -152,6 +153,22 @@ public class ArcadeCarController : MonoBehaviour {
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             Explode();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Powerup"))
+        {
+            other.enabled = false;
+            other.gameObject.transform.SetParent(transform);
+            other.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            Powerup powerup = other.gameObject.GetComponent<Powerup>();
+            powerup.player = player;
+            player.powerups.Add(powerup);      
+            player.bPowerupSelected = false;
+            player.SwitchWeapons();
+
         }
     }
 

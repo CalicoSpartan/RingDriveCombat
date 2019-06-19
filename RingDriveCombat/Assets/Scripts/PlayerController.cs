@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour {
     float m_verticalInput = 0f;
     bool bDriving = true;
     List<GameObject> hitGameObjects;
+    public List<Powerup> powerups;
+    public bool bPowerupSelected = false;
 	void Start () {
         
         hitGameObjects = new List<GameObject>();
@@ -40,7 +42,10 @@ public class PlayerController : MonoBehaviour {
     {
        
         tpcTransform.Rotate(-m_verticalInput, 0f, 0f, Space.Self);
+        
+        
         gunTransform.Rotate(0f, 0f, m_verticalInput, Space.Self);
+        
         transform.Rotate(0f, m_horizontalInput, 0f, Space.Self);
         
         
@@ -76,6 +81,42 @@ public class PlayerController : MonoBehaviour {
         {
             car.Explode();
         }
+
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        
+        if (other.gameObject.layer == LayerMask.NameToLayer("Powerup"))
+        {
+            other.enabled = false;
+            other.gameObject.transform.SetParent(transform);
+            other.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            Powerup powerup = other.gameObject.GetComponent<Powerup>();
+            powerup.player = this;
+            powerups.Add(powerup);
+            bPowerupSelected = false;
+            SwitchWeapons();
+            
+        }
+    }
+
+    public void SwitchWeapons()
+    {
+        if (bPowerupSelected)
+        {
+            Debug.Log("Switched Weapons");
+            bPowerupSelected = false;
+            gun.GetComponent<Renderer>().material = gun.myMat;
+        }
+        else
+        {
+            if (powerups.Count > 0)
+            {
+                Debug.Log("Switched Weapons");
+                bPowerupSelected = true;
+                gun.GetComponent<Renderer>().material = powerups[0].GetComponent<Renderer>().material;
+            }
+        }
     }
 
     void GetInput()
@@ -84,11 +125,31 @@ public class PlayerController : MonoBehaviour {
         m_verticalInput = verticalLookSpeed * Input.GetAxis("Mouse Y");
         if (Input.GetButtonUp("Fire1"))
         {
-            gun.Shoot();
+            if (bPowerupSelected)
+            {
+                if (powerups.Count > 0)
+                {
+                    powerups[0].Use();
+                    if (powerups[0].uses <= 0)
+                    {
+                        powerups.RemoveAt(0);
+                        bPowerupSelected = false;
+                    }
+                }
+            }
+            else
+            {
+                gun.Shoot();
+            }
 
         }
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.Mouse2))
         {
+            SwitchWeapons();
+        }
+        if (Input.GetKeyDown(KeyCode.G) && car.touchingGroundRLW)
+        {
+
             ring.goFast = true;
         }
         if (Input.GetKeyUp(KeyCode.G))

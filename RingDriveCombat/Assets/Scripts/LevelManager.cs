@@ -10,19 +10,25 @@ public class LevelManager : MonoBehaviour {
     // Use this for initialization
     public GameObject enemy;
     public GameObject bridge2;
-    public Transform ring;
-    public TextMeshProUGUI killCountUI;
-    public TextMeshProUGUI waveCountUI;
+    public RingManager ring;
+    public PlayerController player;
+    public GUIManager guiManager;
 
     public int currentWave = 1;
     int enemiesThisWave = 0;
     int currentIndex = 0;
     bool spawningWave = true;
     bool bCheckIfWaveFinished = false;
+    int playerPoints = 0;
+    public float timePointDelay = 5f;
+    public int pointsPerKill = 3;
+    public int pointsPerWave = 10;
+    public int pointsPerCoin = 5;
 
     public List<Bridge> bridges;
     public List<EnemyController> enemies;
     public List<float> maxVertTurnTime = new List<float>(10);
+    public List<float> ringSpeeds = new List<float>(10);
     public List<float> minVertTurnTime = new List<float>(10);
     public List<float> maxHorzTurnTime = new List<float>(10);
     public List<float> minHorzTurnTime = new List<float>(10);
@@ -30,16 +36,24 @@ public class LevelManager : MonoBehaviour {
     public List<float> shotDelay = new List<float>(10);
     public List<float> startingHealth = new List<float>(10);
     public int enemiesKilled = 0;
+    float lastTime = 0f;
     
 
     void Start () {
        
         bridges = Object.FindObjectsOfType<Bridge>().ToList<Bridge>();
+        ring.rotationSpeed = ringSpeeds[currentWave - 1];
         
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if (Time.time - lastTime >= timePointDelay && player)
+        {
+            playerPoints += 1;
+            guiManager.UpdateStatGUI(currentWave, playerPoints);
+            lastTime = Time.time;
+        }
 		if (spawningWave)
         {
             bool spawningFinished = true;
@@ -78,7 +92,6 @@ public class LevelManager : MonoBehaviour {
             }
             if (spawningFinished)
             {
-                Debug.Log("Finished Spawning");
                 spawningWave = false;
                 bCheckIfWaveFinished = true;
 
@@ -130,7 +143,6 @@ public class LevelManager : MonoBehaviour {
             }
             if (done)
             {
-                Debug.Log("Wave Complete");
                 bCheckIfWaveFinished = false;
                 for (int i = bridges.Count - 1; i >= 0; i--)
                 {
@@ -138,17 +150,22 @@ public class LevelManager : MonoBehaviour {
                 }
                 spawningWave = true;
                 currentWave += 1;
-                Debug.Log("starting wave: " + currentWave);
-
+                ring.rotationSpeed = ringSpeeds[currentWave - 1];
+                guiManager.UpdateStatGUI(currentWave, playerPoints);
+                guiManager.DisplayWaveNumber();
+                
             }
         }
 	}
 
-    public void UpdateGUI()
+    public void EnemyKilled()
     {
-        killCountUI.text = "Kills: " + enemiesKilled.ToString();
-        waveCountUI.text = "Wave: " + currentWave.ToString();
+        enemiesKilled += 1;
+        playerPoints += pointsPerKill;
+        guiManager.UpdateStatGUI(currentWave, playerPoints);
     }
+
+
 
     public EnemyController SetEnemyStats(EnemyController enemy)
     {

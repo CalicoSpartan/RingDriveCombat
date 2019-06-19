@@ -200,8 +200,8 @@ public class EnemyController : MonoBehaviour {
             myMat.color = Color.Lerp(initColor, finalColor, 1f - currentHealth / startingHealth);
             if (currentHealth <= 0f)
             {
-                FindObjectOfType<LevelManager>().enemiesKilled += 1;
-                FindObjectOfType<LevelManager>().UpdateGUI();
+                FindObjectOfType<LevelManager>().EnemyKilled();
+                
                 Destroy(gameObject);
                 bActive = false;
             }
