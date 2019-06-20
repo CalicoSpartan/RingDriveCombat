@@ -97,10 +97,7 @@ public class ArcadeCarController : MonoBehaviour {
 	void FixedUpdate () {
         if (bAlive)
         {
-            if (Input.GetButtonUp("Jump") && (touchingGroundRLW && touchingGroundRRW))
-            {
-                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            }
+
             GetInput();
                 
             Accelerate();
@@ -160,14 +157,28 @@ public class ArcadeCarController : MonoBehaviour {
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Powerup"))
         {
-            other.enabled = false;
-            other.gameObject.transform.SetParent(transform);
-            other.gameObject.GetComponent<MeshRenderer>().enabled = false;
+
             Powerup powerup = other.gameObject.GetComponent<Powerup>();
-            powerup.player = player;
-            player.powerups.Add(powerup);      
-            player.bPowerupSelected = false;
-            player.SwitchWeapons();
+            if (player.powerups.Count > 0)
+            {
+                player.powerups[0].uses += powerup.uses;
+                if (player.bPowerupSelected)
+                {
+                    player.guiManager.UpdateAmmoCounter(player.powerups[0].uses);
+                }
+                Destroy(powerup.gameObject);
+            }
+            else
+            {
+                other.enabled = false;
+                other.gameObject.transform.SetParent(transform);
+                other.gameObject.GetComponent<MeshRenderer>().enabled = false;
+                powerup.player = player;
+                player.powerups.Add(powerup);
+
+            }
+
+
 
         }
     }

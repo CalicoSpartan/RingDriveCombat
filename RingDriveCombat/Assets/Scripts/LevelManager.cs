@@ -13,6 +13,8 @@ public class LevelManager : MonoBehaviour {
     public RingManager ring;
     public PlayerController player;
     public GUIManager guiManager;
+    public Transform powerupSpawnPoint;
+    public GameObject powerupPrefab;
 
     public int currentWave = 1;
     int enemiesThisWave = 0;
@@ -24,9 +26,12 @@ public class LevelManager : MonoBehaviour {
     public int pointsPerKill = 3;
     public int pointsPerWave = 10;
     public int pointsPerCoin = 5;
+    float waveStartTime;
 
+    
     public List<Bridge> bridges;
     public List<EnemyController> enemies;
+    public List<int> powerupsThisWave = new List<int>(10);
     public List<float> maxVertTurnTime = new List<float>(10);
     public List<float> ringSpeeds = new List<float>(10);
     public List<float> minVertTurnTime = new List<float>(10);
@@ -43,16 +48,23 @@ public class LevelManager : MonoBehaviour {
        
         bridges = Object.FindObjectsOfType<Bridge>().ToList<Bridge>();
         ring.rotationSpeed = ringSpeeds[currentWave - 1];
-        
+        guiManager.waveAnouncementGUI.text = "Wave " + currentWave.ToString();
+        guiManager.DisplayWaveNumber();
+        waveStartTime = Time.time;
+
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (Time.time - lastTime >= timePointDelay && player)
+
+
+        if (powerupsThisWave[currentWave - 1] > 0)
         {
-            playerPoints += 1;
-            guiManager.UpdateStatGUI(currentWave, playerPoints);
-            lastTime = Time.time;
+            if (Random.Range(1,1000) > 994)
+            {
+                SpawnPowerup();
+                powerupsThisWave[currentWave - 1] -= 1;
+            }
         }
 		if (spawningWave)
         {
@@ -148,6 +160,22 @@ public class LevelManager : MonoBehaviour {
                 {
                     bridges[i].occupied = false;
                 }
+                float timeTaken = Time.time - waveStartTime;
+                if (timeTaken < 50f)
+                {
+                    playerPoints = (int)(playerPoints * 1.4f);
+                }
+                else if (timeTaken < 70f)
+                {
+                    playerPoints = (int)(playerPoints * 1.3f);
+                }
+                else if (timeTaken < 80f)
+                {
+                    playerPoints = (int)(playerPoints * 1.2f);
+                }
+
+                Debug.Log(timeTaken);
+                waveStartTime = Time.time;
                 spawningWave = true;
                 currentWave += 1;
                 ring.rotationSpeed = ringSpeeds[currentWave - 1];
@@ -163,6 +191,15 @@ public class LevelManager : MonoBehaviour {
         enemiesKilled += 1;
         playerPoints += pointsPerKill;
         guiManager.UpdateStatGUI(currentWave, playerPoints);
+    }
+
+    public void SpawnPowerup()
+    {
+        Debug.Log("Spawned Powerup");
+        float offset = Random.Range(-5.5f, 5.5f);
+        Powerup powerup = Instantiate(powerupPrefab, powerupSpawnPoint.position + new Vector3(0f, 0f, offset), powerupSpawnPoint.transform.rotation).GetComponent<Powerup>();
+        powerup.transform.SetParent(ring.transform, true);
+
     }
 
 
