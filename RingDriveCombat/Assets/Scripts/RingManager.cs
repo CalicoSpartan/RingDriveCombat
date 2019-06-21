@@ -14,13 +14,16 @@ public class RingManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (goFast == false)
+        if (!LevelManager.bPaused)
         {
-            transform.Rotate(0f, 0f, rotationSpeed, Space.Self);
-        }
-        else
-        {
-            transform.Rotate(0f, 0f, fastSpeed, Space.Self);
+            if (goFast == false)
+            {
+                transform.Rotate(0f, 0f, rotationSpeed, Space.Self);
+            }
+            else
+            {
+                transform.Rotate(0f, 0f, fastSpeed, Space.Self);
+            }
         }
 	}
 }

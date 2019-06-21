@@ -72,21 +72,24 @@ public class EnemyController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetButtonUp("DebugButton"))
+        if (!LevelManager.bPaused)
         {
-            LaunchBomb();
-        }
-        if (bActive)
-        {
-            if (bCanShoot)
+            if (Input.GetButtonUp("DebugButton"))
             {
-                int random = Random.Range(1, 1000);
-                if (shotFrequency > random)
-                {
-                    LaunchBomb();
-                }
+                LaunchBomb();
             }
-            
+            if (bActive)
+            {
+                if (bCanShoot)
+                {
+                    int random = Random.Range(1, 1000);
+                    if (shotFrequency > random)
+                    {
+                        LaunchBomb();
+                    }
+                }
+
+            }
         }
         //Debug.Log(lookCam.localRotation);
         
@@ -119,6 +122,10 @@ public class EnemyController : MonoBehaviour {
         float rate = 1.0f / time;
         while (i < 1.0f)
         {
+            while (LevelManager.bPaused)
+            {
+                yield return null;
+            }
             i += Time.deltaTime * rate;
             float val = Mathf.Lerp(initialHorizontalValue, finalHorizontalValue, i);
             transform.position += new Vector3(0f, 0f, val);
@@ -127,6 +134,7 @@ public class EnemyController : MonoBehaviour {
         }
         moveRight *= -1;
         StartCoroutine(horizontalMoveCoroutine(0f, moveRight * movementDistance * 2f, movementTime));
+        
 
     }
 
@@ -140,16 +148,20 @@ public class EnemyController : MonoBehaviour {
         float rate = 1.0f / time;
         while (i < 1.0f)
         {
+            while (LevelManager.bPaused)
+            {
+                yield return null;
+            }
             i += Time.deltaTime * rate;
             float val = Mathf.Lerp(initialHorizontalValue, finalHorizontalValue, i);
             //Debug.Log(val);
             lookCam.localEulerAngles = new Vector3(lookCam.localEulerAngles.x, val, lookCam.localEulerAngles.z);
-            
+
             yield return null;
         }
         turnRight *= -1;
-        StartCoroutine(horizontalTurnCoroutine(turnRight * -1 * horizontalAngleThreshold,turnRight * horizontalAngleThreshold,horizontalTurnTime));
-
+        StartCoroutine(horizontalTurnCoroutine(turnRight * -1 * horizontalAngleThreshold, turnRight * horizontalAngleThreshold, horizontalTurnTime));
+        
     }
 
     IEnumerator verticalTurnCoroutine(float initialVerticalValue, float finalVerticalValue, float time)
@@ -159,16 +171,20 @@ public class EnemyController : MonoBehaviour {
         float rate = 1.0f / time;
         while (i < 1.0f)
         {
+            while (LevelManager.bPaused)
+            {
+                yield return null;
+            }
             i += Time.deltaTime * rate;
             verticalValue = Mathf.Lerp(initialVerticalValue, finalVerticalValue, i);
             //Debug.Log(val);
-            lookCam.localEulerAngles = new Vector3(verticalValue,lookCam.localEulerAngles.y, lookCam.localEulerAngles.z);
+            lookCam.localEulerAngles = new Vector3(verticalValue, lookCam.localEulerAngles.y, lookCam.localEulerAngles.z);
 
             yield return null;
         }
         lookUp *= -1;
         StartCoroutine(verticalTurnCoroutine(lookUp * -1 * verticalAngleThreshold, lookUp * verticalAngleThreshold, verticalTurnTime));
-
+       
     }
 
 

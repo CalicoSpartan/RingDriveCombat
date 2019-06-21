@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
@@ -14,21 +15,56 @@ public class GUIManager : MonoBehaviour {
     public Image weaponHighlightSquare;
     public Image jumpCooldownBar;
     public Image jumpCooldownBack;
-    
+    public Image gameOverPanel;
+    public TextMeshProUGUI finalWaveText;
+    public TextMeshProUGUI finalScoreText;
+    public Image pauseMenuPanel;
+
     public bool bJumpCooldown = false;
 
     public float waveAnnouncmentDuration = 3f;
-    
-	void Start () {
+
+    void Start() {
         jumpCooldownBack.enabled = false;
         jumpCooldownBar.enabled = false;
+        gameOverPanel.gameObject.SetActive(false);
+        pauseMenuPanel.gameObject.SetActive(false);
         StartCoroutine(DisplayWaveNumberCoroutine());
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
+
+    // Update is called once per frame
+    void Update() {
+
+    }
+
+
+    public void ShowPauseMenu(bool pause)
+    {
+        if (pause)
+        {
+            pauseMenuPanel.gameObject.SetActive(true);
+        }
+        else
+        {
+            pauseMenuPanel.gameObject.SetActive(false);
+        }
+    }
+
+    public void OnPlayAgainClick()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    public void ShowGameOverGUI(int wave, int points)
+    {
+        finalWaveText.text = "Final Wave: " + wave.ToString();
+        finalScoreText.text = "Score: " + points.ToString();
+        gameOverPanel.gameObject.SetActive(true);
+    }
+
+    public void QuitToMainMenu()
+    {
+        SceneManager.LoadScene("StartMenu");
+    }
 
     public IEnumerator JumpCoolDown(float time)
     {
@@ -39,6 +75,10 @@ public class GUIManager : MonoBehaviour {
         float rate = 1.0f / time;
         while (i < 1.0f)
         {
+            while (LevelManager.bPaused)
+            {
+                yield return null;
+            }
             i += Time.deltaTime * rate;
             jumpCooldownBar.GetComponent<RectTransform>().localScale = new Vector3(1f, i, 1f);
 

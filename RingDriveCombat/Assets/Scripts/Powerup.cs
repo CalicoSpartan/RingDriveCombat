@@ -27,7 +27,7 @@ public class Powerup : MonoBehaviour {
                 RaycastHit hit;
                 if (Physics.Raycast(player.cam.transform.position, player.cam.transform.forward, out hit, 2000f, layers))
                 {
-                    Debug.Log(hit.collider.name);
+                   
                     if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Lava"))
                     {
                         hit.collider.gameObject.GetComponent<MeshRenderer>().material = groundMat;

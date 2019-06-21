@@ -33,12 +33,17 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-
-
-        GetInput();
-        Move();
-
+        if (LevelManager.bPaused)
+        {
             
+        }
+        else
+        {
+
+            GetInput();
+            Move();
+
+        }  
         
 	}
 
@@ -116,6 +121,11 @@ public class PlayerController : MonoBehaviour {
             }
             
         }
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Coin"))
+        {
+            FindObjectOfType<LevelManager>().PickupCoin();
+            Destroy(other.gameObject);
+        }
     }
 
     public void SwitchWeapons()
@@ -144,6 +154,10 @@ public class PlayerController : MonoBehaviour {
 
     IEnumerator JumpCooldown()
     {
+        while (LevelManager.bPaused)
+        {
+            yield return null;
+        }
         yield return new WaitForSeconds(jumpCooldownTime);
         bCanJump = true;
     }

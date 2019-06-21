@@ -24,7 +24,6 @@ public class ArcadeCarController : MonoBehaviour {
     public GameObject explosionEffect;
 
     private float m_HorizontalInput = 0f;
-    private float m_VerticalInput = 0f;
 
     [Header("FrontLeftWheel")]
     public float FL_PreviousLength = 0f;
@@ -90,47 +89,38 @@ public class ArcadeCarController : MonoBehaviour {
     private void GetInput()
     {
         m_HorizontalInput = Input.GetAxis("Horizontal");
-        m_VerticalInput = Input.GetAxis("Vertical");
+        
     }
+
+
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+
         if (bAlive)
         {
 
-            GetInput();
+            if (!LevelManager.bPaused)
+            {
                 
-            Accelerate();
-            Steer();
-                
+                GetInput();
 
-            
-            AddFriction();
+
+                Steer();
+            }
+            else
+            {
+               
+            }
+
+
+
             UpdateSuspension();
-        }
+        } 
+        
 	}
 
-    private void AddFriction()
-    {
-        if (touchingGroundRLW && touchingGroundRRW)
-        {
-            float dot = -1.0f * Vector3.Dot(rb.transform.right, rb.velocity.normalized);
-            //Vector3 dir = Vector3.Cross(rb.transform.right, rb.velocity.normalized);
-            //rb.AddTorque(rb.transform.right * dot * FrictionStrength,ForceMode.Force);
-            //rb.AddTorque(-rb.angularVelocity);// * Mathf.Abs(dot));
-            /*
-            if (m_HorizontalInput == 0)
-            {
-                //Debug.DrawRay(rb.position, -rb.transform.right * 20f);
-                rb.AddTorque(-rb.angularVelocity.normalized * turnFriction, ForceMode.Force);
-            }
-            if (m_VerticalInput == 0f)
-            {
-                rb.AddForce(-rb.velocity * RollingBrakeStrength * rb.mass);
-            }
-            */
-        }
-    }
+
 
     private void Steer()
     {
@@ -181,36 +171,20 @@ public class ArcadeCarController : MonoBehaviour {
 
 
         }
-    }
-
-    private void Accelerate()
-    {
-        if (touchingGroundRLW && touchingGroundRRW)
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Coin"))
         {
-            if (m_VerticalInput > 0f)
-            {
-                if (RL_Hit.normal != null)
-                {
-                    Vector3 surfaceDirection = Vector3.ProjectOnPlane(rb.transform.forward, FL_Hit.normal);
-                    rb.AddForceAtPosition(surfaceDirection * AccelForce * m_VerticalInput, centerOfMassTransform.position, ForceMode.Impulse);
-                }
-            }
-            else if (m_VerticalInput < 0f)
-            {
-                if (RL_Hit.normal != null)
-                {
-                    Vector3 surfaceDirection = Vector3.ProjectOnPlane(rb.transform.forward, FL_Hit.normal);
-                    Vector3 forcePosition = rb.worldCenterOfMass + rb.transform.forward * 20f;
-                    rb.AddForceAtPosition(surfaceDirection * DecelForce * m_VerticalInput, centerOfMassTransform.position, ForceMode.Impulse);
-                }
-            }
+            FindObjectOfType<LevelManager>().PickupCoin();
+            Destroy(other.gameObject);
         }
     }
+
+
 
     public void Explode()
     {
         bAlive = false;
         //Instantiate(explosionEffect, rb.position, rb.rotation);
+        FindObjectOfType<LevelManager>().EndGame();
         Destroy(gameObject);
         //rb.AddExplosionForce(200000f, rb.position, 100f);
     }
