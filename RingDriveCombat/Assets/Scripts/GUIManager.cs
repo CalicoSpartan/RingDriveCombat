@@ -19,9 +19,11 @@ public class GUIManager : MonoBehaviour {
     public TextMeshProUGUI finalWaveText;
     public TextMeshProUGUI finalScoreText;
     public Image pauseMenuPanel;
+    public Image settingsMenuPanel;
 
     public bool bJumpCooldown = false;
-
+    float tempHorzSliderValue = 0f;
+    float tempVertSliderValue = 0f;
     public float waveAnnouncmentDuration = 3f;
 
     void Start() {
@@ -64,6 +66,23 @@ public class GUIManager : MonoBehaviour {
     public void QuitToMainMenu()
     {
         SceneManager.LoadScene("StartMenu");
+    }
+
+    public void GoToSettings()
+    {
+        pauseMenuPanel.gameObject.SetActive(false);
+        settingsMenuPanel.gameObject.SetActive(true);
+        GameObject.Find("LevelManager").GetComponent<SettingsScript>().hasApplied = false;
+        tempHorzSliderValue = GameObject.Find("LevelManager").GetComponent<SettingsScript>().horzSlider.value;
+        tempVertSliderValue = GameObject.Find("LevelManager").GetComponent<SettingsScript>().vertSlider.value;
+    }
+
+    public void GoBackToPauseMenu()
+    {
+        
+        settingsMenuPanel.gameObject.SetActive(false);
+        pauseMenuPanel.gameObject.SetActive(true);
+        GameObject.Find("LevelManager").GetComponent<SettingsScript>().GoBackFromSettings(tempHorzSliderValue, tempVertSliderValue);
     }
 
     public IEnumerator JumpCoolDown(float time)

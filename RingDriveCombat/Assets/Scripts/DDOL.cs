@@ -16,6 +16,6 @@ public class DDOL : MonoBehaviour {
     public void StartGame()
     {
         
-        SceneManager.LoadScene("MainLevel");
+        SceneManager.LoadScene("Scenes/MainGame");
     }
 }

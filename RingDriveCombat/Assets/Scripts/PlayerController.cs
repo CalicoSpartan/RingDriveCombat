@@ -28,7 +28,9 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
         
         hitGameObjects = new List<GameObject>();
-	}
+        horizontalLookSpeed = GameObject.Find("_app").GetComponent<GameSettings>().horizontalMouseSensitivity;
+        verticalLookSpeed = GameObject.Find("_app").GetComponent<GameSettings>().verticalMouseSensitivity;
+    }
 	
 	// Update is called once per frame
 	void Update () {
