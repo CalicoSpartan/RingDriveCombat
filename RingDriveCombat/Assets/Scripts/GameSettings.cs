@@ -17,8 +17,8 @@ public class GameSettings : MonoBehaviour {
     {
         if (GameObject.Find("Player"))
         {
-            Debug.Log("HorzSens = " + horizontalMouseSensitivity);
-            Debug.Log("VertSens = " + verticalMouseSensitivity);
+            //Debug.Log("HorzSens = " + horizontalMouseSensitivity);
+            //Debug.Log("VertSens = " + verticalMouseSensitivity);
             GameObject.Find("Player").GetComponent<PlayerController>().horizontalLookSpeed = horizontalMouseSensitivity;
             GameObject.Find("Player").GetComponent<PlayerController>().verticalLookSpeed = verticalMouseSensitivity;
         }

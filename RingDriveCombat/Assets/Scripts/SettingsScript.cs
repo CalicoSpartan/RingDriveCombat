@@ -4,10 +4,10 @@ using UnityEngine.UI;
 using UnityEngine;
 
 public class SettingsScript : MonoBehaviour {
-    public float vertSensSlider;
-    public float horzSensSlider;
-    public Slider horzSlider;
-    public Slider vertSlider;
+    public float vertSensSlider = 1.0f;
+    public float horzSensSlider = 1.0f;
+    float tempVertSens = 1.0f;
+    float tempHorzSens = 1.0f;
     public bool hasApplied = false;
 
     public void LoadPreviousScene()
@@ -17,40 +17,41 @@ public class SettingsScript : MonoBehaviour {
         UnityEngine.SceneManagement.SceneManager.LoadScene(prevScene);
     }
 
-    public void GoBackFromSettings(float origHorz, float origVert)
-    {
-        if (!hasApplied)
-        {
-            vertSensSlider = origVert;
-            horzSensSlider = origHorz;
-            horzSlider.value = horzSensSlider;
-            vertSlider.value = vertSensSlider;
-        }
-    }
 
+    /*
     public void LoadedSettings()
     {
-        vertSlider.value = 1f;
+        tempHorzSens = horzSensSlider;
+        tempVertSens = vertSensSlider;
+        vertSlider.value = tempVertSens;
+        horzSlider.value = tempHorzSens;
 
     }
+    */
 
+    public void SetVertAndHorzSensStatic(float vert, float horz)
+    {
+        tempVertSens = vert;
+        tempHorzSens = horz;
+    }
 
+    /*
     public void SetVertandHorzSens()
     {
-        vertSensSlider = vertSlider.value;
-        horzSensSlider = horzSlider.value;
+        tempVertSens = vertSlider.value;
+        tempHorzSens = horzSlider.value;
     }
+    */
 
-    public void SetApplied()
-    {
-        hasApplied = !hasApplied;
-    }
 
     public void ApplyChanges()
     {
         hasApplied = true;
-        Debug.Log(horzSensSlider);
-        Debug.Log(vertSensSlider);
+        horzSensSlider = tempHorzSens;
+        vertSensSlider = tempVertSens;
+        Debug.Log("vertical" + vertSensSlider);
+        Debug.Log("horizontal:" +  horzSensSlider);
+        
         GameObject.Find("_app").GetComponent<GameSettings>().horizontalMouseSensitivity = horzSensSlider;
         GameObject.Find("_app").GetComponent<GameSettings>().verticalMouseSensitivity = vertSensSlider;
         GameObject.Find("_app").GetComponent<GameSettings>().UpdatePlayerSettings();
