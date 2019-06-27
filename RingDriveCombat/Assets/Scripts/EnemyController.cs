@@ -31,18 +31,19 @@ public class EnemyController : MonoBehaviour {
     public float shootDelay = 0.8f;
     int turnRight = 1;
     int moveRight = 1;
-
     int lookUp = 1;
-    Material myMat;
-    Color initColor = new Color(1f,1f,1f,1f);
-    Color finalColor = new Color(0.75f, 0f, 0f, 1f);
-    Color disabledColor = new Color(.8f, 1f, .8f, 1f);
+    Color initColor = new Color(1f, 1f, 1f);
+    Color finalColor = new Color(1f, 0f, 0f);
+    Color disabledColor = new Color(0f, 1f, 0f);
+    
+    
+
+
     
 
 	// Use this for initialization
 	void Start () {
         currentHealth = startingHealth;
-        myMat = GetComponent<Renderer>().material;
         float temp1 = Random.Range(-1f, 1f);
         if (temp1 >= 0f)
         {
@@ -61,7 +62,7 @@ public class EnemyController : MonoBehaviour {
         {
             moveRight = -1;
         }
-        myMat.color = disabledColor;
+        GetComponent<Renderer>().materials[0].color = initColor;
         horizontalTurnTime = Random.Range(minHorizontalTurnTime, maxHorizontalTurnTime);
         verticalTurnTime = Random.Range(minVerticalTurnTime, maxVerticalTurnTime);
         movementTime = Random.Range(minMovementTime, maxMovementTime);
@@ -78,6 +79,7 @@ public class EnemyController : MonoBehaviour {
             {
                 LaunchBomb();
             }
+            
             if (bActive)
             {
                 if (bCanShoot)
@@ -102,7 +104,8 @@ public class EnemyController : MonoBehaviour {
         if (other.gameObject.tag == "EnemyTrigger")
         {
             bActive = true;
-            myMat.color = Color.Lerp(initColor, finalColor, 1f - currentHealth / startingHealth);
+            GetComponent<Renderer>().materials[0].color = Color.Lerp(finalColor,initColor, currentHealth / startingHealth);
+            
         }
     }
 
@@ -111,7 +114,9 @@ public class EnemyController : MonoBehaviour {
         if (other.gameObject.tag == "EnemyTrigger")
         {
             bActive = false;
-            myMat.color = disabledColor;
+            GetComponent<Renderer>().materials[0].color = disabledColor;
+
+
         }
     }
 
@@ -128,6 +133,7 @@ public class EnemyController : MonoBehaviour {
             }
             i += Time.deltaTime * rate;
             float val = Mathf.Lerp(initialHorizontalValue, finalHorizontalValue, i);
+            
             transform.position += new Vector3(0f, 0f, val);
 
             yield return null;
@@ -155,7 +161,7 @@ public class EnemyController : MonoBehaviour {
             i += Time.deltaTime * rate;
             float val = Mathf.Lerp(initialHorizontalValue, finalHorizontalValue, i);
             //Debug.Log(val);
-            lookCam.localEulerAngles = new Vector3(lookCam.localEulerAngles.x, val, lookCam.localEulerAngles.z);
+            lookCam.localEulerAngles = new Vector3(lookCam.localEulerAngles.x, val -90, lookCam.localEulerAngles.z);
 
             yield return null;
         }
@@ -212,8 +218,9 @@ public class EnemyController : MonoBehaviour {
         if (bActive)
         {
             currentHealth -= Damage;
+            GetComponent<Renderer>().materials[0].color = Color.Lerp(finalColor, initColor, currentHealth / startingHealth);
             //Debug.Log("Took Damage, health: " + currentHealth);
-            myMat.color = Color.Lerp(initColor, finalColor, 1f - currentHealth / startingHealth);
+
             if (currentHealth <= 0f)
             {
                 FindObjectOfType<LevelManager>().EnemyKilled();
