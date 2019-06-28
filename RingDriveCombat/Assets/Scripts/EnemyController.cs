@@ -62,7 +62,8 @@ public class EnemyController : MonoBehaviour {
         {
             moveRight = -1;
         }
-        GetComponent<Renderer>().materials[0].color = initColor;
+
+        GetComponent<Renderer>().materials[0].SetColor("_BaseColor", initColor);
         horizontalTurnTime = Random.Range(minHorizontalTurnTime, maxHorizontalTurnTime);
         verticalTurnTime = Random.Range(minVerticalTurnTime, maxVerticalTurnTime);
         movementTime = Random.Range(minMovementTime, maxMovementTime);
@@ -104,8 +105,8 @@ public class EnemyController : MonoBehaviour {
         if (other.gameObject.tag == "EnemyTrigger")
         {
             bActive = true;
-            GetComponent<Renderer>().materials[0].color = Color.Lerp(finalColor,initColor, currentHealth / startingHealth);
-            
+            GetComponent<Renderer>().materials[0].SetColor("_BaseColor", Color.Lerp(finalColor, initColor, currentHealth / startingHealth));
+
         }
     }
 
@@ -114,7 +115,7 @@ public class EnemyController : MonoBehaviour {
         if (other.gameObject.tag == "EnemyTrigger")
         {
             bActive = false;
-            GetComponent<Renderer>().materials[0].color = disabledColor;
+            GetComponent<Renderer>().materials[0].SetColor("_BaseColor", disabledColor);
 
 
         }
@@ -217,8 +218,9 @@ public class EnemyController : MonoBehaviour {
     {
         if (bActive)
         {
+            Debug.Log("tookDamage");
             currentHealth -= Damage;
-            GetComponent<Renderer>().materials[0].color = Color.Lerp(finalColor, initColor, currentHealth / startingHealth);
+            GetComponent<Renderer>().materials[0].SetColor("_BaseColor",Color.Lerp(finalColor, initColor, currentHealth / startingHealth));
             //Debug.Log("Took Damage, health: " + currentHealth);
 
             if (currentHealth <= 0f)

@@ -4,6 +4,44 @@
     <assembly>
       <name>UnityEngine.TestRunner</name>
     </assembly>
+    <member name="T:UnityEngine.TestTools.Constraints.AllocatingGCMemoryConstraint">
+      <summary>
+        <para>An NUnit test constraint class to test whether a given block of code makes any GC allocations.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.TestTools.Constraints.Is">
+      <summary>
+        <para>Provides Unity-specific constraint types for use with NUnit's Assert.That method.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.TestTools.Constraints.Is.AllocatingGCMemory">
+      <summary>
+        <para>Declares a constraint that the provided delegate allocates GC memory.</para>
+      </summary>
+      <returns>
+        <para>A constraint object.</para>
+      </returns>
+    </member>
+    <member name="?:UnityEngine.TestTools.IEditModeTestYieldInstruction">
+      <summary>
+        <para>Implement this interface to create yield instructions for use in Editor Tests.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.TestTools.IEditModeTestYieldInstruction.ExpectDomainReload">
+      <summary>
+        <para>Returns whether this yield instruction expects a domain reload to occur.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.TestTools.IEditModeTestYieldInstruction.ExpectedPlaymodeState">
+      <summary>
+        <para>Returns whether the yield instruction expects the Editor to be in Play Mode.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.TestTools.IEditModeTestYieldInstruction.Perform">
+      <summary>
+        <para>Implement this method to perform multi-frame operations when creating a yield instruction.</para>
+      </summary>
+    </member>
     <member name="?:UnityEngine.TestTools.IMonoBehaviourTest">
       <summary>
         <para>A MonoBehaviour test needs to implement this interface.</para>
@@ -13,6 +51,23 @@
       <summary>
         <para>Indicates when the test is considered finished.</para>
       </summary>
+    </member>
+    <member name="?:UnityEngine.TestTools.IOuterUnityTestAction">
+      <summary>
+        <para>When implemented by an attribute, this interface implemented to provide actions to execute before setup and after teardown of tests.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.TestTools.IOuterUnityTestAction.AfterTest(NUnit.Framework.Interfaces.ITest)">
+      <summary>
+        <para>Executed before each test is run.</para>
+      </summary>
+      <param name="test"></param>
+    </member>
+    <member name="M:UnityEngine.TestTools.IOuterUnityTestAction.BeforeTest(NUnit.Framework.Interfaces.ITest)">
+      <summary>
+        <para>Executed after each test is run.</para>
+      </summary>
+      <param name="test"></param>
     </member>
     <member name="?:UnityEngine.TestTools.IPostBuildCleanup">
       <summary>
