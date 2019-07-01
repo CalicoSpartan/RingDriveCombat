@@ -4346,7 +4346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: -0.35
-  fastSpeed: -0.7
+  fastSpeedMultiplier: 2
   goFast: 0
 --- !u!1 &1061946246978366
 GameObject:

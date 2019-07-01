@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RingManager : MonoBehaviour {
     public float rotationSpeed = 5f;
-    public float fastSpeed = 6f;
+    public float fastSpeedMultiplier = 1.4f;
     public bool goFast = false;
 	// Use this for initialization
 	void Start () {
@@ -22,7 +22,7 @@ public class RingManager : MonoBehaviour {
             }
             else
             {
-                transform.Rotate(0f, 0f, fastSpeed, Space.Self);
+                transform.Rotate(0f, 0f, rotationSpeed * fastSpeedMultiplier, Space.Self);
             }
         }
 	}
