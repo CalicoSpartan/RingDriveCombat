@@ -20,11 +20,16 @@ public class PlayerController : MonoBehaviour {
     public float jumpCooldownTime = 15f;
     float m_horizontalInput = 0f;
     float m_verticalInput = 0f;
+    [SerializeField]
+    float cameraRotationLimit = 85f;
+    float cameraRotationX = 0f;
+    float currentCameraRotationX = 0f;
     bool bCanJump = true;
     bool bDriving = true;
     List<GameObject> hitGameObjects;
     public List<Powerup> powerups;
     public bool bPowerupSelected = false;
+    public AimingAnimation animationScript;
 	void Start () {
         
         hitGameObjects = new List<GameObject>();
@@ -51,11 +56,14 @@ public class PlayerController : MonoBehaviour {
 
     public void Move()
     {
-       
-        tpcTransform.Rotate(-m_verticalInput, 0f, 0f, Space.Self);
-        
-        
-        gunTransform.Rotate(0f, 0f, m_verticalInput, Space.Self);
+        currentCameraRotationX -= m_verticalInput;
+        currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
+        animationScript.blendValue = 1f - (currentCameraRotationX + cameraRotationLimit) / (cameraRotationLimit * 2f);
+        tpcTransform.localEulerAngles = new Vector3(currentCameraRotationX, tpcTransform.localEulerAngles.y, tpcTransform.localEulerAngles.z);
+        //tpcTransform.Rotate(-m_verticalInput, 0f, 0f, Space.Self);
+
+        gunTransform.localEulerAngles = new Vector3(gunTransform.localEulerAngles.x, gunTransform.localEulerAngles.y, -currentCameraRotationX);
+        //gunTransform.Rotate(0f, 0f, m_verticalInput, Space.Self);
         
         transform.Rotate(0f, m_horizontalInput, 0f, Space.Self);
         

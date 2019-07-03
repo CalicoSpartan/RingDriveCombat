@@ -626,13 +626,13 @@
       <Project>{4E377A2E-BA30-EF92-F599-F8E4D04F23E6}</Project>
       <Name>RingDriveCombat</Name>
     </ProjectReference>
-    <ProjectReference Include="RingDriveCombat.Plugins.csproj">
-      <Project>{DFB3B740-6934-FB41-6CE2-D8D72E7E2311}</Project>
-      <Name>RingDriveCombat.Plugins</Name>
-    </ProjectReference>
     <ProjectReference Include="RingDriveCombat.csproj">
       <Project>{4E377A2E-BA30-EF92-F599-F8E4D04F23E6}</Project>
       <Name>RingDriveCombat</Name>
+    </ProjectReference>
+    <ProjectReference Include="RingDriveCombat.Plugins.csproj">
+      <Project>{DFB3B740-6934-FB41-6CE2-D8D72E7E2311}</Project>
+      <Name>RingDriveCombat.Plugins</Name>
     </ProjectReference>
     <ProjectReference Include="RingDriveCombat.csproj">
       <Project>{4E377A2E-BA30-EF92-F599-F8E4D04F23E6}</Project>

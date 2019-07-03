@@ -57,6 +57,7 @@ public class GunManager : MonoBehaviour {
         {
             shotsToFire = totalAmmo;
         }
+        player.animationScript.SetShootingValue(bFiring);
         for (int i = 0; i < shotsToFire; i++)
         {
             Vector3 shotDestination = Vector3.zero;
@@ -84,6 +85,7 @@ public class GunManager : MonoBehaviour {
             totalAmmo -= shotsToFire;
         }
         bFiring = false;
+        player.animationScript.SetShootingValue(bFiring);
         StartCoroutine(FireDelay());
         player.GunFeedback(hitObjects);
     }
