@@ -218,7 +218,6 @@ public class EnemyController : MonoBehaviour {
     {
         if (bActive)
         {
-            Debug.Log("tookDamage");
             currentHealth -= Damage;
             GetComponent<Renderer>().materials[0].SetColor("_BaseColor",Color.Lerp(finalColor, initColor, currentHealth / startingHealth));
             //Debug.Log("Took Damage, health: " + currentHealth);

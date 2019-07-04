@@ -63,52 +63,45 @@ public class LevelManager : MonoBehaviour {
         guiManager.waveAnouncementGUI.text = "Wave " + currentWave.ToString();
         guiManager.DisplayWaveNumber();
         waveStartTime = Time.timeSinceLevelLoad;
-        powerupSpawnTime = Random.Range(1f, 25f);
-        coinSpawnTime = Random.Range(1f, 25f);
-        StartCoroutine(coinSpawnDelay());
-        StartCoroutine(powerupSpawnDelay());
+        StartSpawningPickups();
 
     }
 
-    IEnumerator coinSpawnDelay()
+    void StartSpawningPickups()
     {
-        
-        
-        yield return new WaitForSeconds(coinSpawnTime);
-        if (gameRunning)
+        for (int i = 0; i < powerupsThisWave[currentWave - 1];i++)
         {
-            if (coinsThisWave[currentWave - 1] > 0)
-            {
-
-                SpawnCoin();
-                coinsThisWave[currentWave - 1] -= 1;
-                if (coinsThisWave[currentWave - 1] > 0)
-                {
-                    coinSpawnTime = Random.Range(1f, 25f);
-                    StartCoroutine(coinSpawnDelay());
-                }
-
-            }
+            float tempTime = Random.Range(1f, 25f);
+            StartCoroutine(powerupSpawnDelay(tempTime));
         }
+        for (int i = 0; i < coinsThisWave[currentWave - 1]; i++)
+        {
+            float tempTime = Random.Range(1f, 25f);
+        }
+        powerupsThisWave[currentWave - 1] = 0;
+        coinsThisWave[currentWave - 1] = 0 ;
     }
 
-    IEnumerator powerupSpawnDelay()
+    IEnumerator coinSpawnDelay(float waitTime)
     {
-        yield return new WaitForSeconds(powerupSpawnTime);
+
+        yield return new WaitForSeconds(waitTime);
         if (gameRunning)
         {
-            if (powerupsThisWave[currentWave - 1] > 0)
-            {
+            SpawnCoin();
+        }
+        
+    }
 
-                SpawnPowerup();
-                powerupsThisWave[currentWave - 1] -= 1;
-                if (powerupsThisWave[currentWave - 1] > 0)
-                {
-                    powerupSpawnTime = Random.Range(1f, 25f);
-                    StartCoroutine(powerupSpawnDelay());
-                }
+    IEnumerator powerupSpawnDelay(float waitTime)
+    {
+        Debug.Log("waiting for " + waitTime + " seconds");
 
-            }
+        yield return new WaitForSeconds(waitTime);
+        if (gameRunning)
+        {
+            Debug.Log("SpawnedPowerup");
+            SpawnPowerup();
         }
     }
 
@@ -269,10 +262,10 @@ public class LevelManager : MonoBehaviour {
                             playerPoints = (int)(playerPoints * 1.2f);
                         }
 
-                        Debug.Log(timeTaken);
                         waveStartTime = Time.timeSinceLevelLoad;
                         spawningWave = true;
                         currentWave += 1;
+                        StartSpawningPickups();
                         ring.rotationSpeed = ringSpeeds[currentWave - 1];
                         guiManager.UpdateStatGUI(currentWave, playerPoints);
                         guiManager.DisplayWaveNumber();

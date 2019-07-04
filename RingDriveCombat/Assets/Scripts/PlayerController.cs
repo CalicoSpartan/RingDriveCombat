@@ -29,6 +29,9 @@ public class PlayerController : MonoBehaviour {
     List<GameObject> hitGameObjects;
     public List<Powerup> powerups;
     public bool bPowerupSelected = false;
+    public Transform gunUpPosition;
+    public Transform gunDownPosition;
+    public Transform gunBasePosition;
     public AimingAnimation animationScript;
 	void Start () {
         
@@ -58,7 +61,16 @@ public class PlayerController : MonoBehaviour {
     {
         currentCameraRotationX -= m_verticalInput;
         currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
-        animationScript.blendValue = 1f - (currentCameraRotationX + cameraRotationLimit) / (cameraRotationLimit * 2f);
+        float blend = 1f - (currentCameraRotationX + cameraRotationLimit) / (cameraRotationLimit * 2f);
+        if (blend <= .5f)
+        {
+            gun.transform.position = Vector3.Lerp(gunDownPosition.position, gunBasePosition.position, blend * 2f);
+        }
+        else
+        {
+            gun.transform.position = Vector3.Lerp(gunBasePosition.position, gunUpPosition.position, blend - .5f);
+        }
+        animationScript.blendValue = blend;
         tpcTransform.localEulerAngles = new Vector3(currentCameraRotationX, tpcTransform.localEulerAngles.y, tpcTransform.localEulerAngles.z);
         //tpcTransform.Rotate(-m_verticalInput, 0f, 0f, Space.Self);
 
@@ -129,7 +141,8 @@ public class PlayerController : MonoBehaviour {
                 powerups.Add(powerup);
 
             }
-            
+            guiManager.DisplayPowerupImg(true);
+
         }
         else if (other.gameObject.layer == LayerMask.NameToLayer("Coin"))
         {
@@ -142,9 +155,8 @@ public class PlayerController : MonoBehaviour {
     {
         if (bPowerupSelected)
         {
-            Debug.Log("Switched Weapons");
             bPowerupSelected = false;
-            gun.GetComponent<Renderer>().material = gun.myMat;
+            gun.gunModel.GetComponent<Renderer>().materials = gun.myMats;
             guiManager.UpdateAmmoCounter(-1);
             guiManager.SwitchWeapons(0);
         }
@@ -152,9 +164,8 @@ public class PlayerController : MonoBehaviour {
         {
             if (powerups.Count > 0)
             {
-                Debug.Log("Switched Weapons");
                 bPowerupSelected = true;
-                gun.GetComponent<Renderer>().material = powerups[0].GetComponent<Renderer>().material;
+                gun.gunModel.GetComponent<Renderer>().materials = gun.myPowerupMats;
                 guiManager.UpdateAmmoCounter(powerups[0].uses);
                 guiManager.SwitchWeapons(1);
 
@@ -184,18 +195,23 @@ public class PlayerController : MonoBehaviour {
             StartCoroutine(guiManager.JumpCoolDown(jumpCooldownTime));
 
         }
-        if (Input.GetButtonUp("Fire1"))
+        if (Input.GetButtonDown("Fire1"))
         {
             if (bPowerupSelected)
             {
                 if (powerups.Count > 0)
                 {
-                    powerups[0].Use();
+                    if (powerups[0].uses > 0)
+                    {
+                        gun.ShootPowerup();
+                        powerups[0].uses -= 1;
+                    }
                     guiManager.UpdateAmmoCounter(powerups[0].uses);
                     if (powerups[0].uses <= 0)
                     {
                         powerups.RemoveAt(0);
                         SwitchWeapons();
+                        guiManager.DisplayPowerupImg(false);
                     }
                     
                 }

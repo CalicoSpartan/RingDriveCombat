@@ -20,6 +20,7 @@ public class GUIManager : MonoBehaviour {
     public TextMeshProUGUI finalScoreText;
     public Image pauseMenuPanel;
     public Image settingsMenuPanel;
+    public Image powerupImage;
 
     public bool bJumpCooldown = false;
     public float waveAnnouncmentDuration = 3f;
@@ -122,12 +123,24 @@ public class GUIManager : MonoBehaviour {
     {
         if (choice == 1)
         {
-            weaponHighlightSquare.GetComponent<RectTransform>().anchoredPosition = new Vector2(-2.5f, -2.5f);
+            weaponHighlightSquare.GetComponent<RectTransform>().anchoredPosition = new Vector2(-5f, -10f);
 
         }
         else if (choice == 0)
         {
-            weaponHighlightSquare.GetComponent<RectTransform>().anchoredPosition = new Vector2(-52.5f, -2.5f);
+            weaponHighlightSquare.GetComponent<RectTransform>().anchoredPosition = new Vector2(-75f, -10f);
+        }
+    }
+
+    public void DisplayPowerupImg(bool _display)
+    {
+        if (_display)
+        {
+            powerupImage.GetComponent<Image>().enabled = true;
+        }
+        else
+        {
+            powerupImage.GetComponent<Image>().enabled = false;
         }
     }
 

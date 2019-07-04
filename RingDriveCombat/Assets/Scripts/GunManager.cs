@@ -14,14 +14,19 @@ public class GunManager : MonoBehaviour {
     public Transform muzzlePoint;
     public PlayerController player;
     public CameraController cam;
-    public Material myMat;
+    public Material[] myMats;
+    public Material[] myPowerupMats;
     public ParticleSystem muzzleFlash;
+    public GameObject gunModel;
     public GameObject bulletPrefab;
+    public GameObject powerupBulletPrefab;
+    public Material groundMat;
+    public LayerMask powerupLayers;
     int ammoInMag;
     bool bCanShoot = true;
 	// Use this for initialization
 	void Start () {
-
+        myMats = gunModel.GetComponent<Renderer>().materials;
 	}
 	
 	// Update is called once per frame
@@ -96,6 +101,38 @@ public class GunManager : MonoBehaviour {
         BulletSimulator bulletComp = bulletObject.GetComponent<BulletSimulator>();
         bulletComp.SetValues(start, end, time);
         
+    }
+
+
+    void SpawnPowerupBullet(Vector3 start, Vector3 end, float time)
+    {
+        GameObject bulletObject = Instantiate(powerupBulletPrefab, start, Quaternion.identity);
+        BulletSimulator bulletComp = bulletObject.GetComponent<BulletSimulator>();
+        bulletComp.SetValues(start, end, time);
+    }
+    public void ShootPowerup()
+    {
+        Vector3 shotDestination = Vector3.zero;
+        RaycastHit hit;
+        muzzleFlash.Play();
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 2000f,powerupLayers))
+        {
+            shotDestination = hit.point;
+            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Lava"))
+            {
+                hit.collider.gameObject.GetComponent<MeshRenderer>().material = groundMat;
+                hit.collider.gameObject.layer = 9;
+            }
+
+        }
+        else
+        {
+
+            shotDestination = cam.transform.position + cam.transform.forward * 2000f;
+
+
+        }
+        SpawnPowerupBullet(muzzlePoint.position, shotDestination, .2f);
     }
 
     

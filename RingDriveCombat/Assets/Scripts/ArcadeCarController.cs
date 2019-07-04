@@ -167,6 +167,7 @@ public class ArcadeCarController : MonoBehaviour {
                 player.powerups.Add(powerup);
 
             }
+            player.guiManager.DisplayPowerupImg(true);
 
 
 

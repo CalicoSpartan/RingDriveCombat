@@ -10,10 +10,10 @@ public class CameraController : MonoBehaviour {
     public float highLookThreshold = -.4f;
     public float carLerpSpeed = 10f;
     public float carSlerpSpeed = 10f;
-    Vector3 basePosition = new Vector3(-7.167722f, 1.340051f, 0f);
+    Vector3 basePosition;
 	// Use this for initialization
 	void Start () {
-		
+        basePosition = carTransform.localPosition;
 	}
 	
 	// Update is called once per frame
