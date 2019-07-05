@@ -41,6 +41,8 @@ public class LevelManager : MonoBehaviour {
     public List<float> minVertTurnTime = new List<float>(10);
     public List<float> maxHorzTurnTime = new List<float>(10);
     public List<float> minHorzTurnTime = new List<float>(10);
+    public List<float> maxMoveTime = new List<float>(10);
+    public List<float> minMoveTime = new List<float>(10);
     public List<float> shotFrequency = new List<float>(10);
     public List<float> shotDelay = new List<float>(10);
     public List<float> startingHealth = new List<float>(10);
@@ -313,6 +315,8 @@ public class LevelManager : MonoBehaviour {
         enemy.transform.localScale = new Vector3(1f, 1f, 1f);
         enemy.verticalTurnTime = Random.Range(minVertTurnTime[currentWave - 1], maxVertTurnTime[currentWave - 1]);
         enemy.horizontalTurnTime = Random.Range(minHorzTurnTime[currentWave - 1], maxHorzTurnTime[currentWave - 1]);
+        enemy.maxMovementTime = maxMoveTime[currentWave - 1];
+        enemy.minMovementTime = minMoveTime[currentWave - 1];
         enemy.shotFrequency = shotFrequency[currentWave - 1];
         enemy.shootDelay = shotDelay[currentWave - 1];
         enemy.startingHealth = startingHealth[currentWave - 1];

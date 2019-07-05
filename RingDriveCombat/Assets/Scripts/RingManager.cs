@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class RingManager : MonoBehaviour {
     public float rotationSpeed = 5f;
-    public float fastSpeedMultiplier = 1.4f;
+    public float fastSpeedMultiplier = 1.1f;
+    public float maxSpeed = -20f;
+    float currentSpeed;
     public bool goFast = false;
 	// Use this for initialization
 	void Start () {
@@ -13,16 +15,26 @@ public class RingManager : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         if (!LevelManager.bPaused)
         {
             if (goFast == false)
             {
-                transform.Rotate(0f, 0f, rotationSpeed, Space.Self);
+                currentSpeed = rotationSpeed;
+                transform.Rotate(0f, 0f, currentSpeed, Space.Self);
             }
             else
             {
-                transform.Rotate(0f, 0f, rotationSpeed * fastSpeedMultiplier, Space.Self);
+                
+                if (currentSpeed <= maxSpeed)
+                {
+                    currentSpeed = maxSpeed;
+                }
+                else
+                {
+                    currentSpeed *= fastSpeedMultiplier;
+                }
+                transform.Rotate(0f, 0f, currentSpeed, Space.Self);
             }
         }
 	}

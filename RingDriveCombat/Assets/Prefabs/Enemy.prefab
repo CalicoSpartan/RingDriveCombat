@@ -141,7 +141,7 @@ MonoBehaviour:
   horizontalTurnTime: 0
   verticalTurnTime: 0
   movementTime: 0
-  movementDistance: 0.4
+  movementDistance: 0.6
   bombPrefab: {fileID: 1927274382210132, guid: 69a0566cf9d42ed409b5cb33b04c4d87, type: 3}
   lookCam: {fileID: 4557853878647094}
   muzzlePoint: {fileID: 4659294984760452}

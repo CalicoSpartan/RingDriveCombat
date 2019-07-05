@@ -18,8 +18,9 @@ public class EnemyController : MonoBehaviour {
     public float maxMovementTime = 6f;
     public float horizontalTurnTime = 0f;
     public float verticalTurnTime = 0f;
+    
     public float movementTime = 0f;
-    public float movementDistance = 5f;
+    public float movementDistance = 6f;
     public GameObject bombPrefab;
     public Transform lookCam;
     public Transform muzzlePoint;
@@ -140,6 +141,7 @@ public class EnemyController : MonoBehaviour {
             yield return null;
         }
         moveRight *= -1;
+        movementTime = Random.Range(minMovementTime, maxMovementTime);
         StartCoroutine(horizontalMoveCoroutine(0f, moveRight * movementDistance * 2f, movementTime));
         
 

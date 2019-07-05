@@ -94,6 +94,7 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
+    <None Include="Assets\UrbanNightSky\Readme.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
@@ -116,12 +117,6 @@
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.RenderPipelines.Lightweight.Runtime">
-      <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.RenderPipelines.Lightweight.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Lightweight.Editor">
-      <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.RenderPipelines.Lightweight.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
       <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
@@ -134,9 +129,6 @@
     <Reference Include="Unity.RenderPipelines.HighDefinition.Runtime">
       <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.RenderPipelines.HighDefinition.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Postprocessing.Editor">
-      <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="com.unity.multiplayer-weaver.Editor">
       <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/com.unity.multiplayer-weaver.Editor.dll</HintPath>
     </Reference>
@@ -145,9 +137,6 @@
     </Reference>
     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
       <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Postprocessing.Runtime">
-      <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.SpatialTracking">
       <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>

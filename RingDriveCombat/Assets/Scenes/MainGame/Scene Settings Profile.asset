@@ -16,7 +16,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   skyType:
     m_OverrideState: 1
-    m_Value: 3
+    m_Value: 2
   skyAmbientMode:
     m_OverrideState: 1
     m_Value: 0
@@ -107,7 +107,7 @@ MonoBehaviour:
     m_Value: 0
   multiplier:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.05
     min: 0
   upperHemisphereLuxValue:
     m_OverrideState: 1
@@ -143,13 +143,13 @@ MonoBehaviour:
     max: 5
   skyTint:
     m_OverrideState: 1
-    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_Value: {r: 0.1051531, g: 0.12676258, b: 0.16037738, a: 1}
     hdr: 0
     showAlpha: 1
     showEyeDropper: 1
   groundColor:
     m_OverrideState: 1
-    m_Value: {r: 0.369, g: 0.349, b: 0.341, a: 1}
+    m_Value: {r: 0.4977583, g: 0.5188679, b: 0.46257564, a: 1}
     hdr: 0
     showAlpha: 1
     showEyeDropper: 1
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ddcec8a8eb2d684d833ac8f5d26aebd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   m_AdvancedMode: 0
   maxShadowDistance:
     m_OverrideState: 1
