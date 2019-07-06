@@ -65,6 +65,14 @@ public class EnemyController : MonoBehaviour {
         }
 
         GetComponent<Renderer>().materials[0].SetColor("_BaseColor", initColor);
+        StartCoroutines();
+
+    }
+	
+
+    public void StartCoroutines()
+    {
+        
         horizontalTurnTime = Random.Range(minHorizontalTurnTime, maxHorizontalTurnTime);
         verticalTurnTime = Random.Range(minVerticalTurnTime, maxVerticalTurnTime);
         movementTime = Random.Range(minMovementTime, maxMovementTime);
@@ -72,7 +80,6 @@ public class EnemyController : MonoBehaviour {
         StartCoroutine(verticalTurnCoroutine(lookCam.localEulerAngles.x, verticalAngleThreshold, verticalTurnTime));
         StartCoroutine(horizontalMoveCoroutine(0f, movementDistance * moveRight, movementTime));
     }
-	
 	// Update is called once per frame
 	void Update () {
         if (!LevelManager.bPaused)
@@ -125,21 +132,68 @@ public class EnemyController : MonoBehaviour {
     IEnumerator horizontalMoveCoroutine(float initialHorizontalValue, float finalHorizontalValue, float time)
     {
 
+
+        /*
+        float counter = 0f;
+
+        while (counter < time)
+        {
+
+            counter += Time.deltaTime;
+
+            float val = Mathf.Lerp(initialHorizontalValue, finalHorizontalValue, counter / time);
+            transform.position += new Vector3(0f, 0f,val);
+            yield return null;
+        }
+        */
+        /*
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / time;
+            float offset = Mathf.Lerp(initialHorizontalValue, finalHorizontalValue, t);
+            transform.position = new Vector3(transform.position.x, transform.position.y, initialHorizontalValue + offset);
+            yield return null;
+        }
+        */
+        float goalXValue = transform.localPosition.y + finalHorizontalValue;
+        float startXValue = transform.localPosition.y;
         float i = 0.0f;
         float rate = 1.0f / time;
+        bool imTheOne = false;
+        EnemyController[] controllers = FindObjectsOfType<EnemyController>();
+        if (controllers[0] == this)
+        {
+            imTheOne = true;
+            Debug.Log("Starting");
+        }
         while (i < 1.0f)
         {
             while (LevelManager.bPaused)
             {
                 yield return null;
             }
+
             i += Time.deltaTime * rate;
-            float val = Mathf.Lerp(initialHorizontalValue, finalHorizontalValue, i);
+
+
+            float whereIAmGoing = (goalXValue + startXValue) * i;
+            float howFarShouldIGo = whereIAmGoing - transform.localPosition.y;
+            float val = Mathf.Lerp(startXValue, goalXValue, i);
+            //my z value should be my starting z value plus val
+            float ogXValuePlusVal = startXValue + val;
+            float howFarToGo = val - transform.localPosition.y;
             
-            transform.position += new Vector3(0f, 0f, val);
+            if (imTheOne)
+            {
+
+                //Debug.Log("name: " + this.name + " i: " + i + " goal: " + goalXValue + " init: " + startXValue + " current: " + transform.position.z + " val: " + val + " howFarToGo: " + howFarToGo);
+            }
+            transform.localPosition += new Vector3(0f, howFarToGo,0f);
 
             yield return null;
         }
+        
         moveRight *= -1;
         movementTime = Random.Range(minMovementTime, maxMovementTime);
         StartCoroutine(horizontalMoveCoroutine(0f, moveRight * movementDistance * 2f, movementTime));

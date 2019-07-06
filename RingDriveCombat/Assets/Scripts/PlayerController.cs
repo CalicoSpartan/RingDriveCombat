@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Experimental.VFX;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
@@ -18,8 +19,13 @@ public class PlayerController : MonoBehaviour {
     public float verticalLookUpThreshold = 270f;
     public float cameraTransitionTime = 1f;
     public float jumpCooldownTime = 15f;
+    public int jumpThrusterEffectSpawnRate;
     float m_horizontalInput = 0f;
     float m_verticalInput = 0f;
+    public VisualEffect jumpThrusterEffect;
+    public VisualEffect mainThrusterEffect;
+    public GameObject jumpThrusterLight;
+    public GameObject mainThrusterLight;
     [SerializeField]
     float cameraRotationLimit = 85f;
     float cameraRotationX = 0f;
@@ -183,6 +189,34 @@ public class PlayerController : MonoBehaviour {
         bCanJump = true;
     }
 
+    IEnumerator JumpThrustEffectDelay()
+    {
+        if (jumpThrusterEffect)
+        {
+            
+            jumpThrusterEffect.SetInt("MainSpawnRate", 10);
+            jumpThrusterLight.SetActive(true);
+        }
+        if (mainThrusterEffect)
+        {
+            mainThrusterEffect.SetInt("MainSpawnRate", 0);
+            mainThrusterLight.SetActive(false);
+        }
+        yield return new WaitForSeconds(2f);
+        if (jumpThrusterEffect)
+        {
+            
+            jumpThrusterEffect.SetInt("MainSpawnRate", 0);
+            jumpThrusterLight.SetActive(false);
+        }
+        if (mainThrusterEffect)
+        {
+            mainThrusterEffect.SetInt("MainSpawnRate", 10);
+            mainThrusterLight.SetActive(true);
+        }
+
+    }
+
     void GetInput()
     {
         m_horizontalInput = horizontalLookSpeed * Input.GetAxis("Mouse X");
@@ -192,6 +226,7 @@ public class PlayerController : MonoBehaviour {
             car.rb.AddForce(Vector3.up * car.jumpForce, ForceMode.Impulse);
             bCanJump = false;
             StartCoroutine(JumpCooldown());
+            StartCoroutine(JumpThrustEffectDelay());
             StartCoroutine(guiManager.JumpCoolDown(jumpCooldownTime));
 
         }

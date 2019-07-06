@@ -79,6 +79,7 @@ public class LevelManager : MonoBehaviour {
         for (int i = 0; i < coinsThisWave[currentWave - 1]; i++)
         {
             float tempTime = Random.Range(1f, 25f);
+            StartCoroutine(coinSpawnDelay(tempTime));
         }
         powerupsThisWave[currentWave - 1] = 0;
         coinsThisWave[currentWave - 1] = 0 ;
@@ -171,15 +172,18 @@ public class LevelManager : MonoBehaviour {
                             EnemyController en1 = Instantiate(enemy, bridges[i].spawnPoint1.position, bridges[i].spawnPoint1.rotation).GetComponent<EnemyController>();
                             en1.transform.SetParent(bridges[i].spawnPoint1, true);
                             en1 = SetEnemyStats(en1);
+                            //en1.StartCoroutines();
                             enemies.Add(en1);
                             //en1.transform.rotation = Quaternion.Euler(0f, bridges[i].transform.rotation.eulerAngles.y, bridges[i].transform.rotation.eulerAngles.z);
                             EnemyController en2 = Instantiate(enemy, bridges[i].spawnPoint2.position, bridges[i].spawnPoint2.rotation).GetComponent<EnemyController>();
                             en2.transform.SetParent(bridges[i].spawnPoint2, true);
                             en2 = SetEnemyStats(en2);
+                            //en2.StartCoroutines();
                             enemies.Add(en2);
                             EnemyController en3 = Instantiate(enemy, bridges[i].spawnPoint3.position, bridges[i].spawnPoint3.rotation).GetComponent<EnemyController>();
                             en3.transform.SetParent(bridges[i].spawnPoint3, true);
                             en3 = SetEnemyStats(en3);
+                            //en3.StartCoroutines();
                             enemies.Add(en3);
 
 
