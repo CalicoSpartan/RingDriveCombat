@@ -5,9 +5,8 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour {
 
     public float startingHealth;
-    private float currentHealth;
-    public float maxThrowForce;
-    public float minThrowForce;
+    protected float currentHealth;
+    public float shootForce;
     public float horizontalAngleThreshold = 45f;
     public float verticalAngleThreshold = 30f;
     public float maxHorizontalTurnTime = 7f;
@@ -25,15 +24,15 @@ public class EnemyController : MonoBehaviour {
     public Transform lookCam;
     public Transform muzzlePoint;
     public float shotFrequency;
-    float verticalValue = 0f;
-    bool bActive = false;
+    protected float verticalValue = 0f;
+    protected bool bActive = false;
     bool dead = false;
-    bool bCanShoot = true;
+    protected bool bCanShoot = true;
     public float shootDelay = 0.8f;
-    int turnRight = 1;
-    int moveRight = 1;
+    protected int turnRight = 1;
+    protected int moveRight = 1;
     int lookUp = 1;
-    Color initColor = new Color(1f, 1f, 1f);
+    protected Color initColor = new Color(1f, 1f, 1f);
     Color finalColor = new Color(1f, 0f, 0f);
     Color disabledColor = new Color(0f, 1f, 0f);
     
@@ -43,7 +42,7 @@ public class EnemyController : MonoBehaviour {
     
 
 	// Use this for initialization
-	void Start () {
+	public virtual void Start () {
         currentHealth = startingHealth;
         float temp1 = Random.Range(-1f, 1f);
         if (temp1 >= 0f)
@@ -70,18 +69,18 @@ public class EnemyController : MonoBehaviour {
     }
 	
 
-    public void StartCoroutines()
+    public virtual void StartCoroutines()
     {
         
         horizontalTurnTime = Random.Range(minHorizontalTurnTime, maxHorizontalTurnTime);
         verticalTurnTime = Random.Range(minVerticalTurnTime, maxVerticalTurnTime);
         movementTime = Random.Range(minMovementTime, maxMovementTime);
         StartCoroutine(horizontalTurnCoroutine(lookCam.localEulerAngles.y, horizontalAngleThreshold, horizontalTurnTime));
-        StartCoroutine(verticalTurnCoroutine(lookCam.localEulerAngles.x, verticalAngleThreshold, verticalTurnTime));
+        StartCoroutine(verticalTurnCoroutine(lookCam.localEulerAngles.x, -verticalAngleThreshold, verticalTurnTime));
         StartCoroutine(horizontalMoveCoroutine(0f, movementDistance * moveRight, movementTime));
     }
 	// Update is called once per frame
-	void Update () {
+	public virtual void Update () {
         if (!LevelManager.bPaused)
         {
             if (Input.GetButtonUp("DebugButton"))
@@ -129,7 +128,7 @@ public class EnemyController : MonoBehaviour {
         }
     }
 
-    IEnumerator horizontalMoveCoroutine(float initialHorizontalValue, float finalHorizontalValue, float time)
+    protected IEnumerator horizontalMoveCoroutine(float initialHorizontalValue, float finalHorizontalValue, float time)
     {
 
 
@@ -204,7 +203,7 @@ public class EnemyController : MonoBehaviour {
 
 
 
-    IEnumerator horizontalTurnCoroutine(float initialHorizontalValue,float finalHorizontalValue,float time)
+    protected IEnumerator horizontalTurnCoroutine(float initialHorizontalValue,float finalHorizontalValue,float time)
     {
 
         float i = 0.0f;
@@ -227,9 +226,9 @@ public class EnemyController : MonoBehaviour {
         
     }
 
-    IEnumerator verticalTurnCoroutine(float initialVerticalValue, float finalVerticalValue, float time)
+    protected IEnumerator verticalTurnCoroutine(float initialVerticalValue, float finalVerticalValue, float time)
     {
-
+        
         float i = 0.0f;
         float rate = 1.0f / time;
         while (i < 1.0f)
@@ -256,15 +255,15 @@ public class EnemyController : MonoBehaviour {
         bCanShoot = false;
         GameObject bomb = Instantiate(bombPrefab, lookCam.position + lookCam.forward * 12f, Quaternion.identity);
         Rigidbody bombRB = bomb.GetComponent<Rigidbody>();
-        float power = 0f;
-        power = Mathf.Abs(((verticalValue + verticalAngleThreshold) / (verticalAngleThreshold + verticalAngleThreshold)));
-        float finalPower = Mathf.Lerp(minThrowForce, maxThrowForce, power);
-        bombRB.AddForce(lookCam.forward * finalPower, ForceMode.Impulse);
+        Physics.IgnoreCollision(bomb.GetComponent<Collider>(), GetComponent<Collider>());
+
+
+        bombRB.AddForce(lookCam.forward * shootForce, ForceMode.Force);
         
         StartCoroutine(shootDelayTimer());
     }
 
-    IEnumerator shootDelayTimer()
+    protected IEnumerator shootDelayTimer()
     {
         yield return new WaitForSeconds(shootDelay);
         bCanShoot = true;

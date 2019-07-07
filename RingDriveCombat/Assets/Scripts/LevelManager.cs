@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour {
 
     // Use this for initialization
     public GameObject enemy;
+    public GameObject shooterEnemy;
     public GameObject bridge2;
     public RingManager ring;
     public PlayerController player;
@@ -175,7 +176,7 @@ public class LevelManager : MonoBehaviour {
                             //en1.StartCoroutines();
                             enemies.Add(en1);
                             //en1.transform.rotation = Quaternion.Euler(0f, bridges[i].transform.rotation.eulerAngles.y, bridges[i].transform.rotation.eulerAngles.z);
-                            EnemyController en2 = Instantiate(enemy, bridges[i].spawnPoint2.position, bridges[i].spawnPoint2.rotation).GetComponent<EnemyController>();
+                            EnemyController en2 = Instantiate(shooterEnemy, bridges[i].spawnPoint2.position, bridges[i].spawnPoint2.rotation).GetComponent<EnemyController>();
                             en2.transform.SetParent(bridges[i].spawnPoint2, true);
                             en2 = SetEnemyStats(en2);
                             //en2.StartCoroutines();

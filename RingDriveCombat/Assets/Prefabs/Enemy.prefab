@@ -128,9 +128,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 100
-  maxThrowForce: 90
-  minThrowForce: 1
-  horizontalAngleThreshold: 45
+  shootForce: 10000
+  horizontalAngleThreshold: 10
   verticalAngleThreshold: 30
   maxHorizontalTurnTime: 4
   minHorizontalTurnTime: 1
@@ -170,14 +169,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1938714479136834}
-  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
+  m_LocalRotation: {x: -0, y: -0.9961947, z: 0, w: -0.08715578}
   m_LocalPosition: {x: -0.61, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4224126322948066}
   m_Father: {fileID: 4810994407321964}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -190, z: 0}
 --- !u!1 &1944816340453946
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,7 +233,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1950527934720046}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.67}
   m_LocalScale: {x: 0.35, y: 0.35, z: 1.5}
   m_Children:

@@ -8,8 +8,14 @@ public class BombManager : MonoBehaviour {
     public LayerMask lavaLayer;
 	// Use this for initialization
 	void Start () {
-		
+        StartCoroutine(deathDelay());
 	}
+
+    IEnumerator deathDelay()
+    {
+        yield return new WaitForSeconds(5f);
+        Destroy(this.gameObject);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -18,8 +24,9 @@ public class BombManager : MonoBehaviour {
 
     void OnCollisionEnter(Collision _col)
     {
-        if (_col.collider.gameObject.tag != "Player")
+        if (_col.collider.gameObject.tag != "Player" )
         {
+            
             Vector3 conPoint = _col.contacts[0].point;
             Collider[] colliders = Physics.OverlapSphere(conPoint, BlastRadius);
             if (colliders.Length >= 1)
