@@ -9,17 +9,11 @@ public class EnemyController : MonoBehaviour {
     public float shootForce;
     public float horizontalAngleThreshold = 45f;
     public float verticalAngleThreshold = 30f;
-    public float maxHorizontalTurnTime = 7f;
-    public float minHorizontalTurnTime = 4f;
-    public float maxVerticalTurnTime = 7f;
-    public float minVerticalTurnTime = 4f;
-    public float minMovementTime = 3f;
-    public float maxMovementTime = 6f;
     public float horizontalTurnTime = 0f;
     public float verticalTurnTime = 0f;
     
-    public float movementTime = 0f;
-    public float movementDistance = 6f;
+    public float movementTime = 1f;
+    public float movementDistance = 0f;
     public GameObject bombPrefab;
     public Transform lookCam;
     public Transform muzzlePoint;
@@ -28,7 +22,7 @@ public class EnemyController : MonoBehaviour {
     protected bool bActive = false;
     bool dead = false;
     protected bool bCanShoot = true;
-    public float shootDelay = 0.8f;
+    public float shotDelay = 0.8f;
     protected int turnRight = 1;
     protected int moveRight = 1;
     int lookUp = 1;
@@ -65,19 +59,16 @@ public class EnemyController : MonoBehaviour {
 
         GetComponent<Renderer>().materials[0].SetColor("_BaseColor", initColor);
         StartCoroutines();
-
     }
 	
 
     public virtual void StartCoroutines()
     {
-        
-        horizontalTurnTime = Random.Range(minHorizontalTurnTime, maxHorizontalTurnTime);
-        verticalTurnTime = Random.Range(minVerticalTurnTime, maxVerticalTurnTime);
-        movementTime = Random.Range(minMovementTime, maxMovementTime);
+
         StartCoroutine(horizontalTurnCoroutine(lookCam.localEulerAngles.y, horizontalAngleThreshold, horizontalTurnTime));
         StartCoroutine(verticalTurnCoroutine(lookCam.localEulerAngles.x, -verticalAngleThreshold, verticalTurnTime));
         StartCoroutine(horizontalMoveCoroutine(0f, movementDistance * moveRight, movementTime));
+
     }
 	// Update is called once per frame
 	public virtual void Update () {
@@ -194,7 +185,6 @@ public class EnemyController : MonoBehaviour {
         }
         
         moveRight *= -1;
-        movementTime = Random.Range(minMovementTime, maxMovementTime);
         StartCoroutine(horizontalMoveCoroutine(0f, moveRight * movementDistance * 2f, movementTime));
         
 
@@ -260,12 +250,12 @@ public class EnemyController : MonoBehaviour {
 
         bombRB.AddForce(lookCam.forward * shootForce, ForceMode.Force);
         
-        StartCoroutine(shootDelayTimer());
+        StartCoroutine(shotDelayTimer());
     }
 
-    protected IEnumerator shootDelayTimer()
+    protected IEnumerator shotDelayTimer()
     {
-        yield return new WaitForSeconds(shootDelay);
+        yield return new WaitForSeconds(shotDelay);
         bCanShoot = true;
     }
 

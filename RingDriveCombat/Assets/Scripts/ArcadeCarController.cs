@@ -23,9 +23,9 @@ public class ArcadeCarController : MonoBehaviour {
     public float turnFriction = 100f;
     public float jumpForce = 100f;
     public GameObject explosionEffect;
-
+    public Transform ringCenterPoint;
     private float m_HorizontalInput = 0f;
-
+    public float gravityForce = 5f;
     [Header("FrontLeftWheel")]
     public float FL_PreviousLength = 0f;
     public float FL_CurrentLength = 0f;
@@ -78,7 +78,12 @@ public class ArcadeCarController : MonoBehaviour {
     public bool touchingGroundRRW = false;
     private RaycastHit RR_Hit;
     public bool bAlive = true;
+    public bool bHasExploded = false;
     public bool bDriving = true;
+    public float explosionPower = 100f;
+    public float explosionEjectionOffset;
+    public CameraController mainCamera;
+    public RingManager ring;
 
 
     // Use this for initialization
@@ -100,7 +105,12 @@ public class ArcadeCarController : MonoBehaviour {
 
         if (bAlive)
         {
-
+            /*
+            Vector3 alignedGravityPoint = Vector3.Project(rb.position - ringCenterPoint.position, ringCenterPoint.forward); //make sure gravityPoint.right is the direction of the holes of your ring
+            Vector3 direction = (rb.position - alignedGravityPoint).normalized;
+            transform.rotation = Quaternion.FromToRotation(transform.up, direction) * transform.rotation; //probably want to do this with addtorque or something
+            rb.AddForce(direction * gravityForce);
+            */
             if (!LevelManager.bPaused)
             {
                 
@@ -136,10 +146,12 @@ public class ArcadeCarController : MonoBehaviour {
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
         {
+            Destroy(collision.gameObject);
             Explode();
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
+            Destroy(collision.gameObject);
             Explode();
         }
     }
@@ -185,9 +197,28 @@ public class ArcadeCarController : MonoBehaviour {
     public void Explode()
     {
         bAlive = false;
-        //Instantiate(explosionEffect, rb.position, rb.rotation);
+        gameObject.GetComponent<Collider>().enabled = false;
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        gameObject.GetComponent<Rigidbody>().isKinematic = true;
+        GameObject.Find("_app").GetComponent<GameSettings>().bInputEnabled = false;
+        mainCamera.PlayerDied();
         FindObjectOfType<LevelManager>().EndGame();
+
+
+        player.dead = true;
+        player.transform.parent = null;
+        Vector3 explosionForce = (transform.forward + new Vector3(0f,explosionEjectionOffset, 0f)) * explosionPower;
+        player.Ragdoll(explosionForce);
+        if (!bHasExploded)
+        {
+            GameObject temp = Instantiate(explosionEffect, rb.position, rb.rotation);
+            temp.transform.parent = ring.transform; 
+            bHasExploded = true;
+        }
         Destroy(gameObject);
+
+
+
         //rb.AddExplosionForce(200000f, rb.position, 100f);
     }
 

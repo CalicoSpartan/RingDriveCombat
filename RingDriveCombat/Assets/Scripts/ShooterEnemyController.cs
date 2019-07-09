@@ -64,11 +64,10 @@ public class ShooterEnemyController : EnemyController
 
     public override void StartCoroutines()
     {
-        horizontalTurnTime = Random.Range(minHorizontalTurnTime, maxHorizontalTurnTime);
-        verticalTurnTime = Random.Range(minVerticalTurnTime, maxVerticalTurnTime);
-        movementTime = Random.Range(minMovementTime, maxMovementTime);
+
         StartCoroutine(horizontalMoveCoroutine(0f, movementDistance * moveRight, movementTime));
         StartCoroutine(lookDelay());
+
 
     }
 
@@ -141,6 +140,6 @@ public class ShooterEnemyController : EnemyController
 
         bulletRB.AddForce(lookCam.forward * shootForce, ForceMode.Force);
 
-        StartCoroutine(shootDelayTimer());
+        StartCoroutine(shotDelayTimer());
     }
 }

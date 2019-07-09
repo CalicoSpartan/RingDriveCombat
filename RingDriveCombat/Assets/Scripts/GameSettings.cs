@@ -7,6 +7,7 @@ public class GameSettings : MonoBehaviour {
     // Use this for initialization
     public float verticalMouseSensitivity = 1f;
     public float horizontalMouseSensitivity = 1f;
+    public bool bInputEnabled = true;
 
 
 	void Start () {

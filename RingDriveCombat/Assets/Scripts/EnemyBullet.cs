@@ -28,6 +28,7 @@ public class EnemyBullet : MonoBehaviour
         if (_col.collider.gameObject.tag == "Player")
         {
             ArcadeCarController car = _col.gameObject.GetComponentInParent<ArcadeCarController>();
+            GetComponent<Collider>().enabled = false;
             car.Explode();
             
         }

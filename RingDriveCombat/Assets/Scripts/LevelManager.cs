@@ -1,11 +1,52 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
 using UnityEngine;
 using TMPro;
 
 
+
+
+
+
 public class LevelManager : MonoBehaviour {
+
+
+
+    [System.Serializable]
+    private class BomberEnemy
+    {
+        
+        public float VertTurnTime;
+        public float HorzTurnTime;
+        public float maxMoveTime;
+        public float minMoveTime;
+        public float shotFrequency;
+        public float shotDelay;
+        public float startingHealth;
+    }
+
+    [System.Serializable]
+    private class ShooterEnemy
+    {
+        public float maxMoveTime;
+        public float minMoveTime;
+        public float shotFrequency;
+        public float shotDelay;
+        public float lookDelayTime;
+        public float lookSpeed;
+        public float startingHealth;
+    }
+
+    [System.Serializable]
+    private class EnemyInfo
+    {
+        public  BomberEnemy bomber;
+        public ShooterEnemy shooter;
+    }
+
+
 
     // Use this for initialization
     public GameObject enemy;
@@ -18,8 +59,6 @@ public class LevelManager : MonoBehaviour {
     public Transform coinSpawnPoint;
     public GameObject powerupPrefab;
     public GameObject coinPrefab;
-
-
     public int currentWave = 1;
     int enemiesThisWave = 0;
     int currentIndex = 0;
@@ -37,16 +76,8 @@ public class LevelManager : MonoBehaviour {
     public List<EnemyController> enemies;
     public List<int> powerupsThisWave = new List<int>(10);
     public List<int> coinsThisWave = new List<int>(10);
-    public List<float> maxVertTurnTime = new List<float>(10);
     public List<float> ringSpeeds = new List<float>(10);
-    public List<float> minVertTurnTime = new List<float>(10);
-    public List<float> maxHorzTurnTime = new List<float>(10);
-    public List<float> minHorzTurnTime = new List<float>(10);
-    public List<float> maxMoveTime = new List<float>(10);
-    public List<float> minMoveTime = new List<float>(10);
-    public List<float> shotFrequency = new List<float>(10);
-    public List<float> shotDelay = new List<float>(10);
-    public List<float> startingHealth = new List<float>(10);
+    [SerializeField] private EnemyInfo[] waves;
     public int enemiesKilled = 0;
     bool gameRunning = true;
     float lastTime = 0f;
@@ -57,6 +88,7 @@ public class LevelManager : MonoBehaviour {
     private void Awake()
     {
         UnPauseGame();
+        GameObject.Find("_app").GetComponent<GameSettings>().bInputEnabled = true;
     }
 
     void Start() {
@@ -113,11 +145,17 @@ public class LevelManager : MonoBehaviour {
     public void EndGame()
     {
         gameRunning = false;
+        StartCoroutine(WaitToShowEndgameMenu());
+
+
+    }
+
+    IEnumerator WaitToShowEndgameMenu()
+    {
+        yield return new WaitForSeconds(4f);
         guiManager.ShowGameOverGUI(currentWave, playerPoints);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
-
     }
 
 
@@ -172,18 +210,21 @@ public class LevelManager : MonoBehaviour {
                             //Debug.Log("Spawning Enemies");
                             EnemyController en1 = Instantiate(enemy, bridges[i].spawnPoint1.position, bridges[i].spawnPoint1.rotation).GetComponent<EnemyController>();
                             en1.transform.SetParent(bridges[i].spawnPoint1, true);
-                            en1 = SetEnemyStats(en1);
+                            en1 = SetBomberEnemyStats(en1);
+                            
                             //en1.StartCoroutines();
                             enemies.Add(en1);
                             //en1.transform.rotation = Quaternion.Euler(0f, bridges[i].transform.rotation.eulerAngles.y, bridges[i].transform.rotation.eulerAngles.z);
-                            EnemyController en2 = Instantiate(shooterEnemy, bridges[i].spawnPoint2.position, bridges[i].spawnPoint2.rotation).GetComponent<EnemyController>();
+                            ShooterEnemyController en2 = Instantiate(shooterEnemy, bridges[i].spawnPoint2.position, bridges[i].spawnPoint2.rotation).GetComponent<ShooterEnemyController>();
                             en2.transform.SetParent(bridges[i].spawnPoint2, true);
-                            en2 = SetEnemyStats(en2);
+                            en2 = SetShooterEnemyStats(en2);
+                            
                             //en2.StartCoroutines();
                             enemies.Add(en2);
                             EnemyController en3 = Instantiate(enemy, bridges[i].spawnPoint3.position, bridges[i].spawnPoint3.rotation).GetComponent<EnemyController>();
                             en3.transform.SetParent(bridges[i].spawnPoint3, true);
-                            en3 = SetEnemyStats(en3);
+                            en3 = SetBomberEnemyStats(en3);
+                            
                             //en3.StartCoroutines();
                             enemies.Add(en3);
 
@@ -315,16 +356,29 @@ public class LevelManager : MonoBehaviour {
 
 
 
-    public EnemyController SetEnemyStats(EnemyController enemy)
+
+
+    public EnemyController SetBomberEnemyStats(EnemyController enemy)
     {
         enemy.transform.localScale = new Vector3(1f, 1f, 1f);
-        enemy.verticalTurnTime = Random.Range(minVertTurnTime[currentWave - 1], maxVertTurnTime[currentWave - 1]);
-        enemy.horizontalTurnTime = Random.Range(minHorzTurnTime[currentWave - 1], maxHorzTurnTime[currentWave - 1]);
-        enemy.maxMovementTime = maxMoveTime[currentWave - 1];
-        enemy.minMovementTime = minMoveTime[currentWave - 1];
-        enemy.shotFrequency = shotFrequency[currentWave - 1];
-        enemy.shootDelay = shotDelay[currentWave - 1];
-        enemy.startingHealth = startingHealth[currentWave - 1];
+        enemy.verticalTurnTime = waves[currentWave - 1].bomber.VertTurnTime;
+        enemy.horizontalTurnTime = waves[currentWave - 1].bomber.HorzTurnTime;
+        enemy.movementTime = Random.Range(waves[currentWave - 1].bomber.minMoveTime, waves[currentWave - 1].bomber.maxMoveTime);
+        enemy.shotFrequency = waves[currentWave - 1].bomber.shotFrequency;
+        enemy.shotDelay = waves[currentWave - 1].bomber.shotDelay;
+        enemy.startingHealth = waves[currentWave - 1].bomber.startingHealth;
+        return enemy;
+    }
+
+    public ShooterEnemyController SetShooterEnemyStats(ShooterEnemyController enemy)
+    {
+        enemy.transform.localScale = new Vector3(1f, 1f, 1f);
+        enemy.movementTime = Random.Range(waves[currentWave - 1].shooter.minMoveTime, waves[currentWave - 1].shooter.maxMoveTime);
+        enemy.shotFrequency = waves[currentWave - 1].shooter.shotFrequency;
+        enemy.shotDelay = waves[currentWave - 1].shooter.shotDelay;
+        enemy.startingHealth = waves[currentWave - 1].shooter.startingHealth;
+        enemy.lookDelayTime = waves[currentWave - 1].shooter.lookDelayTime;
+        enemy.lookSpeed = waves[currentWave - 1].shooter.lookSpeed;
         return enemy;
     }
 }

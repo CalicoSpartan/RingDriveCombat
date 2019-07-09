@@ -39,29 +39,38 @@ public class PlayerController : MonoBehaviour {
     public Transform gunDownPosition;
     public Transform gunBasePosition;
     public AimingAnimation animationScript;
+    GameSettings gameSettings;
+    public Animator myAnimator;
+    public Rigidbody modelHips;
+    public PlayerModelController modelController;
+    public bool dead = false;
 	void Start () {
-        
+        gameSettings = GameObject.Find("_app").GetComponent<GameSettings>();
         hitGameObjects = new List<GameObject>();
-        horizontalLookSpeed = GameObject.Find("_app").GetComponent<GameSettings>().horizontalMouseSensitivity;
-        verticalLookSpeed = GameObject.Find("_app").GetComponent<GameSettings>().verticalMouseSensitivity;
+        horizontalLookSpeed = gameSettings.horizontalMouseSensitivity;
+        verticalLookSpeed = gameSettings.verticalMouseSensitivity;
     }
 	
 	// Update is called once per frame
 	void Update () {
-
+        
         if (LevelManager.bPaused)
         {
             
         }
         else
         {
+            if (gameSettings.bInputEnabled && !dead)
+            {
+                GetInput();
 
-            GetInput();
-            Move();
+                Move();
+            }
 
         }  
         
 	}
+
 
     public void Move()
     {
@@ -110,51 +119,73 @@ public class PlayerController : MonoBehaviour {
     */
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+        if (!dead)
         {
-            car.Explode();
-        }
-        else if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-            car.Explode();
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+            {
+                Destroy(collision.gameObject);
+                car.Explode();
+            }
+            else if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                Destroy(collision.gameObject);
+                car.Explode();
+            }
         }
 
     }
     private void OnTriggerEnter(Collider other)
     {
-        
-        if (other.gameObject.layer == LayerMask.NameToLayer("Powerup"))
+        if (!dead)
         {
-
-            Powerup powerup = other.gameObject.GetComponent<Powerup>();
-            if (powerups.Count > 0)
+            if (other.gameObject.layer == LayerMask.NameToLayer("Powerup"))
             {
-                powerups[0].uses += powerup.uses;
-                if (bPowerupSelected)
+
+                Powerup powerup = other.gameObject.GetComponent<Powerup>();
+                if (powerups.Count > 0)
                 {
-                    guiManager.UpdateAmmoCounter(powerups[0].uses);
+                    powerups[0].uses += powerup.uses;
+                    if (bPowerupSelected)
+                    {
+                        guiManager.UpdateAmmoCounter(powerups[0].uses);
+                    }
+                    Destroy(powerup.gameObject);
                 }
-                Destroy(powerup.gameObject);
+                else
+                {
+
+
+                    other.enabled = false;
+                    other.gameObject.transform.SetParent(transform);
+                    other.gameObject.GetComponent<MeshRenderer>().enabled = false;
+                    powerup.player = this;
+                    powerups.Add(powerup);
+
+                }
+                guiManager.DisplayPowerupImg(true);
+
             }
-            else
+            else if (other.gameObject.layer == LayerMask.NameToLayer("Coin"))
             {
-
-
-                other.enabled = false;
-                other.gameObject.transform.SetParent(transform);
-                other.gameObject.GetComponent<MeshRenderer>().enabled = false;
-                powerup.player = this;
-                powerups.Add(powerup);
-
+                FindObjectOfType<LevelManager>().PickupCoin();
+                Destroy(other.gameObject);
             }
-            guiManager.DisplayPowerupImg(true);
+        }
+    }
 
-        }
-        else if (other.gameObject.layer == LayerMask.NameToLayer("Coin"))
-        {
-            FindObjectOfType<LevelManager>().PickupCoin();
-            Destroy(other.gameObject);
-        }
+    public void Ragdoll(Vector3 explosionForce)
+    {
+        //ragdoll code here
+        
+        GetComponent<Rigidbody>().isKinematic = false;
+        myAnimator.enabled = false;
+        myAnimator.avatar = null;
+        Destroy(gun.gameObject);
+        modelController.TurnOnRagdoll();
+        modelHips.AddForce(explosionForce);
+
+
+        Destroy(gameObject, 10f);
     }
 
     public void SwitchWeapons()
