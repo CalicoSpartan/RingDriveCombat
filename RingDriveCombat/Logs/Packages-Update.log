@@ -12,3 +12,11 @@ The following packages were added:
 The following packages were updated:
   com.unity.package-manager-ui from version 1.9.11 to 2.1.2
   com.unity.textmeshpro from version 1.2.4 to 2.0.1
+
+=== Tue Jul  9 10:14:42 2019
+
+Packages were changed.
+Update Mode: mergeDefaultDependencies
+
+The following packages were added:
+  com.unity.progrids@3.0.3-preview.4

@@ -192,6 +192,7 @@ public class PlayerController : MonoBehaviour {
     {
         if (bPowerupSelected)
         {
+            FindObjectOfType<AudioManager>().Play("SwitchWeapons");
             bPowerupSelected = false;
             gun.gunModel.GetComponent<Renderer>().materials = gun.myMats;
             guiManager.UpdateAmmoCounter(-1);
@@ -201,6 +202,7 @@ public class PlayerController : MonoBehaviour {
         {
             if (powerups.Count > 0)
             {
+                FindObjectOfType<AudioManager>().Play("SwitchWeapons");
                 bPowerupSelected = true;
                 gun.gunModel.GetComponent<Renderer>().materials = gun.myPowerupMats;
                 guiManager.UpdateAmmoCounter(powerups[0].uses);

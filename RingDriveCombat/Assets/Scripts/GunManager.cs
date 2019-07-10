@@ -83,6 +83,7 @@ public class GunManager : MonoBehaviour {
 
             }
             SpawnBullet(muzzlePoint.position, shotDestination, .2f);
+            FindObjectOfType<AudioManager>().Play("Gunshot");
             yield return new WaitForSeconds(shotDelay);
         }
         if (!bInfiniteAmmo)
@@ -115,6 +116,7 @@ public class GunManager : MonoBehaviour {
         Vector3 shotDestination = Vector3.zero;
         RaycastHit hit;
         muzzleFlash.Play();
+        FindObjectOfType<AudioManager>().Play("Powerupshot");
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 2000f,powerupLayers))
         {
             shotDestination = hit.point;

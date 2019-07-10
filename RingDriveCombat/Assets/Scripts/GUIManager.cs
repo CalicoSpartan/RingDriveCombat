@@ -11,6 +11,7 @@ public class GUIManager : MonoBehaviour {
     public TextMeshProUGUI waveCounterGUI;
     public TextMeshProUGUI pointCounterGUI;
     public TextMeshProUGUI waveAnouncementGUI;
+    public TextMeshProUGUI waveAnouncementPointsGUI;
     public TextMeshProUGUI ammoCounterGUI;
     public Image weaponHighlightSquare;
     public Image jumpCooldownBar;
@@ -110,13 +111,22 @@ public class GUIManager : MonoBehaviour {
     public void UpdateAmmoCounter(int ammo)
     {
         ammoCounterGUI.text = "Ammo: " + ammo.ToString();
+        if (ammo <= 3 && ammo != -1)
+        {
+            ammoCounterGUI.color = Color.red;
+        }
+        else
+        {
+            ammoCounterGUI.color = Color.white;
+        }
     }
 
     public void UpdateStatGUI(int waveCount, int pointCount)
     {
-        waveCounterGUI.text = "Wave: " + waveCount.ToString();
+        waveCounterGUI.text = "Wave " + waveCount.ToString();
         waveAnouncementGUI.text = "Wave " + waveCount.ToString();
         pointCounterGUI.text = "Points: " + pointCount.ToString();
+        waveAnouncementPointsGUI.text = "Points: " + pointCount.ToString();
     }
 
     public void SwitchWeapons(int choice)
@@ -152,8 +162,10 @@ public class GUIManager : MonoBehaviour {
     IEnumerator DisplayWaveNumberCoroutine()
     {
         waveAnouncementGUI.enabled = true;
+        waveAnouncementPointsGUI.enabled = true;
         yield return new WaitForSeconds(waveAnnouncmentDuration);
         waveAnouncementGUI.enabled = false;
+        waveAnouncementPointsGUI.enabled = false;
     }
 
 

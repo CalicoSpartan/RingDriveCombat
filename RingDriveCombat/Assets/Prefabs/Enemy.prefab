@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 64087868302339204}
   - component: {fileID: 54345921432382660}
   - component: {fileID: 114501861509561370}
-  m_Layer: 13
+  - component: {fileID: 8548795043688334861}
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -131,21 +132,114 @@ MonoBehaviour:
   shootForce: 10000
   horizontalAngleThreshold: 10
   verticalAngleThreshold: 30
-  maxHorizontalTurnTime: 4
-  minHorizontalTurnTime: 1
-  maxVerticalTurnTime: 4
-  minVerticalTurnTime: 1
-  minMovementTime: 2.4
-  maxMovementTime: 5
   horizontalTurnTime: 0
   verticalTurnTime: 0
+  explosionEffect: {fileID: 100010, guid: 522014b03e78c694fa1d42b25c37a31d, type: 3}
   movementTime: 0
   movementDistance: 7.6
   bombPrefab: {fileID: 1927274382210132, guid: 69a0566cf9d42ed409b5cb33b04c4d87, type: 3}
   lookCam: {fileID: 4557853878647094}
   muzzlePoint: {fileID: 4659294984760452}
   shotFrequency: 10
-  shootDelay: 1.4
+  shotDelay: 0.8
+  audioObjectPrefab: {fileID: 2399372477598600334, guid: c24c8b51e2acab7478e9d61025f7cfc1,
+    type: 3}
+--- !u!82 &8548795043688334861
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074047454260444}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 653bda5d6ebdb984ea1ee79be5105448, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.8
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 700
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.94
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1938714479136834
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,7 +249,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4557853878647094}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: LookTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +280,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4659294984760452}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: MuzzlePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,7 +313,7 @@ GameObject:
   - component: {fileID: 33072875029096274}
   - component: {fileID: 23015693131252180}
   - component: {fileID: 65293840823692248}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,7 +404,7 @@ GameObject:
   - component: {fileID: 5794108213729347769}
   - component: {fileID: 7402086389334711684}
   - component: {fileID: 9189457682914564954}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}

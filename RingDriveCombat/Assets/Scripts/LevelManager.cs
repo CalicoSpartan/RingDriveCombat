@@ -84,6 +84,8 @@ public class LevelManager : MonoBehaviour {
     float powerupSpawnTime; 
     float coinSpawnTime;
     public static bool bPaused = false;
+    bool showingEndgameMenu = false;
+    IEnumerator endGameCoroutine;
 
     private void Awake()
     {
@@ -145,7 +147,8 @@ public class LevelManager : MonoBehaviour {
     public void EndGame()
     {
         gameRunning = false;
-        StartCoroutine(WaitToShowEndgameMenu());
+        endGameCoroutine = WaitToShowEndgameMenu();
+        StartCoroutine(endGameCoroutine);
 
 
     }
@@ -153,6 +156,12 @@ public class LevelManager : MonoBehaviour {
     IEnumerator WaitToShowEndgameMenu()
     {
         yield return new WaitForSeconds(4f);
+        ShowEndgameMenu();
+    }
+
+    void ShowEndgameMenu()
+    {
+        showingEndgameMenu = true;
         guiManager.ShowGameOverGUI(currentWave, playerPoints);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -320,6 +329,15 @@ public class LevelManager : MonoBehaviour {
 
                     }
                 }
+            }
+        }
+        else
+        {
+            if (Input.anyKeyDown && !showingEndgameMenu)
+            {
+                StopCoroutine(endGameCoroutine);
+                ShowEndgameMenu();
+
             }
         }
     }

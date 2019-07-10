@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 2094100740}
   - component: {fileID: 2094100741}
   - component: {fileID: 2094100742}
+  - component: {fileID: 2094100743}
   m_Layer: 0
   m_Name: _app
   m_TagString: Untagged
@@ -193,6 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   verticalMouseSensitivity: 0.7
   horizontalMouseSensitivity: 0.7
+  bInputEnabled: 1
 --- !u!114 &2094100742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,3 +210,52 @@ MonoBehaviour:
   vertSensSlider: 0.7
   horzSensSlider: 0.7
   hasApplied: 0
+--- !u!114 &2094100743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094100737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e91e181ca11665e449525c5f37e4c9ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: EnemyDeath
+    clip: {fileID: 8300000, guid: 653bda5d6ebdb984ea1ee79be5105448, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Coin
+    clip: {fileID: 8300000, guid: 22bcf899ef132a04a81f042c8f5a7a7c, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Powerup
+    clip: {fileID: 8300000, guid: 3a34ee3a5b8a2e84a855a077262a2b57, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: SwitchWeapons
+    clip: {fileID: 8300000, guid: 6078763063c78584a90154d7551d45fa, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Gunshot
+    clip: {fileID: 8300000, guid: 04cf43048ebd2c5449b8239cfaeb36b0, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Powerupshot
+    clip: {fileID: 8300000, guid: cc41906e3e427824ebf8e9450594259f, type: 3}
+    volume: 0.85
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}

@@ -161,11 +161,17 @@
     <Reference Include="com.unity.multiplayer-hlapi.Editor">
       <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.ProGrids">
+      <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.ProGrids.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Editor">
       <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime">
       <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProGrids.Editor">
+      <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.ProGrids.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualEffectGraph.Runtime">
       <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.VisualEffectGraph.Runtime.dll</HintPath>
@@ -185,6 +191,9 @@
     <Reference Include="Unity.RenderPipelines.HighDefinition.Runtime">
       <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.RenderPipelines.HighDefinition.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Postprocessing.Editor">
+      <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="com.unity.multiplayer-weaver.Editor">
       <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/com.unity.multiplayer-weaver.Editor.dll</HintPath>
     </Reference>
@@ -193,6 +202,9 @@
     </Reference>
     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
       <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Postprocessing.Runtime">
+      <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.SpatialTracking">
       <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
@@ -220,12 +232,6 @@
     </Reference>
     <Reference Include="com.unity.multiplayer-hlapi.Runtime">
       <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Postprocessing.Editor">
-      <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Postprocessing.Runtime">
-      <HintPath>A:/UnityProjects/RingDriveCombat/RingDriveCombat/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.8f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

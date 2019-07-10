@@ -6,6 +6,7 @@ public class BombManager : MonoBehaviour {
     public float BlastRadius = 20f;
     public Material lavaMat;
     public LayerMask lavaLayer;
+    public GameObject explosionEffect;
 	// Use this for initialization
 	void Start () {
         StartCoroutine(deathDelay());
@@ -37,7 +38,7 @@ public class BombManager : MonoBehaviour {
                     if (col.gameObject.tag == "Ground")
                     {
                         col.gameObject.GetComponent<MeshRenderer>().material = lavaMat;
-                        col.gameObject.layer = 12;// lavaLayer.value;
+                        col.gameObject.layer = LayerMask.NameToLayer("Lava");// lavaLayer.value;
                         //Destroy(col.gameObject);
                         break;
                     }
@@ -50,6 +51,9 @@ public class BombManager : MonoBehaviour {
             GetComponent<Collider>().enabled = false;
             car.Explode();
         }
+        GameObject temp = Instantiate(explosionEffect, transform.position, Quaternion.identity);
+        temp.transform.SetParent(FindObjectOfType<RingManager>().transform);
+        Destroy(temp, 1f);
         Destroy(this.gameObject);
         
     }

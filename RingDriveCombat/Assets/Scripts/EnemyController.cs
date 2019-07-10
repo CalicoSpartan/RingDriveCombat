@@ -11,7 +11,7 @@ public class EnemyController : MonoBehaviour {
     public float verticalAngleThreshold = 30f;
     public float horizontalTurnTime = 0f;
     public float verticalTurnTime = 0f;
-    
+    public GameObject explosionEffect;   
     public float movementTime = 1f;
     public float movementDistance = 0f;
     public GameObject bombPrefab;
@@ -29,7 +29,7 @@ public class EnemyController : MonoBehaviour {
     protected Color initColor = new Color(1f, 1f, 1f);
     Color finalColor = new Color(1f, 0f, 0f);
     Color disabledColor = new Color(0f, 1f, 0f);
-    
+    public GameObject audioObjectPrefab;
     
 
 
@@ -155,7 +155,6 @@ public class EnemyController : MonoBehaviour {
         if (controllers[0] == this)
         {
             imTheOne = true;
-            Debug.Log("Starting");
         }
         while (i < 1.0f)
         {
@@ -266,13 +265,19 @@ public class EnemyController : MonoBehaviour {
             currentHealth -= Damage;
             GetComponent<Renderer>().materials[0].SetColor("_BaseColor",Color.Lerp(finalColor, initColor, currentHealth / startingHealth));
             //Debug.Log("Took Damage, health: " + currentHealth);
-
+            
             if (currentHealth <= 0f)
             {
                 FindObjectOfType<LevelManager>().EnemyKilled();
-                
-                Destroy(gameObject);
                 bActive = false;
+                GameObject temp = Instantiate(explosionEffect, transform.position, Quaternion.identity);
+                temp.transform.SetParent(FindObjectOfType<RingManager>().transform);
+                FindObjectOfType<AudioManager>().Play("EnemyDeath");
+
+
+                Destroy(temp, 1.8f);
+                Destroy(gameObject);
+                
             }
         }
     }

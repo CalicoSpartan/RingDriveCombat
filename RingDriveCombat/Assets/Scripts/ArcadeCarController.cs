@@ -144,6 +144,7 @@ public class ArcadeCarController : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
+        
         if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
         {
             Destroy(collision.gameObject);
@@ -162,6 +163,7 @@ public class ArcadeCarController : MonoBehaviour {
         {
 
             Powerup powerup = other.gameObject.GetComponent<Powerup>();
+            FindObjectOfType<AudioManager>().Play("Powerup");
             if (player.powerups.Count > 0)
             {
                 player.powerups[0].uses += powerup.uses;
@@ -188,6 +190,7 @@ public class ArcadeCarController : MonoBehaviour {
         else if (other.gameObject.layer == LayerMask.NameToLayer("Coin"))
         {
             FindObjectOfType<LevelManager>().PickupCoin();
+            FindObjectOfType<AudioManager>().Play("Coin");
             Destroy(other.gameObject);
         }
     }
@@ -212,7 +215,8 @@ public class ArcadeCarController : MonoBehaviour {
         if (!bHasExploded)
         {
             GameObject temp = Instantiate(explosionEffect, rb.position, rb.rotation);
-            temp.transform.parent = ring.transform; 
+            temp.transform.parent = ring.transform;
+            Destroy(temp, 3f);
             bHasExploded = true;
         }
         Destroy(gameObject);

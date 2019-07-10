@@ -5,10 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Shootable
-  - Undefined
   - EnemyTrigger
-  - Ground
   - Enemy
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -21,11 +20,11 @@ TagManager:
   - Lighting
   - Ground
   - Postprocessing
-  - Obstacle
-  - Lava
   - Enemy
   - Powerup
   - Coin
+  - Lava
+  - 
   - 
   - 
   - 
