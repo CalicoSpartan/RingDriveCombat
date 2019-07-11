@@ -38,12 +38,8 @@ public class DummySettings : MonoBehaviour {
 
     public void LoadedSettings()
     {
-        Debug.Log("Loaded Settings");
         tempVertSens = GameObject.Find("_app").GetComponent<SettingsScript>().vertSensSlider;
         tempHorzSens = GameObject.Find("_app").GetComponent<SettingsScript>().horzSensSlider;
-        
-        Debug.Log("vertical" + tempVertSens);
-        Debug.Log("horizontal:" + tempHorzSens);
         vertSlider.value = tempVertSens;
         horzSlider.value = tempHorzSens;
 

@@ -21,6 +21,7 @@ public class GUIManager : MonoBehaviour {
     public TextMeshProUGUI finalScoreText;
     public Image pauseMenuPanel;
     public Image settingsMenuPanel;
+    public Image reticle;
     public Image powerupImage;
 
     public bool bJumpCooldown = false;
@@ -134,11 +135,13 @@ public class GUIManager : MonoBehaviour {
         if (choice == 1)
         {
             weaponHighlightSquare.GetComponent<RectTransform>().anchoredPosition = new Vector2(-5f, -10f);
+            reticle.color = new Color(1f, 0.615f, 0f);
 
         }
         else if (choice == 0)
         {
             weaponHighlightSquare.GetComponent<RectTransform>().anchoredPosition = new Vector2(-75f, -10f);
+            reticle.color = Color.white;
         }
     }
 

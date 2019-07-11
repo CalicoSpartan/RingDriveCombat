@@ -259,3 +259,9 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: ShipExplosion
+    clip: {fileID: 8300000, guid: 83820dff3976cd54ea0a8359b73ac2d2, type: 3}
+    volume: 0.4
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}

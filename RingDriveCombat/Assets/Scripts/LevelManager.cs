@@ -133,12 +133,12 @@ public class LevelManager : MonoBehaviour {
 
     IEnumerator powerupSpawnDelay(float waitTime)
     {
-        Debug.Log("waiting for " + waitTime + " seconds");
+        
 
         yield return new WaitForSeconds(waitTime);
         if (gameRunning)
         {
-            Debug.Log("SpawnedPowerup");
+            
             SpawnPowerup();
         }
     }
@@ -216,7 +216,7 @@ public class LevelManager : MonoBehaviour {
 
 
 
-                            //Debug.Log("Spawning Enemies");
+                            
                             EnemyController en1 = Instantiate(enemy, bridges[i].spawnPoint1.position, bridges[i].spawnPoint1.rotation).GetComponent<EnemyController>();
                             en1.transform.SetParent(bridges[i].spawnPoint1, true);
                             en1 = SetBomberEnemyStats(en1);
@@ -256,7 +256,7 @@ public class LevelManager : MonoBehaviour {
                     /*
                     if (bridges[currentIndex].occupied == false && Vector3.Magnitude(transform.position - bridges[currentIndex].transform.position) < 60f)
                     {
-                        Debug.Log("Spawning Enemies");
+                        
                         EnemyController en1 =  Instantiate(enemy, bridges[currentIndex].spawnPoint1.position, Quaternion.Euler(90f,bridges[currentIndex].transform.rotation.eulerAngles.y, bridges[currentIndex].transform.rotation.eulerAngles.z)).GetComponent<EnemyController>();
                         en1.transform.SetParent(bridges[currentIndex].transform, true);
                         EnemyController en2 = Instantiate(enemy, bridges[currentIndex].spawnPoint2.position, bridges[currentIndex].transform.rotation).GetComponent<EnemyController>();
@@ -346,7 +346,7 @@ public class LevelManager : MonoBehaviour {
     {
         playerPoints += pointsPerCoin;
         guiManager.UpdateStatGUI(currentWave, playerPoints);
-        Debug.Log("Picked up coin");
+        
     }
 
     public void EnemyKilled()

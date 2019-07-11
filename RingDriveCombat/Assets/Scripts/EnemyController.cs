@@ -30,7 +30,8 @@ public class EnemyController : MonoBehaviour {
     Color finalColor = new Color(1f, 0f, 0f);
     Color disabledColor = new Color(0f, 1f, 0f);
     public GameObject audioObjectPrefab;
-    
+    public Material[] disabledMaterials;
+    public Material[] regularMaterials;
 
 
     
@@ -56,8 +57,7 @@ public class EnemyController : MonoBehaviour {
         {
             moveRight = -1;
         }
-
-        GetComponent<Renderer>().materials[0].SetColor("_BaseColor", initColor);
+        regularMaterials[0].SetColor("_BaseColor", initColor);
         StartCoroutines();
     }
 	
@@ -103,7 +103,8 @@ public class EnemyController : MonoBehaviour {
         if (other.gameObject.tag == "EnemyTrigger")
         {
             bActive = true;
-            GetComponent<Renderer>().materials[0].SetColor("_BaseColor", Color.Lerp(finalColor, initColor, currentHealth / startingHealth));
+            GetComponent<Renderer>().materials = regularMaterials;
+            //GetComponent<Renderer>().materials[0].SetColor("_BaseColor", Color.Lerp(finalColor, initColor, currentHealth / startingHealth));
 
         }
     }
@@ -113,7 +114,8 @@ public class EnemyController : MonoBehaviour {
         if (other.gameObject.tag == "EnemyTrigger")
         {
             bActive = false;
-            GetComponent<Renderer>().materials[0].SetColor("_BaseColor", disabledColor);
+            GetComponent<Renderer>().materials = disabledMaterials;
+            //GetComponent<Renderer>().materials[0].SetColor("_BaseColor", disabledColor);
 
 
         }
@@ -263,7 +265,7 @@ public class EnemyController : MonoBehaviour {
         if (bActive)
         {
             currentHealth -= Damage;
-            GetComponent<Renderer>().materials[0].SetColor("_BaseColor",Color.Lerp(finalColor, initColor, currentHealth / startingHealth));
+            regularMaterials[0].SetColor("_BaseColor",Color.Lerp(finalColor, initColor, currentHealth / startingHealth));
             //Debug.Log("Took Damage, health: " + currentHealth);
             
             if (currentHealth <= 0f)

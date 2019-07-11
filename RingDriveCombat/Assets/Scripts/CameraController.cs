@@ -40,24 +40,31 @@ public class CameraController : MonoBehaviour {
         offsetY = new Vector3(0, 0, deathDistance);
     }
 
-    // Update is called once per frame
-    void FixedUpdate() {
-        if (Input.GetKey(KeyCode.F))
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
         {
             if (!bOrbitView)
             {
                 gameSettings.bInputEnabled = false;
                 bOrbitView = true;
             }
-        }
-        if (Input.GetKeyUp(KeyCode.F))
-        {
-            if (!player.dead)
+            else
             {
-                gameSettings.bInputEnabled = true;
-                bOrbitView = false;
+                if (!player.dead)
+                {
+                    gameSettings.bInputEnabled = true;
+                    bOrbitView = false;
+                }
             }
+
         }
+    }
+
+    // Update is called once per frame
+    void FixedUpdate() {
+
+
         if (!bOrbitView)
         {
             if (carTransform)

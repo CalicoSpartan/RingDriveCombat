@@ -6,7 +6,7 @@ public class RingManager : MonoBehaviour {
     public float rotationSpeed = 5f;
     public float fastSpeedMultiplier = 1.1f;
     public float maxSpeed = -20f;
-    float currentSpeed;
+    public float currentSpeed;
     public bool goFast = false;
 	// Use this for initialization
 	void Start () {

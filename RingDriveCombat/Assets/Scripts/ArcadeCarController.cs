@@ -137,7 +137,6 @@ public class ArcadeCarController : MonoBehaviour {
     {
         if (touchingGroundRLW && touchingGroundRRW)
         {
-            //Debug.Log(rb.angularVelocity);
             rb.AddForce(new Vector3(0f,0f, -SteerForce * m_HorizontalInput), ForceMode.Force);
         }
     }
@@ -206,7 +205,7 @@ public class ArcadeCarController : MonoBehaviour {
         GameObject.Find("_app").GetComponent<GameSettings>().bInputEnabled = false;
         mainCamera.PlayerDied();
         FindObjectOfType<LevelManager>().EndGame();
-
+        FindObjectOfType<AudioManager>().Play("ShipExplosion");
 
         player.dead = true;
         player.transform.parent = null;
