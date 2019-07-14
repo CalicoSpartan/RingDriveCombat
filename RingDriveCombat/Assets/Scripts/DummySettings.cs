@@ -8,14 +8,19 @@ public class DummySettings : MonoBehaviour {
     public float horzSensSlider;
     float tempVertSens;
     float tempHorzSens;
+    float tempMasterVolume;
     public Slider horzSlider;
     public Slider vertSlider;
+    public Slider masterVolumeSlider;
     public bool hasApplied = false;
     // Use this for initialization
     void Start () {
         LoadedSettings();
         tempHorzSens = GameObject.Find("_app").GetComponent<SettingsScript>().horzSensSlider;
         horzSlider.value = tempHorzSens;
+        tempMasterVolume = GameObject.Find("_app").GetComponent<SettingsScript>().masterVolume;
+        masterVolumeSlider.value = tempMasterVolume;
+
         //Debug.Log("Dummy started");
     }
 	
@@ -33,15 +38,18 @@ public class DummySettings : MonoBehaviour {
     {
         tempVertSens = vertSlider.value;
         tempHorzSens = horzSlider.value;
-        GameObject.Find("_app").GetComponent<SettingsScript>().SetVertAndHorzSensStatic(tempVertSens, tempHorzSens);
+        tempMasterVolume = masterVolumeSlider.value;
+        GameObject.Find("_app").GetComponent<SettingsScript>().SetSettings(tempVertSens, tempHorzSens,tempMasterVolume);
     }
 
     public void LoadedSettings()
     {
         tempVertSens = GameObject.Find("_app").GetComponent<SettingsScript>().vertSensSlider;
         tempHorzSens = GameObject.Find("_app").GetComponent<SettingsScript>().horzSensSlider;
+        tempMasterVolume = GameObject.Find("_app").GetComponent<SettingsScript>().masterVolume;
         vertSlider.value = tempVertSens;
         horzSlider.value = tempHorzSens;
+        masterVolumeSlider.value = tempMasterVolume;
 
     }
 

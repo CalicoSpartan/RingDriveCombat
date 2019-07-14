@@ -17,6 +17,7 @@ public class GunManager : MonoBehaviour {
     public Material[] myMats;
     public Material[] myPowerupMats;
     public ParticleSystem muzzleFlash;
+    public GameObject flashLight;
     public GameObject gunModel;
     public GameObject bulletPrefab;
     public GameObject powerupBulletPrefab;
@@ -67,7 +68,7 @@ public class GunManager : MonoBehaviour {
         {
             Vector3 shotDestination = Vector3.zero;
             RaycastHit hit;
-            muzzleFlash.Play();
+            MuzzleFlash();
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 2000f))
             {
                 shotDestination = hit.point;
@@ -115,7 +116,7 @@ public class GunManager : MonoBehaviour {
     {
         Vector3 shotDestination = Vector3.zero;
         RaycastHit hit;
-        muzzleFlash.Play();
+        MuzzleFlash();
         FindObjectOfType<AudioManager>().Play("Powerupshot");
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 2000f,powerupLayers))
         {
@@ -136,6 +137,18 @@ public class GunManager : MonoBehaviour {
         }
         SpawnPowerupBullet(muzzlePoint.position, shotDestination, .2f);
     }
+
+    void MuzzleFlash()
+    {
+        //flashLight.SetActive(true);
+        muzzleFlash.Play();      
+        
+        //flashLight.SetActive(false);
+    }
+
+
+
+
 
     
 }

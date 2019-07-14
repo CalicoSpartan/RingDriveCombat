@@ -19,6 +19,7 @@ public class BulletSimulator : MonoBehaviour {
         transform.position = Vector3.Lerp(startPosition, endPosition, timer / travelTime);
         if (timer >= travelTime)
         {
+            
             Destroy(gameObject);
         }
 	}

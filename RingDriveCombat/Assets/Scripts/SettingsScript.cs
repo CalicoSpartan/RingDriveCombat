@@ -6,8 +6,10 @@ using UnityEngine;
 public class SettingsScript : MonoBehaviour {
     public float vertSensSlider = 1.0f;
     public float horzSensSlider = 1.0f;
+    public float masterVolume = .5f;
     float tempVertSens = 1.0f;
     float tempHorzSens = 1.0f;
+    float tempMasterVolume = .5f;
     public bool hasApplied = false;
 
     public void LoadPreviousScene()
@@ -29,10 +31,11 @@ public class SettingsScript : MonoBehaviour {
     }
     */
 
-    public void SetVertAndHorzSensStatic(float vert, float horz)
+    public void SetSettings(float vert, float horz,float mastervol)
     {
         tempVertSens = vert;
         tempHorzSens = horz;
+        tempMasterVolume = mastervol;
     }
 
     /*
@@ -49,11 +52,15 @@ public class SettingsScript : MonoBehaviour {
         hasApplied = true;
         horzSensSlider = tempHorzSens;
         vertSensSlider = tempVertSens;
+        masterVolume = tempMasterVolume;
+
         Debug.Log("vertical" + vertSensSlider);
         Debug.Log("horizontal:" +  horzSensSlider);
+        Debug.Log("MasterVolume: " + masterVolume);
         
         GameObject.Find("_app").GetComponent<GameSettings>().horizontalMouseSensitivity = horzSensSlider;
         GameObject.Find("_app").GetComponent<GameSettings>().verticalMouseSensitivity = vertSensSlider;
+        GameObject.Find("_app").GetComponent<GameSettings>().UpdateMasterVolume(masterVolume);
         GameObject.Find("_app").GetComponent<GameSettings>().UpdatePlayerSettings();
     }
 }

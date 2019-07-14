@@ -155,6 +155,7 @@ public class LevelManager : MonoBehaviour {
 
     IEnumerator WaitToShowEndgameMenu()
     {
+        guiManager.baseGameUI.SetActive(false);
         yield return new WaitForSeconds(4f);
         ShowEndgameMenu();
     }
@@ -193,6 +194,20 @@ public class LevelManager : MonoBehaviour {
         Cursor.visible = false;
         bPaused = false;
     }
+    public void Randomize<T>(T[] items)
+    {
+        System.Random rand = new System.Random();
+
+        // For each spot in the array, pick
+        // a random item to swap into that spot.
+        for (int i = 0; i < items.Length - 1; i++)
+        {
+            int j = rand.Next(i, items.Length);
+            T temp = items[i];
+            items[i] = items[j];
+            items[j] = temp;
+        }
+    }
     // Update is called once per frame
     void Update() {
         if (gameRunning)
@@ -213,29 +228,64 @@ public class LevelManager : MonoBehaviour {
                         if (bridges[i].occupied == false && Vector3.Magnitude(transform.position - bridges[i].transform.position) < 60f)
                         {
 
+                            int[] order = { 0, 1, 2 };
+                            Randomize(order);
+                            int spawnIndex = 0;
+                            for (int orderIndex = 0;orderIndex < order.Length;orderIndex++)
+                            {
+                                if (order[orderIndex] == 1)
+                                {
+                                    if (spawnIndex == 0)
+                                    {
+                                        ShooterEnemyController en = Instantiate(shooterEnemy, bridges[i].spawnPoint1.position, bridges[i].spawnPoint1.rotation).GetComponent<ShooterEnemyController>();
+                                        en.transform.SetParent(bridges[i].spawnPoint1, true);
+                                        en = SetShooterEnemyStats(en);
+                                        enemies.Add(en);
+                                    }
+                                    else if (spawnIndex == 1)
+                                    {
+                                        ShooterEnemyController en = Instantiate(shooterEnemy, bridges[i].spawnPoint2.position, bridges[i].spawnPoint2.rotation).GetComponent<ShooterEnemyController>();
+                                        en.transform.SetParent(bridges[i].spawnPoint2, true);
+                                        en = SetShooterEnemyStats(en);
+                                        enemies.Add(en);
+                                    }
+                                    else
+                                    {
+                                        ShooterEnemyController en = Instantiate(shooterEnemy, bridges[i].spawnPoint3.position, bridges[i].spawnPoint3.rotation).GetComponent<ShooterEnemyController>();
+                                        en.transform.SetParent(bridges[i].spawnPoint3, true);
+                                        en = SetShooterEnemyStats(en);
+                                        enemies.Add(en);
+                                    }
+                                }
+                                else
+                                {
+                                    if (spawnIndex == 0)
+                                    {
+                                        EnemyController en = Instantiate(enemy, bridges[i].spawnPoint1.position, bridges[i].spawnPoint1.rotation).GetComponent<EnemyController>();
+                                        en.transform.SetParent(bridges[i].spawnPoint1, true);
+                                        en = SetBomberEnemyStats(en);
+                                        enemies.Add(en);
+                                    }
+                                    if (spawnIndex == 1)
+                                    {
+                                        EnemyController en = Instantiate(enemy, bridges[i].spawnPoint2.position, bridges[i].spawnPoint2.rotation).GetComponent<EnemyController>();
+                                        en.transform.SetParent(bridges[i].spawnPoint2, true);
+                                        en = SetBomberEnemyStats(en);
+                                        enemies.Add(en);
+                                    }
+                                    if (spawnIndex == 2)
+                                    {
+                                        EnemyController en = Instantiate(enemy, bridges[i].spawnPoint3.position, bridges[i].spawnPoint3.rotation).GetComponent<EnemyController>();
+                                        en.transform.SetParent(bridges[i].spawnPoint3, true);
+                                        en = SetBomberEnemyStats(en);
+                                        enemies.Add(en);
+                                    }
+                                }
+                                spawnIndex++;
+                            }
 
-
-
                             
-                            EnemyController en1 = Instantiate(enemy, bridges[i].spawnPoint1.position, bridges[i].spawnPoint1.rotation).GetComponent<EnemyController>();
-                            en1.transform.SetParent(bridges[i].spawnPoint1, true);
-                            en1 = SetBomberEnemyStats(en1);
                             
-                            //en1.StartCoroutines();
-                            enemies.Add(en1);
-                            //en1.transform.rotation = Quaternion.Euler(0f, bridges[i].transform.rotation.eulerAngles.y, bridges[i].transform.rotation.eulerAngles.z);
-                            ShooterEnemyController en2 = Instantiate(shooterEnemy, bridges[i].spawnPoint2.position, bridges[i].spawnPoint2.rotation).GetComponent<ShooterEnemyController>();
-                            en2.transform.SetParent(bridges[i].spawnPoint2, true);
-                            en2 = SetShooterEnemyStats(en2);
-                            
-                            //en2.StartCoroutines();
-                            enemies.Add(en2);
-                            EnemyController en3 = Instantiate(enemy, bridges[i].spawnPoint3.position, bridges[i].spawnPoint3.rotation).GetComponent<EnemyController>();
-                            en3.transform.SetParent(bridges[i].spawnPoint3, true);
-                            en3 = SetBomberEnemyStats(en3);
-                            
-                            //en3.StartCoroutines();
-                            enemies.Add(en3);
 
 
 

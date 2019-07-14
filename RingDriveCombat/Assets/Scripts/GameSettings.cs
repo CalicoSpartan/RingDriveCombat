@@ -7,11 +7,12 @@ public class GameSettings : MonoBehaviour {
     // Use this for initialization
     public float verticalMouseSensitivity = 1f;
     public float horizontalMouseSensitivity = 1f;
+    public float masterVolume = .5f;
     public bool bInputEnabled = true;
 
 
 	void Start () {
-		
+        UpdateMasterVolume(masterVolume);
 	}
 
     public void UpdatePlayerSettings()
@@ -23,6 +24,12 @@ public class GameSettings : MonoBehaviour {
             GameObject.Find("Player").GetComponent<PlayerController>().horizontalLookSpeed = horizontalMouseSensitivity;
             GameObject.Find("Player").GetComponent<PlayerController>().verticalLookSpeed = verticalMouseSensitivity;
         }
+    }
+
+    public void UpdateMasterVolume(float newVolume)
+    {
+        masterVolume = newVolume;
+        AudioListener.volume = masterVolume;
     }
 	
 	// Update is called once per frame

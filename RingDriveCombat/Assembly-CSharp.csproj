@@ -93,6 +93,7 @@
     <Compile Include="Assets\Scripts\SettingsScript.cs" />
     <Compile Include="Assets\Scripts\ShooterEnemyController.cs" />
     <Compile Include="Assets\Scripts\SkyboxCamera.cs" />
+    <Compile Include="Assets\Scripts\SliderValueScript.cs" />
     <Compile Include="Assets\Scripts\Sound.cs" />
     <Compile Include="Assets\Scripts\StartMenu.cs" />
     <Compile Include="Assets\Scripts\Wave.cs" />

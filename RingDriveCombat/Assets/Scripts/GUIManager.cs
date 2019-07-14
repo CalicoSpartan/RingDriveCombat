@@ -16,6 +16,7 @@ public class GUIManager : MonoBehaviour {
     public Image weaponHighlightSquare;
     public Image jumpCooldownBar;
     public Image jumpCooldownBack;
+    public GameObject jumpCooldownWarning;
     public Image gameOverPanel;
     public TextMeshProUGUI finalWaveText;
     public TextMeshProUGUI finalScoreText;
@@ -23,6 +24,7 @@ public class GUIManager : MonoBehaviour {
     public Image settingsMenuPanel;
     public Image reticle;
     public Image powerupImage;
+    public GameObject baseGameUI;
 
     public bool bJumpCooldown = false;
     public float waveAnnouncmentDuration = 3f;
@@ -30,6 +32,7 @@ public class GUIManager : MonoBehaviour {
     void Start() {
         jumpCooldownBack.enabled = false;
         jumpCooldownBar.enabled = false;
+        jumpCooldownWarning.SetActive(false);
         gameOverPanel.gameObject.SetActive(false);
         pauseMenuPanel.gameObject.SetActive(false);
         StartCoroutine(DisplayWaveNumberCoroutine());
@@ -90,6 +93,7 @@ public class GUIManager : MonoBehaviour {
         
         jumpCooldownBack.enabled = true;
         jumpCooldownBar.enabled = true;
+        jumpCooldownWarning.SetActive(true);
         float i = 0.0f;
         float rate = 1.0f / time;
         while (i < 1.0f)
@@ -105,6 +109,7 @@ public class GUIManager : MonoBehaviour {
         }
         jumpCooldownBack.enabled = false;
         jumpCooldownBar.enabled = false;
+        jumpCooldownWarning.SetActive(false);
 
     }
     
