@@ -53,14 +53,14 @@ public class SettingsScript : MonoBehaviour {
         horzSensSlider = tempHorzSens;
         vertSensSlider = tempVertSens;
         masterVolume = tempMasterVolume;
-
-        Debug.Log("vertical" + vertSensSlider);
-        Debug.Log("horizontal:" +  horzSensSlider);
-        Debug.Log("MasterVolume: " + masterVolume);
         
         GameObject.Find("_app").GetComponent<GameSettings>().horizontalMouseSensitivity = horzSensSlider;
         GameObject.Find("_app").GetComponent<GameSettings>().verticalMouseSensitivity = vertSensSlider;
         GameObject.Find("_app").GetComponent<GameSettings>().UpdateMasterVolume(masterVolume);
         GameObject.Find("_app").GetComponent<GameSettings>().UpdatePlayerSettings();
+        GameObject.Find("_app").GetComponent<GameSettings>().SaveSettings();
     }
+
+
+
 }

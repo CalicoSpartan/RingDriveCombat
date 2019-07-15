@@ -139,13 +139,13 @@ public class GUIManager : MonoBehaviour {
     {
         if (choice == 1)
         {
-            weaponHighlightSquare.GetComponent<RectTransform>().anchoredPosition = new Vector2(-5f, -10f);
+            weaponHighlightSquare.GetComponent<RectTransform>().anchoredPosition = new Vector2(345f, 165f);
             reticle.color = new Color(1f, 0.615f, 0f);
 
         }
         else if (choice == 0)
         {
-            weaponHighlightSquare.GetComponent<RectTransform>().anchoredPosition = new Vector2(-75f, -10f);
+            weaponHighlightSquare.GetComponent<RectTransform>().anchoredPosition = new Vector2(275f, 165);
             reticle.color = Color.white;
         }
     }

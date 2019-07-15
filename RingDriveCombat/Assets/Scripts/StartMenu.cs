@@ -14,7 +14,7 @@ public class StartMenu : MonoBehaviour {
 
     public void StartGame()
     {
-        Object.FindObjectOfType<DDOL>().StartGame();
+        UnityEngine.SceneManagement.SceneManager.LoadScene("InstructionsScene");
     }
 
     public void GoToSettings()

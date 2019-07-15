@@ -16,9 +16,9 @@ public class DummySettings : MonoBehaviour {
     // Use this for initialization
     void Start () {
         LoadedSettings();
-        tempHorzSens = GameObject.Find("_app").GetComponent<SettingsScript>().horzSensSlider;
+        tempHorzSens = GameObject.Find("_app").GetComponent<GameSettings>().horizontalMouseSensitivity;
         horzSlider.value = tempHorzSens;
-        tempMasterVolume = GameObject.Find("_app").GetComponent<SettingsScript>().masterVolume;
+        tempMasterVolume = GameObject.Find("_app").GetComponent<GameSettings>().masterVolume;
         masterVolumeSlider.value = tempMasterVolume;
 
         //Debug.Log("Dummy started");
@@ -44,9 +44,10 @@ public class DummySettings : MonoBehaviour {
 
     public void LoadedSettings()
     {
-        tempVertSens = GameObject.Find("_app").GetComponent<SettingsScript>().vertSensSlider;
-        tempHorzSens = GameObject.Find("_app").GetComponent<SettingsScript>().horzSensSlider;
-        tempMasterVolume = GameObject.Find("_app").GetComponent<SettingsScript>().masterVolume;
+        tempVertSens = GameObject.Find("_app").GetComponent<GameSettings>().verticalMouseSensitivity;
+        tempHorzSens = GameObject.Find("_app").GetComponent<GameSettings>().horizontalMouseSensitivity;
+        tempMasterVolume = GameObject.Find("_app").GetComponent<GameSettings>().masterVolume;
+        GameObject.Find("_app").GetComponent<GameSettings>().UpdatePlayerSettings();
         vertSlider.value = tempVertSens;
         horzSlider.value = tempHorzSens;
         masterVolumeSlider.value = tempMasterVolume;
