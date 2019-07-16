@@ -42,7 +42,7 @@ public class CameraController : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             if (!bOrbitView)
             {

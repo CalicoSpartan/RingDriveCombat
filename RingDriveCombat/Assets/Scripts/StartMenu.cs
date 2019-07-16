@@ -14,7 +14,7 @@ public class StartMenu : MonoBehaviour {
 
     public void StartGame()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("InstructionsScene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("GameLoadingScene");
     }
 
     public void GoToSettings()

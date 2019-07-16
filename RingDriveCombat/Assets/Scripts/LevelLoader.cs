@@ -10,6 +10,7 @@ public class LevelLoader : MonoBehaviour
     public Slider slider;
     public TextMeshProUGUI sliderLabel;
     public TextMeshProUGUI startAnnouncement;
+    public TextMeshProUGUI loadingText;
     bool isLoading = false;
     bool finishedLoading = false;
     AsyncOperation operation;
@@ -43,6 +44,7 @@ public class LevelLoader : MonoBehaviour
             if (operation.progress >= .9f)
             {
                 startAnnouncement.text = "Press SPACE to start.";
+                loadingText.text = "";
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     operation.allowSceneActivation = true;

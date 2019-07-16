@@ -25,6 +25,7 @@ public class GUIManager : MonoBehaviour {
     public Image reticle;
     public Image powerupImage;
     public GameObject baseGameUI;
+    public GameObject instructionsScreen;
 
     public bool bJumpCooldown = false;
     public float waveAnnouncmentDuration = 3f;
@@ -48,11 +49,14 @@ public class GUIManager : MonoBehaviour {
     {
         if (pause)
         {
+            baseGameUI.SetActive(false);
             pauseMenuPanel.gameObject.SetActive(true);
         }
         else
         {
+            
             pauseMenuPanel.gameObject.SetActive(false);
+            baseGameUI.SetActive(true);
         }
     }
 
@@ -72,6 +76,12 @@ public class GUIManager : MonoBehaviour {
         SceneManager.LoadScene("StartMenu");
     }
 
+    public void GoToInstructions()
+    {
+        pauseMenuPanel.gameObject.SetActive(false);
+        instructionsScreen.SetActive(true);
+    }
+
     public void GoToSettings()
     {
         pauseMenuPanel.gameObject.SetActive(false);
@@ -84,6 +94,7 @@ public class GUIManager : MonoBehaviour {
     {
         
         settingsMenuPanel.gameObject.SetActive(false);
+        instructionsScreen.SetActive(false);
         pauseMenuPanel.gameObject.SetActive(true);
         
     }
