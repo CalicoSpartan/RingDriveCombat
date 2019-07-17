@@ -22,4 +22,13 @@ public class StartMenu : MonoBehaviour {
         GameObject.Find("_app").GetComponent<GameData>().previousSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         UnityEngine.SceneManagement.SceneManager.LoadScene("GameSettings");
     }
+
+    public void ButtonHover()
+    {
+        FindObjectOfType<AudioManager>().Play("ButtonHover");
+    }
+    public void ButtonClick()
+    {
+        FindObjectOfType<AudioManager>().Play("ButtonClick");
+    }
 }

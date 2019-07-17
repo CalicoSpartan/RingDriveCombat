@@ -29,6 +29,15 @@ public class DummySettings : MonoBehaviour {
 		
 	}
 
+    public void ButtonHover()
+    {
+        FindObjectOfType<AudioManager>().Play("ButtonHover");
+    }
+    public void ButtonClick()
+    {
+        FindObjectOfType<AudioManager>().Play("ButtonClick");
+    }
+
     public void LoadPreviousScene()
     {
         GameObject.Find("_app").GetComponent<SettingsScript>().LoadPreviousScene();
