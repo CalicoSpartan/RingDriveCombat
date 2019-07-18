@@ -169,7 +169,9 @@ public class ArcadeCarController : MonoBehaviour {
                 if (player.bPowerupSelected)
                 {
                     player.guiManager.UpdateAmmoCounter(player.powerups[0].uses);
+                    
                 }
+                
                 Destroy(powerup.gameObject);
             }
             else
@@ -181,7 +183,9 @@ public class ArcadeCarController : MonoBehaviour {
                 player.powerups.Add(powerup);
 
             }
+            player.guiManager.UpdateGameFeed("Collected powerup");
             player.guiManager.DisplayPowerupImg(true);
+
 
 
 
@@ -190,6 +194,7 @@ public class ArcadeCarController : MonoBehaviour {
         {
             FindObjectOfType<LevelManager>().PickupCoin();
             FindObjectOfType<AudioManager>().Play("Coin");
+            
             Destroy(other.gameObject);
         }
     }
@@ -210,6 +215,7 @@ public class ArcadeCarController : MonoBehaviour {
         player.dead = true;
         player.transform.parent = null;
         Vector3 explosionForce = (transform.forward + new Vector3(0f,explosionEjectionOffset, 0f)) * explosionPower;
+        player.transform.position = player.transform.position + new Vector3(0, 10f, 0);
         player.Ragdoll(explosionForce);
         if (!bHasExploded)
         {

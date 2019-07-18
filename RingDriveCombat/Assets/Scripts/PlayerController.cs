@@ -147,6 +147,7 @@ public class PlayerController : MonoBehaviour {
                     if (bPowerupSelected)
                     {
                         guiManager.UpdateAmmoCounter(powerups[0].uses);
+                        
                     }
                     Destroy(powerup.gameObject);
                 }
@@ -161,6 +162,7 @@ public class PlayerController : MonoBehaviour {
                     powerups.Add(powerup);
 
                 }
+                guiManager.UpdateGameFeed("Collected powerup");
                 guiManager.DisplayPowerupImg(true);
 
             }

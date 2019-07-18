@@ -395,7 +395,10 @@ public class LevelManager : MonoBehaviour {
     public void PickupCoin()
     {
         playerPoints += pointsPerCoin;
+        guiManager.UpdateGameFeed("Collected coin");
+        
         guiManager.UpdateStatGUI(currentWave, playerPoints);
+        StartCoroutine(guiManager.CoinPointsAnimation(1.5f));
         
     }
 

@@ -19,6 +19,7 @@ public class GUIManager : MonoBehaviour {
     public GameObject jumpCooldownWarning;
     public Image gameOverPanel;
     public TextMeshProUGUI finalWaveText;
+    public TextMeshProUGUI gameFeed;
     public TextMeshProUGUI finalScoreText;
     public Image pauseMenuPanel;
     public Image settingsMenuPanel;
@@ -29,6 +30,7 @@ public class GUIManager : MonoBehaviour {
 
     public bool bJumpCooldown = false;
     public float waveAnnouncmentDuration = 3f;
+    Coroutine gameFeedCoroutine;
 
     void Start() {
         jumpCooldownBack.enabled = false;
@@ -37,6 +39,7 @@ public class GUIManager : MonoBehaviour {
         gameOverPanel.gameObject.SetActive(false);
         pauseMenuPanel.gameObject.SetActive(false);
         StartCoroutine(DisplayWaveNumberCoroutine());
+        
     }
 
     // Update is called once per frame
@@ -90,6 +93,18 @@ public class GUIManager : MonoBehaviour {
        
     }
 
+    public void UpdateGameFeed(string message)
+    {
+        if (gameFeedCoroutine != null)
+        {
+            StopCoroutine(gameFeedCoroutine);
+        }
+        gameFeedCoroutine = StartCoroutine(gameFeedMessageTime());
+        
+        gameFeed.text = message;
+        
+    }
+
     public void GoBackToPauseMenu()
     {
         
@@ -97,6 +112,12 @@ public class GUIManager : MonoBehaviour {
         instructionsScreen.SetActive(false);
         pauseMenuPanel.gameObject.SetActive(true);
         
+    }
+
+    public IEnumerator gameFeedMessageTime()
+    {
+        yield return new WaitForSeconds(3f);
+        gameFeed.text = "";
     }
 
     public IEnumerator JumpCoolDown(float time)
@@ -142,7 +163,7 @@ public class GUIManager : MonoBehaviour {
     {
         waveCounterGUI.text = "Wave " + waveCount.ToString();
         waveAnouncementGUI.text = "Wave " + waveCount.ToString();
-        pointCounterGUI.text = "Points: " + pointCount.ToString();
+        pointCounterGUI.text = pointCount.ToString();
         waveAnouncementPointsGUI.text = "Points: " + pointCount.ToString();
     }
 
@@ -185,6 +206,40 @@ public class GUIManager : MonoBehaviour {
         yield return new WaitForSeconds(waveAnnouncmentDuration);
         waveAnouncementGUI.enabled = false;
         waveAnouncementPointsGUI.enabled = false;
+    }
+
+    public IEnumerator CoinPointsAnimation(float time)
+    {
+        float i = 0.0f;
+        float rate = 1.0f / (time/2f);
+        float initialFontSize = pointCounterGUI.fontSize;
+        while (i < 1.0f)
+        {
+            while (LevelManager.bPaused)
+            {
+                yield return null;
+            }
+            pointCounterGUI.fontSize = Mathf.Lerp(initialFontSize, initialFontSize + 7, i);
+            i += Time.deltaTime * rate;
+            yield return null;
+        }
+        StartCoroutine(CoinPointsAnimation2(time, initialFontSize));
+    }
+    IEnumerator CoinPointsAnimation2(float time,float goalSize)
+    {
+        float i = 0.0f;
+        float rate = 1.0f / (time/2f);
+        float initialFontSize = pointCounterGUI.fontSize;
+        while (i < 1.0f)
+        {
+            while (LevelManager.bPaused)
+            {
+                yield return null;
+            }
+            pointCounterGUI.fontSize = Mathf.Lerp(initialFontSize, goalSize, i);
+            i += Time.deltaTime * rate;
+            yield return null;
+        }
     }
 
 
