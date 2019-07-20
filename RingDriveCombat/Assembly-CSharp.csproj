@@ -76,6 +76,7 @@
     <Compile Include="Assets\Scripts\Bridge.cs" />
     <Compile Include="Assets\Scripts\BulletSimulator.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
+    <Compile Include="Assets\Scripts\CameraOrbitScript.cs" />
     <Compile Include="Assets\Scripts\DDOL.cs" />
     <Compile Include="Assets\Scripts\DevPreload.cs" />
     <Compile Include="Assets\Scripts\DummySettings.cs" />
