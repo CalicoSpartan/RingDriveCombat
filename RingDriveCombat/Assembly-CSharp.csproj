@@ -99,6 +99,7 @@
     <Compile Include="Assets\Scripts\SkyboxCamera.cs" />
     <Compile Include="Assets\Scripts\SliderValueScript.cs" />
     <Compile Include="Assets\Scripts\Sound.cs" />
+    <Compile Include="Assets\Scripts\SplashScreenManager.cs" />
     <Compile Include="Assets\Scripts\StartMenu.cs" />
     <Compile Include="Assets\Scripts\Wave.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />

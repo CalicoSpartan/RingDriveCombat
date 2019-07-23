@@ -195,6 +195,8 @@ MonoBehaviour:
   verticalMouseSensitivity: 0.7
   horizontalMouseSensitivity: 0.7
   masterVolume: 5
+  musicVolume: 5
+  effectsVolume: 5
   bInputEnabled: 1
 --- !u!114 &2094100742
 MonoBehaviour:
@@ -211,6 +213,8 @@ MonoBehaviour:
   vertSensSlider: 0.7
   horzSensSlider: 0.7
   masterVolume: 0.5
+  effectsVolume: 0.5
+  musicVolume: 0.5
   hasApplied: 0
 --- !u!114 &2094100743
 MonoBehaviour:
@@ -227,55 +231,81 @@ MonoBehaviour:
   sounds:
   - name: EnemyDeath
     clip: {fileID: 8300000, guid: 653bda5d6ebdb984ea1ee79be5105448, type: 3}
-    volume: 0.3
+    volume: 0.6
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Coin
     clip: {fileID: 8300000, guid: 22bcf899ef132a04a81f042c8f5a7a7c, type: 3}
-    volume: 0.3
+    volume: 0.6
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Powerup
     clip: {fileID: 8300000, guid: 3a34ee3a5b8a2e84a855a077262a2b57, type: 3}
-    volume: 0.3
+    volume: 0.6
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: SwitchWeapons
     clip: {fileID: 8300000, guid: 6078763063c78584a90154d7551d45fa, type: 3}
-    volume: 0.3
+    volume: 0.6
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Gunshot
     clip: {fileID: 8300000, guid: 04cf43048ebd2c5449b8239cfaeb36b0, type: 3}
-    volume: 0.3
+    volume: 0.6
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Powerupshot
     clip: {fileID: 8300000, guid: cc41906e3e427824ebf8e9450594259f, type: 3}
-    volume: 0.85
+    volume: 1
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: ShipExplosion
     clip: {fileID: 8300000, guid: 83820dff3976cd54ea0a8359b73ac2d2, type: 3}
-    volume: 0.4
+    volume: 0.7
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: ButtonHover
     clip: {fileID: 8300000, guid: 9b35911b7a313bd4baba090c846b9c8b, type: 3}
-    volume: 0.3
+    volume: 0.6
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: ButtonClick
     clip: {fileID: 8300000, guid: 466bd9437c6064a4586dae9b3c9ede2e, type: 3}
-    volume: 0.3
+    volume: 0.6
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: ShipMuffler
+    clip: {fileID: 8300000, guid: 55305e1a8e4fe8144801cabd074e87ad, type: 3}
+    volume: 0.6
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: ShipJump
+    clip: {fileID: 8300000, guid: adcb478ecb7562d4f843ce9e9924f2cb, type: 3}
+    volume: 0.8
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  currentScene: 0
+  musicTracks:
+  - name: MainTheme
+    clip: {fileID: 8300000, guid: b3fb87f5b17c03743b64256009c7bc7c, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: SecondTheme
+    clip: {fileID: 8300000, guid: d76fe4f21a543d846a56e49593ddd376, type: 3}
+    volume: 1
     pitch: 1
     loop: 0
     source: {fileID: 0}

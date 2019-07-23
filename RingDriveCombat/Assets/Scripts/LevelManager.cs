@@ -91,6 +91,7 @@ public class LevelManager : MonoBehaviour {
     {
         UnPauseGame();
         GameObject.Find("_app").GetComponent<GameSettings>().bInputEnabled = true;
+        FindObjectOfType<AudioManager>().PlayMusic(1);
     }
 
     void Start() {

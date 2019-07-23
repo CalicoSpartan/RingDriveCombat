@@ -84,11 +84,13 @@ public class ArcadeCarController : MonoBehaviour {
     public float explosionEjectionOffset;
     public CameraController mainCamera;
     public RingManager ring;
+    public bool bInAir = true;
 
 
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
+        FindObjectOfType<AudioManager>().Play("ShipMuffler");
         
 	}
 
@@ -203,6 +205,7 @@ public class ArcadeCarController : MonoBehaviour {
 
     public void Explode()
     {
+        FindObjectOfType<AudioManager>().StopSoundEffect("ShipMuffler");
         bAlive = false;
         gameObject.GetComponent<Collider>().enabled = false;
         gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -268,7 +271,7 @@ public class ArcadeCarController : MonoBehaviour {
             FL_SpringForce = FL_SpringConstant * FL_CurrentLength;
             FL_DamperForce = FL_DamperConstant * FL_SpringVelocity;
             rb.AddForceAtPosition(rb.transform.up * (FL_SpringForce + FL_DamperForce), FL_Wheel.position);
-            
+
             /*
             FL_CompressionRatio = (FL_Hit.distance / WheelRadius);
             if (FL_CompressionRatio > 1f) { FL_CompressionRatio = 1f; }

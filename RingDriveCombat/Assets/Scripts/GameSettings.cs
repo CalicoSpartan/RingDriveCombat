@@ -9,12 +9,16 @@ public class GameSettings : MonoBehaviour {
     public float verticalMouseSensitivity = 1f;
     public float horizontalMouseSensitivity = 1f;
     public float masterVolume = 5f;
+    public float musicVolume = 5f;
+    public float effectsVolume = 5f;
     public bool bInputEnabled = true;
 
 
 	void Start () {
         LoadSettings();
         UpdateMasterVolume(masterVolume);
+        UpdateEffectsVolume(effectsVolume);
+        UpdateMusicVolume(musicVolume);
 	}
 
     public void UpdatePlayerSettings()
@@ -33,9 +37,19 @@ public class GameSettings : MonoBehaviour {
         masterVolume = newVolume;
         AudioListener.volume = (masterVolume / 11f);
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    public void UpdateEffectsVolume(float newVolume)
+    {
+        effectsVolume = newVolume;
+    }
+    public void UpdateMusicVolume(float newVolume)
+    {
+        musicVolume = newVolume;
+        FindObjectOfType<AudioManager>().UpdateMusicVolume();
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
@@ -52,6 +66,8 @@ public class GameSettings : MonoBehaviour {
             verticalMouseSensitivity = gameSave.vertSens;
             horizontalMouseSensitivity = gameSave.horzSens;
             UpdateMasterVolume(gameSave.masterVolume);
+            UpdateEffectsVolume(gameSave.effectsVolume);
+            UpdateMusicVolume(gameSave.musicVolume);
             Debug.Log("Loaded Settings from file");
             Debug.Log("Vert: " + verticalMouseSensitivity + " Horz: " + horizontalMouseSensitivity + " volume: " + gameSave.masterVolume);
         }

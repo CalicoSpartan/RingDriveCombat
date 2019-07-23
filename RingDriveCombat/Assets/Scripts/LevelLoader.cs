@@ -17,7 +17,7 @@ public class LevelLoader : MonoBehaviour
 
     public void Start()
     {
-        LoadLevel(4);
+        LoadLevel(5);
     }
 
     public void LoadLevel(int sceneIndex)

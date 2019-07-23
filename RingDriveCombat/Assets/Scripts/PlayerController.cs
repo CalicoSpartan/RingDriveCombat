@@ -258,6 +258,7 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetButtonDown("Jump") && (car.touchingGroundRLW && car.touchingGroundRRW) && (bCanJump))
         {
             car.rb.AddForce(Vector3.up * car.jumpForce, ForceMode.Impulse);
+            FindObjectOfType<AudioManager>().Play("ShipJump");
             bCanJump = false;
             StartCoroutine(JumpCooldown());
             StartCoroutine(JumpThrustEffectDelay());

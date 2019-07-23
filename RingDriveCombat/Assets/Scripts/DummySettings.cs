@@ -9,9 +9,13 @@ public class DummySettings : MonoBehaviour {
     float tempVertSens;
     float tempHorzSens;
     float tempMasterVolume;
+    float tempMusicVolume;
+    float tempEffectsVolume;
     public Slider horzSlider;
     public Slider vertSlider;
     public Slider masterVolumeSlider;
+    public Slider musicVolumeSlider;
+    public Slider effectsVolumeSlider;
     public bool hasApplied = false;
     // Use this for initialization
     void Start () {
@@ -20,6 +24,10 @@ public class DummySettings : MonoBehaviour {
         horzSlider.value = tempHorzSens;
         tempMasterVolume = GameObject.Find("_app").GetComponent<GameSettings>().masterVolume;
         masterVolumeSlider.value = tempMasterVolume;
+        tempEffectsVolume = GameObject.Find("_app").GetComponent<GameSettings>().effectsVolume;
+        effectsVolumeSlider.value = tempEffectsVolume;
+        tempMusicVolume = GameObject.Find("_app").GetComponent<GameSettings>().musicVolume;
+        musicVolumeSlider.value = tempMusicVolume;
 
         //Debug.Log("Dummy started");
     }
@@ -48,7 +56,9 @@ public class DummySettings : MonoBehaviour {
         tempVertSens = vertSlider.value;
         tempHorzSens = horzSlider.value;
         tempMasterVolume = masterVolumeSlider.value;
-        GameObject.Find("_app").GetComponent<SettingsScript>().SetSettings(tempVertSens, tempHorzSens,tempMasterVolume);
+        tempEffectsVolume = effectsVolumeSlider.value;
+        tempMusicVolume = musicVolumeSlider.value;
+        GameObject.Find("_app").GetComponent<SettingsScript>().SetSettings(tempVertSens, tempHorzSens,tempEffectsVolume,tempMusicVolume,tempMasterVolume);
     }
 
     public void LoadedSettings()
@@ -56,15 +66,20 @@ public class DummySettings : MonoBehaviour {
         tempVertSens = GameObject.Find("_app").GetComponent<GameSettings>().verticalMouseSensitivity;
         tempHorzSens = GameObject.Find("_app").GetComponent<GameSettings>().horizontalMouseSensitivity;
         tempMasterVolume = GameObject.Find("_app").GetComponent<GameSettings>().masterVolume;
+        tempEffectsVolume = GameObject.Find("_app").GetComponent<GameSettings>().effectsVolume;
+        tempMusicVolume = GameObject.Find("_app").GetComponent<GameSettings>().musicVolume;
         GameObject.Find("_app").GetComponent<GameSettings>().UpdatePlayerSettings();
         vertSlider.value = tempVertSens;
         horzSlider.value = tempHorzSens;
         masterVolumeSlider.value = tempMasterVolume;
+        musicVolumeSlider.value = tempMusicVolume;
+        effectsVolumeSlider.value = tempEffectsVolume;
 
     }
 
     public void ApplyChanges()
     {
+        SetVertandHorzSens();
         GameObject.Find("_app").GetComponent<SettingsScript>().ApplyChanges();
     }
 }

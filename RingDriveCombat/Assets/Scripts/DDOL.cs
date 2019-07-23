@@ -9,7 +9,7 @@ public class DDOL : MonoBehaviour {
     {
         DontDestroyOnLoad(gameObject);
         //load logo screens
-        SceneManager.LoadScene("StartMenu");
+        SceneManager.LoadScene("CalicoGamesSplash");
 
     }
 

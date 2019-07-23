@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class StartMenu : MonoBehaviour {
 
-	// Use this for initialization
+    // Use this for initialization
 
-
+    private void Start()
+    {
+        FindObjectOfType<AudioManager>().currentScene = Scene.StartMenu;
+        FindObjectOfType<GameSettings>().LoadSettings();
+    }
     // Update is called once per frame
     void Update () {
 		
@@ -14,6 +18,8 @@ public class StartMenu : MonoBehaviour {
 
     public void StartGame()
     {
+        FindObjectOfType<AudioManager>().currentScene = Scene.Loading;
+        FindObjectOfType<AudioManager>().StopMusic();
         UnityEngine.SceneManagement.SceneManager.LoadScene("GameLoadingScene");
     }
 
@@ -30,5 +36,10 @@ public class StartMenu : MonoBehaviour {
     public void ButtonClick()
     {
         FindObjectOfType<AudioManager>().Play("ButtonClick");
+    }
+
+    public void QuitApp()
+    {
+        Application.Quit();
     }
 }

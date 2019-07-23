@@ -76,6 +76,10 @@ public class GUIManager : MonoBehaviour {
 
     public void QuitToMainMenu()
     {
+        
+        FindObjectOfType<AudioManager>().StopMusic();
+        FindObjectOfType<AudioManager>().StopSoundEffects();
+        FindObjectOfType<AudioManager>().PlayMusic(0);
         SceneManager.LoadScene("StartMenu");
     }
 

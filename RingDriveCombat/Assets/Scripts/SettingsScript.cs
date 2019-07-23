@@ -7,9 +7,13 @@ public class SettingsScript : MonoBehaviour {
     public float vertSensSlider = 1.0f;
     public float horzSensSlider = 1.0f;
     public float masterVolume = .5f;
+    public float effectsVolume = .5f;
+    public float musicVolume = .5f;
     float tempVertSens = 1.0f;
     float tempHorzSens = 1.0f;
     float tempMasterVolume = .5f;
+    float tempEffectsVolume = .5f;
+    float tempMusicVolume = .5f;
     public bool hasApplied = false;
 
     public void LoadPreviousScene()
@@ -31,10 +35,12 @@ public class SettingsScript : MonoBehaviour {
     }
     */
 
-    public void SetSettings(float vert, float horz,float mastervol)
+    public void SetSettings(float vert, float horz,float effectsVol,float musicVol,float mastervol)
     {
         tempVertSens = vert;
         tempHorzSens = horz;
+        tempEffectsVolume = effectsVol;
+        tempMusicVolume = musicVol;
         tempMasterVolume = mastervol;
     }
 
@@ -52,11 +58,15 @@ public class SettingsScript : MonoBehaviour {
         hasApplied = true;
         horzSensSlider = tempHorzSens;
         vertSensSlider = tempVertSens;
+        effectsVolume = tempEffectsVolume;
+        musicVolume = tempMusicVolume;
         masterVolume = tempMasterVolume;
         
         GameObject.Find("_app").GetComponent<GameSettings>().horizontalMouseSensitivity = horzSensSlider;
         GameObject.Find("_app").GetComponent<GameSettings>().verticalMouseSensitivity = vertSensSlider;
         GameObject.Find("_app").GetComponent<GameSettings>().UpdateMasterVolume(masterVolume);
+        GameObject.Find("_app").GetComponent<GameSettings>().UpdateMusicVolume(musicVolume);
+        GameObject.Find("_app").GetComponent<GameSettings>().UpdateEffectsVolume(effectsVolume);
         GameObject.Find("_app").GetComponent<GameSettings>().UpdatePlayerSettings();
         GameObject.Find("_app").GetComponent<GameSettings>().SaveSettings();
     }
