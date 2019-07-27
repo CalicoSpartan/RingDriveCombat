@@ -73,6 +73,25 @@ public class AudioManager : MonoBehaviour
 
             }
         }
+        if (currentScene == Scene.MainGame)
+        {
+            if (musicTracks[currentMusicTrackIndex].source.isPlaying == false)
+            {
+                Debug.Log("No Music Playing. Index is " + currentMusicTrackIndex);
+                if (currentMusicTrackIndex + 1 > 2)
+                {
+                    Debug.Log("Switching to first track");
+                    currentMusicTrackIndex = 1;
+                    PlayMusic(currentMusicTrackIndex);
+                }
+                else
+                {
+                    Debug.Log("Switching to second track");
+                    currentMusicTrackIndex += 1;
+                    PlayMusic(currentMusicTrackIndex);
+                }
+            }
+        }
         
     }
 
@@ -80,7 +99,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMusic(int index)
     {
-
+        Debug.Log("Playing music at index " + index);
         //Sound s = Array.Find(sounds, sound => sound.name == name);
         //s.source.Play();
         StopMusic();

@@ -68,8 +68,8 @@ public class GameSettings : MonoBehaviour {
             UpdateMasterVolume(gameSave.masterVolume);
             UpdateEffectsVolume(gameSave.effectsVolume);
             UpdateMusicVolume(gameSave.musicVolume);
-            Debug.Log("Loaded Settings from file");
-            Debug.Log("Vert: " + verticalMouseSensitivity + " Horz: " + horizontalMouseSensitivity + " volume: " + gameSave.masterVolume);
+            //Debug.Log("Loaded Settings from file");
+            //Debug.Log("Vert: " + verticalMouseSensitivity + " Horz: " + horizontalMouseSensitivity + " volume: " + gameSave.masterVolume);
         }
     }
 }
